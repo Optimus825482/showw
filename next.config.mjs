@@ -43,6 +43,24 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/sunum/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/tanitim.html",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600",
+          },
+        ],
+      },
     ];
   },
 };

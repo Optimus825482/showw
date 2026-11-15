@@ -159,7 +159,7 @@ function buildHeroEcosystem() {
       <text x="690" y="421" font-family="${FONT_SANS}" font-size="11.5" font-weight="800" fill="#0f172a">Admin &amp; Rapor Özeti</text>
       <text x="690" y="441" font-family="${FONT_SANS}" font-size="10" fill="#475569">Bugün: 128 Adisyon</text>
       <text x="690" y="457" font-family="${FONT_SANS}" font-size="10" fill="#475569">342 Porsiyon • %96.8</text>
-      ${pill(690, 468, 144, 22, "#e0f2fe", "#0369a1", "Excel &amp; PDF Rapor Hazır")}
+      ${pill(690, 468, 144, 22, "#e0f2fe", "#0369a1", "Excel & PDF Rapor Hazır")}
     </g>
 
     <!-- LEFT TABLET: ADISYON AL -->
@@ -1021,6 +1021,44 @@ function buildArchitectureCoolify() {
   );
 }
 
+function embedSvgsIntoPresentation(assetMap) {
+  const presentationPath = path.join(process.cwd(), "public", "tanitim.html");
+  if (!fs.existsSync(presentationPath)) {
+    return;
+  }
+
+  let html = fs.readFileSync(presentationPath, "utf8");
+  let embeddedCount = 0;
+
+  html = html.replace(
+    /<(img|link)\b[^>]*\bdata-asset="([^"]+)"[^>]*>/g,
+    (tag, tagName, assetKey) => {
+      const dataUri = assetMap.get(assetKey);
+      if (!dataUri) return tag;
+      const attrName = tagName === "link" ? "href" : "src";
+      embeddedCount += 1;
+      const attrRegex = new RegExp(`\\b${attrName}="[^"]*"`);
+      if (attrRegex.test(tag)) {
+        return tag.replace(attrRegex, `${attrName}="${dataUri}"`);
+      }
+      return tag.replace(`<${tagName}`, `<${tagName} ${attrName}="${dataUri}"`);
+    }
+  );
+
+  fs.writeFileSync(presentationPath, html, "utf8");
+
+  const standalonePath = path.join(
+    process.cwd(),
+    "Show_Bufe_Tanitim_Sunumu.html"
+  );
+  fs.writeFileSync(standalonePath, html, "utf8");
+
+  const htmlKb = (Buffer.byteLength(html, "utf8") / 1024).toFixed(1);
+  console.log(
+    `Embedded ${embeddedCount} inline SVG Data URI assets into public/tanitim.html and Show_Bufe_Tanitim_Sunumu.html (${htmlKb} KB each)`
+  );
+}
+
 function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
@@ -1035,12 +1073,32 @@ function main() {
     ["architecture-coolify.svg", buildArchitectureCoolify()],
   ];
 
+  const dataUriMap = new Map();
+  const logoPath = path.join(process.cwd(), "public", "icons", "logo.svg");
+  if (fs.existsSync(logoPath)) {
+    const logoContent = fs.readFileSync(logoPath, "utf8");
+    dataUriMap.set(
+      "icons/logo.svg",
+      `data:image/svg+xml;base64,${Buffer.from(logoContent, "utf8").toString(
+        "base64"
+      )}`
+    );
+  }
+
   for (const [filename, content] of assets) {
     const outPath = path.join(OUTPUT_DIR, filename);
     fs.writeFileSync(outPath, content, "utf8");
+    dataUriMap.set(
+      `sunum/${filename}`,
+      `data:image/svg+xml;base64,${Buffer.from(content, "utf8").toString(
+        "base64"
+      )}`
+    );
     const sizeKb = (Buffer.byteLength(content, "utf8") / 1024).toFixed(1);
     console.log(`Generated ${filename} (${sizeKb} KB)`);
   }
+
+  embedSvgsIntoPresentation(dataUriMap);
 }
 
 main();
