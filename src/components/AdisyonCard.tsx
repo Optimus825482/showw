@@ -89,14 +89,14 @@ export function AdisyonCard({
 
   return (
     <article
-      className={`rounded-2xl border border-slate-200 border-l-4 ${statusMeta.borderClass} bg-white shadow-sm transition-shadow hover:shadow-md flex flex-col`}
+      className={`surface border-l-4 ${statusMeta.borderClass} flex flex-col`}
     >
       {/* Card Header */}
       <div className="border-b border-slate-100 px-4 py-3 space-y-2">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center rounded-lg bg-slate-900 px-2.5 py-1 text-sm font-extrabold tracking-wide text-white">
+              <span className="inline-flex items-center rounded-lg bg-slate-900 px-2.5 py-1 text-sm font-bold tracking-wide text-white">
                 SIRA #{adisyon.queueNumber}
               </span>
               <span
@@ -113,13 +113,13 @@ export function AdisyonCard({
             </div>
 
             {adisyon.tableNumber && (
-              <div className="mt-2 text-2xl font-black leading-tight text-sky-800">
+              <div className="mt-2 text-2xl font-extrabold leading-tight text-sky-800">
                 {formatTableLabel(adisyon.tableNumber)}
               </div>
             )}
             {(adisyon.roomNumber || adisyon.guestName || !adisyon.tableNumber) && (
               <div
-                className={`flex items-center gap-1.5 font-extrabold text-slate-900 ${
+                className={`flex items-center gap-1.5 font-bold text-slate-900 ${
                   adisyon.tableNumber ? "mt-1 text-sm" : "mt-2 text-base"
                 }`}
               >
@@ -157,7 +157,7 @@ export function AdisyonCard({
 
           {!isCompleted ? (
             <div
-              className={`inline-flex items-center gap-1.5 rounded-lg border px-2 py-0.5 font-extrabold tabular-nums ${urgencyBadgeClass}`}
+              className={`inline-flex items-center gap-1.5 rounded-lg border px-2 py-0.5 font-bold tabular-nums ${urgencyBadgeClass}`}
             >
               <Timer className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
               <span>Geçen: {durationInfo.label}</span>
@@ -195,7 +195,7 @@ export function AdisyonCard({
             >
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-baseline gap-1.5">
-                  <span className="inline-flex items-center justify-center rounded-md bg-slate-900 px-1.5 py-0.5 text-xs font-extrabold text-white">
+                  <span className="inline-flex items-center justify-center rounded-md bg-slate-900 px-1.5 py-0.5 text-xs font-bold text-white">
                     {item.quantity}x
                   </span>
                   <span
@@ -246,7 +246,7 @@ export function AdisyonCard({
                       }}
                       title="Önceki duruma geri al"
                       aria-label={`${item.productName} durumunu geri al`}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-100 active:scale-95"
+                      className="btn btn-sm btn-icon"
                     >
                       <Undo2 className="h-4 w-4" aria-hidden="true" />
                     </button>
@@ -299,7 +299,7 @@ export function AdisyonCard({
           <button
             type="button"
             onClick={() => onPrint(adisyon)}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-[0.98]"
+            className="btn btn-sm"
           >
             <Printer className="h-4 w-4" aria-hidden="true" />
             <span>Yazdır</span>
@@ -313,7 +313,7 @@ export function AdisyonCard({
                 type="button"
                 onClick={() => void onUpdateStatus(adisyon.id, "BEKLIYOR")}
                 title="Bir önceki duruma (Bekliyor) geri al"
-                className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-300 bg-white px-2.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-[0.98]"
+                className="btn btn-sm"
               >
                 <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Geri Al (Bekliyor)</span>
@@ -328,7 +328,7 @@ export function AdisyonCard({
                     void onUpdateStatus(adisyon.id, "HAZIRLANIYOR")
                   }
                   title="Bir önceki duruma (Hazırlanıyor) geri al"
-                  className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-300 bg-white px-2.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-[0.98]"
+                  className="btn btn-sm"
                 >
                   <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
                   <span>Geri Al (Hazırlanıyor)</span>
@@ -337,7 +337,7 @@ export function AdisyonCard({
                   type="button"
                   onClick={() => void onUpdateStatus(adisyon.id, "BEKLIYOR")}
                   title="Bekleyen durumuna geri al"
-                  className="inline-flex items-center justify-center gap-1 rounded-xl border border-amber-300 bg-amber-50 px-2.5 py-2 text-xs font-bold text-amber-800 hover:bg-amber-100 active:scale-[0.98]"
+                  className="btn btn-sm"
                 >
                   <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
                   <span>Bekleyene Al</span>
@@ -349,7 +349,7 @@ export function AdisyonCard({
               <button
                 type="button"
                 onClick={() => void onUpdateStatus(adisyon.id, "HAZIRLANIYOR")}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100 active:scale-[0.98]"
+                className="btn btn-sm btn-outline"
               >
                 <Flame className="h-4 w-4" aria-hidden="true" />
                 <span>Hazırlanıyor</span>
@@ -360,7 +360,7 @@ export function AdisyonCard({
               <button
                 type="button"
                 onClick={() => void onUpdateStatus(adisyon.id, "HAZIR")}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 active:scale-[0.98]"
+                className="btn btn-sm btn-success"
               >
                 <Check className="h-4 w-4" aria-hidden="true" />
                 <span>Toplandı / Hazır</span>
@@ -370,7 +370,7 @@ export function AdisyonCard({
             <button
               type="button"
               onClick={() => void onUpdateStatus(adisyon.id, "TESLIM_EDILDI")}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-slate-800 active:scale-[0.98]"
+              className="btn btn-sm btn-dark"
             >
               <CheckCheck className="h-4 w-4" aria-hidden="true" />
               <span>Teslim Edildi</span>
@@ -383,7 +383,7 @@ export function AdisyonCard({
                 type="button"
                 onClick={() => void onUpdateStatus(adisyon.id, "HAZIR")}
                 title="Bir önceki duruma (Toplandı / Hazır) geri al"
-                className="inline-flex items-center justify-center gap-1 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 active:scale-[0.98]"
+                className="btn btn-sm"
               >
                 <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Geri Al (Hazır)</span>
@@ -392,7 +392,7 @@ export function AdisyonCard({
             <button
               type="button"
               onClick={() => void onUpdateStatus(adisyon.id, "BEKLIYOR")}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-[0.98]"
+              className="btn btn-sm"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Bekleyene Geri Al</span>

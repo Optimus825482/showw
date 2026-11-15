@@ -41,12 +41,12 @@ const UNDO_MS = 10_000;
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2";
 
-/** Seçili durum düğmesinin dolu rengi */
-const ACTIVE_STATUS_CLASS: Record<ItemStatus, string> = {
-  BEKLIYOR: "border-amber-500 bg-amber-400 text-amber-950",
-  HAZIRLANIYOR: "border-sky-700 bg-sky-600 text-white",
-  HAZIR: "border-emerald-700 bg-emerald-600 text-white",
-  TESLIM_EDILDI: "border-slate-800 bg-slate-700 text-white",
+/** Durum → düğme rengi (globals.css içindeki .btn[data-tone]) */
+const STATUS_TONE: Record<ItemStatus, string> = {
+  BEKLIYOR: "waiting",
+  HAZIRLANIYOR: "cooking",
+  HAZIR: "ready",
+  TESLIM_EDILDI: "served",
 };
 
 export function TableDetailDialog({
@@ -173,7 +173,7 @@ export function TableDetailDialog({
     >
       <div className="flex items-center justify-between gap-3 border-b border-slate-200 bg-amber-50 px-4 py-3">
         <div className="min-w-0">
-          <h2 id={titleId} className="text-lg font-black text-slate-900">
+          <h2 id={titleId} className="text-lg font-extrabold text-slate-900">
             {tableNumber ? formatTableLabel(tableNumber) : ""}
           </h2>
           <p className="text-xs font-bold text-amber-900">
@@ -194,7 +194,7 @@ export function TableDetailDialog({
       {allItems.length > 0 && (
         <div className="border-b border-slate-200 bg-white px-4 py-2.5 space-y-2">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-extrabold text-slate-700">
+            <p className="text-xs font-bold text-slate-700">
               {hasSelection ? (
                 <>
                   <span className="text-sky-700">
@@ -224,14 +224,15 @@ export function TableDetailDialog({
               )}
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-1.5">
+          <div className="grid grid-cols-4 gap-2">
             {ITEM_STATUS_ORDER.map((status) => (
               <button
                 key={status}
                 type="button"
                 disabled={busy || bulkTargetIds.length === 0}
                 onClick={() => void applyStatus(bulkTargetIds, status)}
-                className={`min-h-11 rounded-xl border px-1 text-xs sm:text-sm font-extrabold active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 ${ACTIVE_STATUS_CLASS[status]} ${focusRing}`}
+                data-tone={STATUS_TONE[status]}
+                className="btn btn-block px-1"
               >
                 {status === "TESLIM_EDILDI"
                   ? "Teslim Et"
@@ -266,7 +267,7 @@ export function TableDetailDialog({
                 type="button"
                 disabled={busy}
                 onClick={() => void runUndo()}
-                className={`inline-flex min-h-9 shrink-0 items-center gap-1 rounded-lg bg-white px-3 text-xs font-extrabold text-slate-900 hover:bg-slate-100 disabled:opacity-60 ${focusRing}`}
+                className="btn btn-sm shrink-0"
               >
                 <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Geri Al</span>
@@ -297,11 +298,11 @@ export function TableDetailDialog({
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-md bg-slate-900 px-2 py-0.5 text-xs font-black text-white">
+                    <span className="rounded-md bg-slate-900 px-2 py-0.5 text-xs font-extrabold text-white">
                       SIRA #{adisyon.queueNumber}
                     </span>
                     <span
-                      className={`rounded-md border px-2 py-0.5 text-[11px] font-extrabold ${meta.badgeClass}`}
+                      className={`rounded-md border px-2 py-0.5 text-[11px] font-bold ${meta.badgeClass}`}
                     >
                       {meta.label}
                     </span>
@@ -336,7 +337,7 @@ export function TableDetailDialog({
                                   : "text-slate-900"
                               }`}
                             >
-                              <span className="font-black tabular-nums">
+                              <span className="font-extrabold tabular-nums">
                                 {item.quantity}×
                               </span>{" "}
                               {item.productName}
@@ -357,7 +358,7 @@ export function TableDetailDialog({
                         <div
                           role="group"
                           aria-label={`${item.productName} durumu`}
-                          className="grid grid-cols-4 gap-1"
+                          className="grid grid-cols-4 gap-1.5"
                         >
                           {ITEM_STATUS_ORDER.map((status) => {
                             const active = item.status === status;
@@ -370,11 +371,8 @@ export function TableDetailDialog({
                                 onClick={() =>
                                   void applyStatus([item.id], status)
                                 }
-                                className={`min-h-10 rounded-lg border px-1 text-xs font-extrabold active:scale-[0.97] disabled:cursor-not-allowed ${focusRing} ${
-                                  active
-                                    ? ACTIVE_STATUS_CLASS[status]
-                                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
-                                }`}
+                                data-tone={active ? STATUS_TONE[status] : undefined}
+                                className="btn btn-sm btn-block px-1"
                               >
                                 {ITEM_STATUS_META[status].label}
                               </button>
@@ -401,7 +399,7 @@ export function TableDetailDialog({
           type="button"
           disabled={!tableNumber || adisyons.length === 0}
           onClick={() => tableNumber && onStartMove(tableNumber)}
-          className={`inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-violet-700 disabled:cursor-not-allowed disabled:bg-slate-300 ${focusRing}`}
+          className="btn btn-lg btn-move"
         >
           <ArrowRightLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span>Masayı Taşı</span>
@@ -410,7 +408,7 @@ export function TableDetailDialog({
           type="button"
           disabled={!tableNumber}
           onClick={() => tableNumber && onAddOrder(tableNumber)}
-          className={`inline-flex items-center justify-center gap-2 rounded-xl border border-sky-600 bg-white px-4 py-3 text-sm font-extrabold text-sky-700 hover:bg-sky-50 ${focusRing}`}
+          className="btn btn-lg btn-outline"
         >
           <Plus className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span>Ek Sipariş Al</span>

@@ -50,10 +50,8 @@ export function KitchenGroupedBoard({
         return (
           <section
             key={`${batch.productNo}-${batch.productName}`}
-            className={`rounded-2xl border bg-white shadow-sm flex flex-col overflow-hidden ${
-              allReady
-                ? "border-emerald-300 bg-emerald-50/20"
-                : "border-slate-200"
+            className={`surface flex flex-col overflow-hidden ${
+              allReady ? "border-emerald-300 bg-emerald-50/20" : ""
             }`}
           >
             {/* Batch Header */}
@@ -67,13 +65,13 @@ export function KitchenGroupedBoard({
                     {batch.category}
                   </span>
                 </div>
-                <h3 className="mt-0.5 text-base font-extrabold text-slate-900">
+                <h3 className="mt-0.5 text-base font-bold text-slate-900">
                   {batch.productName}
                 </h3>
               </div>
 
               <div className="shrink-0 text-right">
-                <div className="inline-flex items-center justify-center rounded-xl bg-sky-600 px-3 py-1 text-base font-black text-white shadow-sm">
+                <div className="inline-flex items-center justify-center rounded-xl bg-sky-600 px-3 py-1 text-base font-extrabold text-white shadow-sm">
                   {batch.totalQuantity} Adet
                 </div>
                 <div className="mt-1 flex items-center justify-end gap-1.5 text-[11px] font-bold">
@@ -119,10 +117,10 @@ export function KitchenGroupedBoard({
                   <div key={bd.variationKey} className="py-3 space-y-2">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2 min-w-0">
-                        <span className="inline-flex items-center rounded-lg bg-slate-900 px-2 py-0.5 text-xs font-extrabold text-white">
+                        <span className="inline-flex items-center rounded-lg bg-slate-900 px-2 py-0.5 text-xs font-bold text-white">
                           {bd.totalQuantity}x
                         </span>
-                        <span className="text-sm font-extrabold text-slate-900">
+                        <span className="text-sm font-bold text-slate-900">
                           {bd.variationKey}
                         </span>
                       </div>
@@ -139,7 +137,7 @@ export function KitchenGroupedBoard({
                                 )
                               }
                               title="Ocağa alınanları Bekliyor durumuna geri al"
-                              className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-95"
+                              className="btn btn-sm"
                             >
                               <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
                               <span>Geri Al</span>
@@ -154,7 +152,7 @@ export function KitchenGroupedBoard({
                                   "HAZIRLANIYOR"
                                 )
                               }
-                              className="inline-flex items-center gap-1 rounded-lg border border-sky-300 bg-sky-50 px-2.5 py-1 text-xs font-bold text-sky-800 hover:bg-sky-100 active:scale-95"
+                              className="btn btn-sm btn-outline"
                             >
                               <Flame className="h-3.5 w-3.5" aria-hidden="true" />
                               <span>Ocağa Al</span>
@@ -165,7 +163,7 @@ export function KitchenGroupedBoard({
                             onClick={() =>
                               void onBatchStatusChange(unfinishedIds, "HAZIR")
                             }
-                            className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-2.5 py-1 text-xs font-bold text-white hover:bg-emerald-700 active:scale-95"
+                            className="btn btn-sm btn-success"
                           >
                             <Check className="h-3.5 w-3.5" aria-hidden="true" />
                             <span>Hazır</span>
@@ -187,7 +185,7 @@ export function KitchenGroupedBoard({
                                 )
                               }
                               title="Hazır yapılanları Ocakta durumuna geri al"
-                              className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-95"
+                              className="btn btn-sm"
                             >
                               <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
                               <span>Geri Al</span>
@@ -212,7 +210,7 @@ export function KitchenGroupedBoard({
                         >
                           <span>#{ord.queueNumber}</span>
                           {ord.tableNumber ? (
-                            <span className="font-extrabold text-slate-900">
+                            <span className="font-bold text-slate-900">
                               Masa {ord.tableNumber}
                             </span>
                           ) : (

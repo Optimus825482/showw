@@ -79,7 +79,7 @@ export default function CokluEkranPage() {
           {/* Header with quick multi-device links */}
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="fluid-page-title font-extrabold text-slate-900">
+              <h2 className="fluid-page-title font-bold text-slate-900">
                 Çoklu Ekran — Canlı İstasyon Görünümü
               </h2>
               <p className="text-xs sm:text-sm font-medium text-slate-500">
@@ -122,14 +122,14 @@ export default function CokluEkranPage() {
               {/* Column 1: Grouped Products (Mutfak Toplu Hazırlık) */}
               <section className="lg:col-span-4 space-y-3">
                 <div className="flex items-center justify-between rounded-xl border border-sky-200 bg-sky-50 px-3.5 py-2.5">
-                  <h3 className="text-sm font-extrabold text-sky-950 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-sky-950 flex items-center gap-2">
                     <Layers
                       className="h-4 w-4 text-sky-600"
                       aria-hidden="true"
                     />
                     <span>1. Benzer Ürün Grupları</span>
                   </h3>
-                  <span className="rounded-lg bg-sky-600 px-2 py-0.5 text-xs font-extrabold text-white">
+                  <span className="rounded-lg bg-sky-600 px-2 py-0.5 text-xs font-bold text-white">
                     {groupedBatches.length}
                   </span>
                 </div>
@@ -143,14 +143,14 @@ export default function CokluEkranPage() {
               {/* Column 2: Pending & Preparing Adisyons in Queue Order */}
               <section className="lg:col-span-4 space-y-3">
                 <div className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
-                  <h3 className="text-sm font-extrabold text-amber-950 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-amber-950 flex items-center gap-2">
                     <Clock
                       className="h-4 w-4 text-amber-600"
                       aria-hidden="true"
                     />
                     <span>2. Hazırlanan Sıra</span>
                   </h3>
-                  <span className="rounded-lg bg-amber-600 px-2 py-0.5 text-xs font-extrabold text-white">
+                  <span className="rounded-lg bg-amber-600 px-2 py-0.5 text-xs font-bold text-white">
                     {waitingOrPreparing.length}
                   </span>
                 </div>
@@ -185,14 +185,14 @@ export default function CokluEkranPage() {
               {/* Column 3: Ready for Pickup / Delivery */}
               <section className="lg:col-span-4 space-y-3">
                 <div className="flex items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5">
-                  <h3 className="text-sm font-extrabold text-emerald-950 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-emerald-950 flex items-center gap-2">
                     <CheckCircle2
                       className="h-4 w-4 text-emerald-600"
                       aria-hidden="true"
                     />
                     <span>3. Toplandı / Teslim Bekliyor</span>
                   </h3>
-                  <span className="rounded-lg bg-emerald-600 px-2 py-0.5 text-xs font-extrabold text-white">
+                  <span className="rounded-lg bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">
                     {readyAdisyons.length}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ export default function CokluEkranPage() {
           {!loading && deliveredAdisyons.length > 0 && (
             <section className="pt-4 border-t border-slate-200 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="fluid-section-title font-extrabold text-slate-900 flex items-center gap-2">
+                <h3 className="fluid-section-title font-bold text-slate-900 flex items-center gap-2">
                   <CheckCheck
                     className="h-5 w-5 text-emerald-600"
                     aria-hidden="true"

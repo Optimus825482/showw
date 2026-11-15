@@ -98,7 +98,7 @@ export default function LoginPage() {
         <div className="flex items-center gap-3">
           <BrandLogo size="lg" />
           <div>
-            <h1 className="text-xl font-extrabold text-slate-900">
+            <h1 className="text-xl font-bold text-slate-900">
               Show Büfe Giriş
             </h1>
             <p className="text-xs font-medium text-slate-500">
@@ -139,7 +139,7 @@ export default function LoginPage() {
                       : "opacity-85 hover:opacity-100"
                   }`}
                 >
-                  <div className="flex items-center gap-1.5 font-extrabold text-sm">
+                  <div className="flex items-center gap-1.5 font-bold text-sm">
                     <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                     <span>{acc.title}</span>
                   </div>
@@ -216,7 +216,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-sky-700 disabled:opacity-50 active:scale-[0.99]"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-sky-700 disabled:opacity-50 active:scale-[0.99]"
           >
             <LogIn className="h-4 w-4" aria-hidden="true" />
             <span>{loading ? "Giriş Yapılıyor..." : "Sisteme Giriş Yap"}</span>

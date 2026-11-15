@@ -147,7 +147,7 @@ export function VariationDialog({
               </div>
               <h2
                 id={titleId}
-                className="mt-1 text-lg font-extrabold text-slate-900"
+                className="mt-1 text-lg font-bold text-slate-900"
               >
                 {item.name}
               </h2>
@@ -225,7 +225,7 @@ export function VariationDialog({
                 >
                   <Minus className="h-4 w-4" aria-hidden="true" />
                 </button>
-                <span className="min-w-[2.5rem] text-center text-lg font-extrabold text-slate-900">
+                <span className="min-w-[2.5rem] text-center text-lg font-bold text-slate-900">
                   {quantity}
                 </span>
                 <button

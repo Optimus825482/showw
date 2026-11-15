@@ -97,7 +97,7 @@ export default function BekleyenlerPage() {
           {/* Page Header & KPI Cards */}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="fluid-page-title font-extrabold text-slate-900">
+              <h2 className="fluid-page-title font-bold text-slate-900">
                 Bekleyen Adisyonlar &amp; Sıra Takibi
               </h2>
               <p className="text-xs sm:text-sm font-medium text-slate-500">
@@ -107,7 +107,7 @@ export default function BekleyenlerPage() {
             </div>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs sm:text-sm font-extrabold text-white shadow-sm hover:bg-sky-700"
+              className="btn btn-primary"
             >
               <PlusCircle className="h-4 w-4" aria-hidden="true" />
               <span>Yeni Adisyon Başlat</span>
@@ -117,13 +117,13 @@ export default function BekleyenlerPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             <div className="rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-3">
               <div className="text-xs font-bold text-amber-800">Bekliyor</div>
-              <div className="mt-0.5 text-2xl font-black text-amber-950">
+              <div className="mt-0.5 text-2xl font-extrabold text-amber-950">
                 {stats.waiting}
               </div>
             </div>
             <div className="rounded-2xl border border-sky-200 bg-sky-50/70 px-4 py-3">
               <div className="text-xs font-bold text-sky-800">Hazırlanıyor</div>
-              <div className="mt-0.5 text-2xl font-black text-sky-950">
+              <div className="mt-0.5 text-2xl font-extrabold text-sky-950">
                 {stats.preparing}
               </div>
             </div>
@@ -131,7 +131,7 @@ export default function BekleyenlerPage() {
               <div className="text-xs font-bold text-emerald-800">
                 Toplandı / Hazır
               </div>
-              <div className="mt-0.5 text-2xl font-black text-emerald-950">
+              <div className="mt-0.5 text-2xl font-extrabold text-emerald-950">
                 {stats.ready}
               </div>
             </div>
@@ -139,45 +139,36 @@ export default function BekleyenlerPage() {
               <div className="text-xs font-bold text-slate-500">
                 Teslim Edilen
               </div>
-              <div className="mt-0.5 text-2xl font-black text-slate-800">
+              <div className="mt-0.5 text-2xl font-extrabold text-slate-800">
                 {stats.delivered}
               </div>
             </div>
           </div>
 
           {/* Filter & Search Bar */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div role="group" className="seg flex-wrap">
               <button
                 type="button"
                 onClick={() => setTab("AKTIF")}
-                className={`rounded-xl px-3.5 py-2 text-xs font-bold transition ${
-                  tab === "AKTIF"
-                    ? "bg-slate-900 text-white"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                aria-pressed={tab === "AKTIF"}
+                className="seg-btn"
               >
                 Aktif Kuyruk ({stats.activeTotal})
               </button>
               <button
                 type="button"
                 onClick={() => setTab("HAZIR")}
-                className={`rounded-xl px-3.5 py-2 text-xs font-bold transition ${
-                  tab === "HAZIR"
-                    ? "bg-emerald-600 text-white"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                aria-pressed={tab === "HAZIR"}
+                className="seg-btn"
               >
                 Toplandı / Hazır ({stats.ready})
               </button>
               <button
                 type="button"
                 onClick={() => setTab("TAMAMLANAN")}
-                className={`inline-flex items-center gap-1 rounded-xl px-3.5 py-2 text-xs font-bold transition ${
-                  tab === "TAMAMLANAN"
-                    ? "bg-sky-600 text-white"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                aria-pressed={tab === "TAMAMLANAN"}
+                className="seg-btn"
               >
                 <CheckCheck className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Teslim Edilenler ({stats.delivered})</span>
@@ -185,11 +176,8 @@ export default function BekleyenlerPage() {
               <button
                 type="button"
                 onClick={() => setTab("TUMU")}
-                className={`rounded-xl px-3.5 py-2 text-xs font-bold transition ${
-                  tab === "TUMU"
-                    ? "bg-slate-700 text-white"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                aria-pressed={tab === "TUMU"}
+                className="seg-btn"
               >
                 Tümü ({adisyons.length})
               </button>
@@ -252,7 +240,7 @@ export default function BekleyenlerPage() {
           {tab === "AKTIF" && stats.delivered > 0 && (
             <section className="pt-4 border-t border-slate-200 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="fluid-section-title font-extrabold text-slate-900 flex items-center gap-2">
+                <h3 className="fluid-section-title font-bold text-slate-900 flex items-center gap-2">
                   <CheckCheck
                     className="h-5 w-5 text-emerald-600"
                     aria-hidden="true"
@@ -262,7 +250,7 @@ export default function BekleyenlerPage() {
                 <button
                   type="button"
                   onClick={() => setTab("TAMAMLANAN")}
-                  className="rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                  className="btn btn-sm"
                 >
                   Tüm Teslim Edilenleri Gör
                 </button>

@@ -169,7 +169,7 @@ export function PrinterSettingsDialog({
             <div>
               <h2
                 id={titleId}
-                className="text-base font-extrabold text-slate-900"
+                className="text-base font-bold text-slate-900"
               >
                 Yazıcı &amp; Otomatik Yazdırma
               </h2>
@@ -193,7 +193,7 @@ export function PrinterSettingsDialog({
           {/* Detected System Printers */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-extrabold text-slate-700">
+              <span className="text-xs font-bold text-slate-700">
                 Bilgisayardaki Yazıcılar
               </span>
               <button
@@ -240,7 +240,7 @@ export function PrinterSettingsDialog({
                       }`}
                     >
                       <div className="min-w-0">
-                        <div className="text-sm font-extrabold truncate">
+                        <div className="text-sm font-bold truncate">
                           {p.name}
                         </div>
                         <div className="text-[11px] font-medium text-slate-500">
@@ -264,7 +264,7 @@ export function PrinterSettingsDialog({
           <div className="space-y-1.5">
             <label
               htmlFor="printer-name-input"
-              className="block text-xs font-extrabold text-slate-700"
+              className="block text-xs font-bold text-slate-700"
             >
               Kayıtlı / Ağ Termal Yazıcı Adı
             </label>
@@ -288,7 +288,7 @@ export function PrinterSettingsDialog({
           <div className="space-y-2.5 rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
             <label className="flex items-center justify-between gap-3 cursor-pointer">
               <div>
-                <div className="text-sm font-extrabold text-slate-900">
+                <div className="text-sm font-bold text-slate-900">
                   Yazıcı Kullanımı Aktif
                 </div>
                 <div className="text-xs font-medium text-slate-500">
@@ -306,7 +306,7 @@ export function PrinterSettingsDialog({
             {enabled && (
               <label className="flex items-center justify-between gap-3 border-t border-slate-200 pt-2.5 cursor-pointer">
                 <div>
-                  <div className="text-sm font-extrabold text-slate-900">
+                  <div className="text-sm font-bold text-slate-900">
                     Otomatik Yazdır
                   </div>
                   <div className="text-xs font-medium text-slate-500">
@@ -366,7 +366,7 @@ export function PrinterSettingsDialog({
             <button
               type="submit"
               disabled={saving}
-              className="rounded-xl bg-sky-600 px-4 py-2 text-xs font-extrabold text-white shadow-sm hover:bg-sky-700 disabled:opacity-50"
+              className="rounded-xl bg-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-sky-700 disabled:opacity-50"
             >
               {saving ? "Kaydediliyor..." : "Ayarları Kaydet"}
             </button>

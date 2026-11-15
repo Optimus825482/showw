@@ -195,7 +195,7 @@ export function AppShell({
   const roleMeta = ROLE_LABELS[normalizedRole] ?? ROLE_LABELS.SIPARIS;
 
   return (
-    <div className="no-print min-h-dvh flex flex-col bg-slate-50 text-slate-900">
+    <div className="no-print min-h-dvh flex flex-col bg-[#eef2f6] text-slate-900">
       {/* Top Header */}
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
         <div className="mx-auto max-w-[1440px] px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
@@ -203,7 +203,7 @@ export function AppShell({
           <div className="flex items-center gap-2.5 min-w-0">
             <BrandLogo size="md" />
             <div className="min-w-0">
-              <h1 className="fluid-page-title font-extrabold tracking-tight text-slate-900 leading-tight">
+              <h1 className="fluid-page-title font-bold tracking-tight text-slate-900 leading-tight">
                 Show Büfe
               </h1>
               <p className="text-xs font-medium text-slate-500 truncate">
@@ -405,7 +405,7 @@ export function AppShell({
                 <Icon className="h-5 w-5" aria-hidden="true" />
                 <span className="truncate max-w-full">{item.shortLabel}</span>
                 {item.href === "/bekleyenler" && activeQueueCount > 0 && (
-                  <span className="absolute top-1 right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-extrabold text-white">
+                  <span className="absolute top-1 right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-white">
                     {activeQueueCount}
                   </span>
                 )}

@@ -54,7 +54,7 @@ export default function RootLayout({
     <html lang="tr" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${plusJakarta.className} min-h-dvh bg-slate-50 text-slate-900`}
+        className={`${plusJakarta.className} min-h-dvh bg-[#eef2f6] text-slate-900`}
       >
         {children}
       </body>

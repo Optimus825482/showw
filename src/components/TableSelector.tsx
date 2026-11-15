@@ -102,14 +102,14 @@ export function TableSelector({
   return (
     <section
       aria-labelledby="table-selector-title"
-      className="rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-sm space-y-4"
+      className="surface p-3.5 sm:p-4 space-y-4"
     >
       {/* Başlık + bölge filtresi */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <h2
             id="table-selector-title"
-            className="fluid-section-title font-extrabold text-slate-900"
+            className="fluid-section-title font-bold text-slate-900"
           >
             {moving ? "Hedef Masayı Seçin" : "Masa Seçin"}
           </h2>
@@ -123,7 +123,7 @@ export function TableSelector({
         <div
           role="group"
           aria-label="Bölge filtresi"
-          className="flex w-full sm:w-auto rounded-xl bg-slate-100 p-1 gap-1"
+          className="seg w-full sm:w-auto"
         >
           {FILTERS.map((f) => {
             const active = areaFilter === f.value;
@@ -133,11 +133,7 @@ export function TableSelector({
                 type="button"
                 aria-pressed={active}
                 onClick={() => setAreaFilter(f.value)}
-                className={`flex-1 sm:flex-none rounded-lg px-3.5 py-2 text-sm font-extrabold transition-colors ${focusRing} ${
-                  active
-                    ? "bg-white text-sky-700 shadow-sm ring-1 ring-slate-200"
-                    : "text-slate-600 hover:bg-white/60 hover:text-slate-900"
-                }`}
+                className="seg-btn flex-1 sm:flex-none"
               >
                 {f.label} ({f.count})
               </button>
@@ -179,7 +175,7 @@ export function TableSelector({
             <span key={area}>
               {i > 0 && <span aria-hidden="true"> · </span>}
               {TABLE_AREA_LABELS[area]}:{" "}
-              <span className="font-extrabold text-slate-900">
+              <span className="font-bold text-slate-900">
                 {occupiedInArea(area)}/{AREA_TABLES[area].length}
               </span>{" "}
               dolu
@@ -197,7 +193,7 @@ export function TableSelector({
             <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
               <h3
                 id={headingId}
-                className="text-sm font-extrabold uppercase tracking-wide text-slate-700"
+                className="text-sm font-bold uppercase tracking-wide text-slate-700"
               >
                 {TABLE_AREA_LABELS[area]}
               </h3>
@@ -282,7 +278,7 @@ export function TableSelector({
                           onDragMove?.(from, table.number);
                         }
                       }}
-                      className={`relative w-full min-h-[5.25rem] rounded-2xl border-2 px-2 py-2.5 flex flex-col items-center justify-center gap-1 transition-colors active:scale-[0.97] motion-reduce:active:scale-100 ${focusRing} ${
+                      className={`table-tile relative w-full min-h-[5.5rem] ${focusRing} ${
                         canDrag ? "cursor-grab active:cursor-grabbing" : ""
                       } ${
                         isDropTarget
@@ -308,13 +304,13 @@ export function TableSelector({
                           aria-hidden="true"
                         />
                       )}
-                      <span className="text-2xl font-black leading-none tabular-nums">
+                      <span className="text-2xl font-extrabold leading-none tabular-nums">
                         {table.number}
                       </span>
                       {occupied ? (
                         <>
                           <span
-                            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-extrabold ${
+                            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${
                               selected
                                 ? "bg-white/20 text-white"
                                 : toneMeta.chip

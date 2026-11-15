@@ -231,7 +231,7 @@ function ReportSectionsRenderer({
               printable ? "" : "lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
             } space-y-3`}
           >
-            <h4 className="text-sm font-extrabold text-slate-900">
+            <h4 className="text-sm font-bold text-slate-900">
               Kategori Dağılımı ({report.categoryRows.length} Kategori)
             </h4>
             {report.categoryRows.length === 0 ? (
@@ -274,7 +274,7 @@ function ReportSectionsRenderer({
               printable ? "" : "lg:col-span-8 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
             } space-y-3 min-w-0`}
           >
-            <h4 className="text-sm font-extrabold text-slate-900">
+            <h4 className="text-sm font-bold text-slate-900">
               Günlük Genel Özet ({report.dailyRows.length} Gün)
             </h4>
             <div
@@ -335,11 +335,11 @@ function ReportSectionsRenderer({
                       <tr key={d.dateKey} className="hover:bg-slate-50/70">
                         <th
                           scope="row"
-                          className="px-3 py-2.5 font-extrabold text-slate-900 whitespace-nowrap border-r border-slate-100"
+                          className="px-3 py-2.5 font-bold text-slate-900 whitespace-nowrap border-r border-slate-100"
                         >
                           {d.dateLabel}
                         </th>
-                        <td className="px-2.5 py-2.5 text-right font-black text-slate-900 tabular-nums">
+                        <td className="px-2.5 py-2.5 text-right font-extrabold text-slate-900 tabular-nums">
                           {d.totalAdisyons}
                         </td>
                         <td className="px-2.5 py-2.5 text-right font-bold text-emerald-700 tabular-nums">
@@ -348,7 +348,7 @@ function ReportSectionsRenderer({
                         <td className="px-2.5 py-2.5 text-right font-bold text-amber-700 tabular-nums">
                           {d.activeCount}
                         </td>
-                        <td className="px-2.5 py-2.5 text-right font-black text-sky-700 tabular-nums">
+                        <td className="px-2.5 py-2.5 text-right font-extrabold text-sky-700 tabular-nums">
                           {d.totalPortions}
                         </td>
                         <td className="px-2.5 py-2.5 font-semibold text-slate-700 whitespace-nowrap tabular-nums">
@@ -386,7 +386,7 @@ function ReportSectionsRenderer({
           } space-y-3`}
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h4 className="text-sm font-extrabold text-slate-900">
+            <h4 className="text-sm font-bold text-slate-900">
               Ürün &amp; Varyasyon Bazlı Rapor ({report.productRows.length} Çeşit •{" "}
               {report.kpis.totalPortions} Porsiyon)
             </h4>
@@ -556,7 +556,7 @@ function ReportSectionsRenderer({
                       </td>
                       <th
                         scope="row"
-                        className="px-2.5 py-2.5 font-extrabold text-slate-900 border-r border-slate-100"
+                        className="px-2.5 py-2.5 font-bold text-slate-900 border-r border-slate-100"
                       >
                         <div>{row.productName}</div>
                         <div className="text-[11px] font-medium text-slate-500">
@@ -578,7 +578,7 @@ function ReportSectionsRenderer({
                       <td className="px-2.5 py-2.5 text-right font-bold text-slate-700 tabular-nums">
                         {row.orderCount}
                       </td>
-                      <td className="px-2.5 py-2.5 text-right font-black text-slate-900 tabular-nums">
+                      <td className="px-2.5 py-2.5 text-right font-extrabold text-slate-900 tabular-nums">
                         {row.totalQty}
                       </td>
                       <td className="px-2.5 py-2.5 text-right font-bold text-emerald-700 tabular-nums">
@@ -620,7 +620,7 @@ function ReportSectionsRenderer({
             printable ? "" : "rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
           } space-y-3`}
         >
-          <h4 className="text-sm font-extrabold text-slate-900">
+          <h4 className="text-sm font-bold text-slate-900">
             Adisyon Bazlı Rapor ({report.adisyonRows.length} Adisyon)
           </h4>
           <div
@@ -742,7 +742,7 @@ function ReportSectionsRenderer({
                       <tr key={a.id} className="hover:bg-slate-50/70">
                         <th
                           scope="row"
-                          className="px-2.5 py-2.5 font-black text-slate-900 whitespace-nowrap border-r border-slate-100"
+                          className="px-2.5 py-2.5 font-extrabold text-slate-900 whitespace-nowrap border-r border-slate-100"
                         >
                           #{a.queueNumber}
                         </th>
@@ -758,7 +758,7 @@ function ReportSectionsRenderer({
                         <td className="px-2.5 py-2.5 tabular-nums font-bold text-slate-900 whitespace-nowrap">
                           {a.durationLabel}
                         </td>
-                        <td className="px-2.5 py-2.5 text-right font-black text-slate-900 tabular-nums">
+                        <td className="px-2.5 py-2.5 text-right font-extrabold text-slate-900 tabular-nums">
                           {a.matchingPortions}
                         </td>
                         <td className="px-2.5 py-2.5 text-xs text-slate-700">
@@ -804,7 +804,7 @@ function ReportSectionsRenderer({
             printable ? "" : "rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
           } space-y-3`}
         >
-          <h4 className="text-sm font-extrabold text-slate-900">
+          <h4 className="text-sm font-bold text-slate-900">
             Kalem &amp; Varyasyon Detay Raporu ({report.itemRows.length} Satır)
           </h4>
           <div
@@ -863,7 +863,7 @@ function ReportSectionsRenderer({
                     <tr key={it.itemId} className="hover:bg-slate-50/70">
                       <th
                         scope="row"
-                        className="px-2.5 py-2 font-extrabold text-slate-900 whitespace-nowrap border-r border-slate-100"
+                        className="px-2.5 py-2 font-bold text-slate-900 whitespace-nowrap border-r border-slate-100"
                       >
                         <div>#{it.queueNumber}</div>
                         <div className="text-[11px] font-medium text-slate-500 tabular-nums">
@@ -882,7 +882,7 @@ function ReportSectionsRenderer({
                       <td className="px-2.5 py-2 text-xs font-semibold text-slate-700">
                         {it.variationText}
                       </td>
-                      <td className="px-2.5 py-2 text-right font-black text-slate-900 tabular-nums">
+                      <td className="px-2.5 py-2 text-right font-extrabold text-slate-900 tabular-nums">
                         {it.quantity}
                       </td>
                       <td className="px-2.5 py-2 text-xs text-amber-800">
@@ -1298,7 +1298,7 @@ export default function AdminPage() {
             className="mx-auto h-12 w-12 text-amber-600"
             aria-hidden="true"
           />
-          <h2 className="text-lg font-extrabold text-slate-900">
+          <h2 className="text-lg font-bold text-slate-900">
             Admin Yetkisi Gerekli
           </h2>
           <p className="text-sm text-slate-600">
@@ -1339,7 +1339,7 @@ export default function AdminPage() {
                   <BarChart3 className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <div>
-                  <h2 className="fluid-page-title font-extrabold text-slate-900">
+                  <h2 className="fluid-page-title font-bold text-slate-900">
                     Admin Paneli — Yönetim &amp; Akıllı Raporlama
                   </h2>
                   <p className="text-xs sm:text-sm font-medium text-slate-500">
@@ -1391,7 +1391,7 @@ export default function AdminPage() {
                   >
                     <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                     <span>{t.label}</span>
-                    <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[11px] font-extrabold text-slate-700 tabular-nums">
+                    <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[11px] font-bold text-slate-700 tabular-nums">
                       {badgeCount}
                     </span>
                   </button>
@@ -1424,7 +1424,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-slate-500">
                         Aktif Kuyruk
                       </div>
-                      <div className="mt-1 text-2xl font-black text-slate-900 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-slate-900 tabular-nums">
                         {activeAdisyons.length}
                       </div>
                     </div>
@@ -1432,7 +1432,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-amber-800">
                         Bekliyor
                       </div>
-                      <div className="mt-1 text-2xl font-black text-amber-950 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-amber-950 tabular-nums">
                         {liveStats.waiting}
                       </div>
                     </div>
@@ -1440,7 +1440,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-sky-800">
                         Hazırlanıyor
                       </div>
-                      <div className="mt-1 text-2xl font-black text-sky-950 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-sky-950 tabular-nums">
                         {liveStats.preparing}
                       </div>
                     </div>
@@ -1448,7 +1448,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-emerald-800">
                         Toplandı / Hazır
                       </div>
-                      <div className="mt-1 text-2xl font-black text-emerald-950 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-emerald-950 tabular-nums">
                         {liveStats.ready}
                       </div>
                     </div>
@@ -1456,7 +1456,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-slate-500">
                         Bugün Teslim
                       </div>
-                      <div className="mt-1 text-2xl font-black text-slate-900 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-slate-900 tabular-nums">
                         {liveStats.deliveredToday}
                       </div>
                     </div>
@@ -1468,7 +1468,7 @@ export default function AdminPage() {
                         />
                         <span>Ort. Teslim Süresi</span>
                       </div>
-                      <div className="mt-1 text-lg sm:text-xl font-black text-slate-900 tabular-nums">
+                      <div className="mt-1 text-lg sm:text-xl font-extrabold text-slate-900 tabular-nums">
                         {liveStats.avgLabel}
                       </div>
                     </div>
@@ -1539,7 +1539,7 @@ export default function AdminPage() {
                     recentDeliveredAdisyons.length > 0 && (
                       <section className="pt-3 border-t border-slate-200 space-y-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <h3 className="fluid-section-title font-extrabold text-slate-900 flex items-center gap-2">
+                          <h3 className="fluid-section-title font-bold text-slate-900 flex items-center gap-2">
                             <CheckCheck
                               className="h-5 w-5 text-emerald-600"
                               aria-hidden="true"
@@ -1592,7 +1592,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-slate-500">
                         Aktif Ürün Çeşidi
                       </div>
-                      <div className="mt-1 text-2xl font-black text-slate-900 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-slate-900 tabular-nums">
                         {kitchenMetrics.batchCount}
                       </div>
                     </div>
@@ -1600,7 +1600,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-amber-800">
                         Bekleyen Porsiyon
                       </div>
-                      <div className="mt-1 text-2xl font-black text-amber-950 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-amber-950 tabular-nums">
                         {kitchenMetrics.pendingPortions}
                       </div>
                     </div>
@@ -1608,7 +1608,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-sky-800">
                         Ocakta Porsiyon
                       </div>
-                      <div className="mt-1 text-2xl font-black text-sky-950 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-sky-950 tabular-nums">
                         {kitchenMetrics.preparingPortions}
                       </div>
                     </div>
@@ -1616,7 +1616,7 @@ export default function AdminPage() {
                       <div className="text-xs font-bold text-emerald-800">
                         Hazır Porsiyon
                       </div>
-                      <div className="mt-1 text-2xl font-black text-emerald-950 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-emerald-950 tabular-nums">
                         {kitchenMetrics.readyPortions}
                       </div>
                     </div>
@@ -1625,7 +1625,7 @@ export default function AdminPage() {
                         <Clock className="h-3.5 w-3.5" aria-hidden="true" />
                         <span>5+ dk Bekleyen</span>
                       </div>
-                      <div className="mt-1 text-2xl font-black text-amber-800 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-amber-800 tabular-nums">
                         {kitchenMetrics.warningCount}
                       </div>
                     </div>
@@ -1637,7 +1637,7 @@ export default function AdminPage() {
                         />
                         <span>10+ dk Kritik</span>
                       </div>
-                      <div className="mt-1 text-2xl font-black text-rose-900 tabular-nums">
+                      <div className="mt-1 text-2xl font-extrabold text-rose-900 tabular-nums">
                         {kitchenMetrics.criticalCount}
                       </div>
                     </div>
@@ -1703,14 +1703,14 @@ export default function AdminPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
                       <div className="lg:col-span-5 space-y-3">
                         <div className="flex items-center justify-between px-1">
-                          <h3 className="fluid-section-title font-extrabold text-slate-900 flex items-center gap-2">
+                          <h3 className="fluid-section-title font-bold text-slate-900 flex items-center gap-2">
                             <Layers
                               className="h-5 w-5 text-sky-600"
                               aria-hidden="true"
                             />
                             <span>Toplu Ürün Yükü</span>
                           </h3>
-                          <span className="rounded-lg bg-sky-100 px-2.5 py-0.5 text-xs font-extrabold text-sky-800">
+                          <span className="rounded-lg bg-sky-100 px-2.5 py-0.5 text-xs font-bold text-sky-800">
                             {filteredKitchenBatches.length} Çeşit
                           </span>
                         </div>
@@ -1723,7 +1723,7 @@ export default function AdminPage() {
 
                       <div className="lg:col-span-7 space-y-3">
                         <div className="flex items-center justify-between px-1">
-                          <h3 className="fluid-section-title font-extrabold text-slate-900 flex items-center gap-2">
+                          <h3 className="fluid-section-title font-bold text-slate-900 flex items-center gap-2">
                             <ListOrdered
                               className="h-5 w-5 text-amber-600"
                               aria-hidden="true"
@@ -1808,7 +1808,7 @@ export default function AdminPage() {
                           aria-hidden="true"
                         />
                         <div>
-                          <h3 className="text-base font-extrabold text-slate-900">
+                          <h3 className="text-base font-bold text-slate-900">
                             Akıllı Raporlama Modülü
                           </h3>
                           <p className="text-xs font-medium text-slate-500">
@@ -1831,7 +1831,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={handleOpenPreview}
-                          className="inline-flex items-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3.5 py-2 text-xs font-extrabold text-sky-800 hover:bg-sky-100"
+                          className="inline-flex items-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3.5 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100"
                         >
                           <Eye className="h-4 w-4" aria-hidden="true" />
                           <span>Sadece Görüntüle (Önizle)</span>
@@ -1842,7 +1842,7 @@ export default function AdminPage() {
                           onClick={() =>
                             downloadSmartReportXlsx(reportData, filterSummaryText)
                           }
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-extrabold text-white shadow-sm hover:bg-emerald-700"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-700"
                         >
                           <FileSpreadsheet
                             className="h-4 w-4"
@@ -1854,7 +1854,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={handlePrintPdfReport}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-extrabold text-white shadow-sm hover:bg-slate-800"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-slate-800"
                         >
                           <FileText className="h-4 w-4" aria-hidden="true" />
                           <span>PDF Olarak Kaydet / Yazdır</span>
@@ -1864,7 +1864,7 @@ export default function AdminPage() {
 
                     {/* Step 1: Time Range Selection */}
                     <div className="space-y-2.5">
-                      <div className="text-xs font-extrabold uppercase tracking-wide text-slate-500 flex items-center gap-1.5">
+                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500 flex items-center gap-1.5">
                         <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
                         <span>1. Zaman Aralığı Seçimi</span>
                       </div>
@@ -1958,7 +1958,7 @@ export default function AdminPage() {
 
                     {/* Step 2: General -> Specific Drill Level */}
                     <div className="space-y-2">
-                      <div className="text-xs font-extrabold uppercase tracking-wide text-slate-500">
+                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
                         2. Detay Seviyesi (En Genelden Özele)
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
@@ -1975,7 +1975,7 @@ export default function AdminPage() {
                                   : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
                               }`}
                             >
-                              <div className="text-xs font-extrabold">
+                              <div className="text-xs font-bold">
                                 {lvl.label}
                               </div>
                               <div className="text-[11px] font-medium text-slate-500">
@@ -1989,7 +1989,7 @@ export default function AdminPage() {
 
                     {/* Step 3: Cascading Narrow Filters (Kategori -> Ürün -> Varyasyon -> Durum -> Arama) */}
                     <div className="space-y-2">
-                      <div className="text-xs font-extrabold uppercase tracking-wide text-slate-500">
+                      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
                         3. Kırılım &amp; İçerik Daraltma
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
@@ -2102,7 +2102,7 @@ export default function AdminPage() {
                     </div>
 
                     <div className="rounded-xl bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600 border border-slate-200">
-                      <span className="font-extrabold text-slate-800">
+                      <span className="font-bold text-slate-800">
                         Aktif Kapsam:{" "}
                       </span>
                       <span>{filterSummaryText}</span>
@@ -2115,7 +2115,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-slate-500">
                         Adisyon
                       </div>
-                      <div className="mt-0.5 text-xl font-black text-slate-900 tabular-nums">
+                      <div className="mt-0.5 text-xl font-extrabold text-slate-900 tabular-nums">
                         {reportData.kpis.totalAdisyons}
                       </div>
                     </div>
@@ -2123,7 +2123,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-emerald-800">
                         Teslim
                       </div>
-                      <div className="mt-0.5 text-xl font-black text-emerald-950 tabular-nums">
+                      <div className="mt-0.5 text-xl font-extrabold text-emerald-950 tabular-nums">
                         {reportData.kpis.deliveredAdisyons}
                       </div>
                     </div>
@@ -2131,7 +2131,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-amber-800">
                         Aktif
                       </div>
-                      <div className="mt-0.5 text-xl font-black text-amber-950 tabular-nums">
+                      <div className="mt-0.5 text-xl font-extrabold text-amber-950 tabular-nums">
                         {reportData.kpis.activeAdisyons}
                       </div>
                     </div>
@@ -2139,7 +2139,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-slate-500">
                         Porsiyon
                       </div>
-                      <div className="mt-0.5 text-xl font-black text-sky-700 tabular-nums">
+                      <div className="mt-0.5 text-xl font-extrabold text-sky-700 tabular-nums">
                         {reportData.kpis.totalPortions}
                       </div>
                     </div>
@@ -2147,7 +2147,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-slate-500">
                         Ürün Çeşidi
                       </div>
-                      <div className="mt-0.5 text-xl font-black text-slate-900 tabular-nums">
+                      <div className="mt-0.5 text-xl font-extrabold text-slate-900 tabular-nums">
                         {reportData.kpis.uniqueProducts}
                       </div>
                     </div>
@@ -2155,7 +2155,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-slate-500">
                         Ort. Teslim
                       </div>
-                      <div className="mt-0.5 text-base font-black text-slate-900 tabular-nums">
+                      <div className="mt-0.5 text-base font-extrabold text-slate-900 tabular-nums">
                         {reportData.kpis.avgDeliveryLabel}
                       </div>
                     </div>
@@ -2163,7 +2163,7 @@ export default function AdminPage() {
                       <div className="text-[11px] font-bold text-slate-500">
                         Lider Ürün / Kategori
                       </div>
-                      <div className="mt-0.5 text-xs font-extrabold text-slate-900 truncate">
+                      <div className="mt-0.5 text-xs font-bold text-slate-900 truncate">
                         {reportData.kpis.topProductLabel}
                       </div>
                       <div className="text-[11px] font-semibold text-slate-500 truncate">
@@ -2252,7 +2252,7 @@ export default function AdminPage() {
             <div>
               <h3
                 id="report-preview-title"
-                className="text-base font-extrabold text-slate-900"
+                className="text-base font-bold text-slate-900"
               >
                 Rapor Görüntüleme &amp; Önizleme — {reportData.rangeLabel}
               </h3>
@@ -2266,7 +2266,7 @@ export default function AdminPage() {
                 onClick={() =>
                   downloadSmartReportXlsx(reportData, filterSummaryText)
                 }
-                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-extrabold text-white hover:bg-emerald-700"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700"
               >
                 <FileSpreadsheet className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Excel</span>
@@ -2274,7 +2274,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={handlePrintPdfReport}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-extrabold text-white hover:bg-slate-800"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800"
               >
                 <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>PDF</span>
@@ -2296,7 +2296,7 @@ export default function AdminPage() {
                 <div className="text-xs font-bold text-slate-500">
                   Toplam Adisyon
                 </div>
-                <div className="text-xl font-black text-slate-900">
+                <div className="text-xl font-extrabold text-slate-900">
                   {reportData.kpis.totalAdisyons}
                 </div>
               </div>
@@ -2304,7 +2304,7 @@ export default function AdminPage() {
                 <div className="text-xs font-bold text-slate-500">
                   Teslim Edilen
                 </div>
-                <div className="text-xl font-black text-emerald-700">
+                <div className="text-xl font-extrabold text-emerald-700">
                   {reportData.kpis.deliveredAdisyons}
                 </div>
               </div>
@@ -2312,7 +2312,7 @@ export default function AdminPage() {
                 <div className="text-xs font-bold text-slate-500">
                   Toplam Porsiyon
                 </div>
-                <div className="text-xl font-black text-sky-700">
+                <div className="text-xl font-extrabold text-sky-700">
                   {reportData.kpis.totalPortions}
                 </div>
               </div>
@@ -2320,7 +2320,7 @@ export default function AdminPage() {
                 <div className="text-xs font-bold text-slate-500">
                   Ort. Teslim Süresi
                 </div>
-                <div className="text-lg font-black text-slate-900 tabular-nums">
+                <div className="text-lg font-extrabold text-slate-900 tabular-nums">
                   {reportData.kpis.avgDeliveryLabel}
                 </div>
               </div>

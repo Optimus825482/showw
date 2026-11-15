@@ -235,7 +235,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
                 )}
               </div>
               <div className="min-w-0 text-xs sm:text-sm">
-                <div className="font-extrabold text-slate-900">
+                <div className="font-bold text-slate-900">
                   {env.isInAppBrowser || !env.isGoogleChrome
                     ? "En iyi deneyim ve kurulum için uygulamayı Google Chrome'da açın"
                     : "Show Büfe uygulaması cihazınızda kurulu değil"}
@@ -251,7 +251,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
               {env.chromeOpenUrl && !env.isGoogleChrome && (
                 <a
                   href={env.chromeOpenUrl}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm hover:bg-amber-600 transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-amber-600 transition"
                 >
                   <Globe className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>Chrome&apos;da Aç</span>
@@ -263,7 +263,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
                 <button
                   type="button"
                   onClick={() => void handleInstallClick()}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-1.5 text-xs font-extrabold text-white shadow-sm hover:bg-sky-700 active:scale-[0.99] transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-sky-700 active:scale-[0.99] transition"
                 >
                   <Download className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>Uygulamayı Kur (PWA)</span>
@@ -272,7 +272,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
                 <button
                   type="button"
                   onClick={() => guideDialogRef.current?.showModal()}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-1.5 text-xs font-extrabold text-white shadow-sm hover:bg-sky-700 transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-sky-700 transition"
                 >
                   <Download className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>Uygulamayı Kur</span>
@@ -338,7 +338,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
               <div>
                 <h3
                   id="pwa-guide-title"
-                  className="text-base font-extrabold text-slate-900"
+                  className="text-base font-bold text-slate-900"
                 >
                   Show Büfe Kurulum &amp; Chrome Rehberi
                 </h3>
@@ -359,7 +359,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
 
           {/* Open in Google Chrome Section */}
           <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-3.5 space-y-2.5">
-            <div className="flex items-center gap-2 text-xs font-extrabold text-amber-950">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-950">
               <Globe className="h-4 w-4 text-amber-700" aria-hidden="true" />
               <span>Google Chrome ile Aç</span>
             </div>
@@ -371,7 +371,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
               {env.chromeOpenUrl && (
                 <a
                   href={env.chromeOpenUrl}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-3.5 py-2 text-xs font-extrabold text-white hover:bg-amber-700"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-3.5 py-2 text-xs font-bold text-white hover:bg-amber-700"
                 >
                   <Globe className="h-4 w-4" aria-hidden="true" />
                   <span>Google Chrome&apos;da Başlat</span>
@@ -400,7 +400,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
 
           {/* Step by step installation */}
           <div className="space-y-2.5 text-xs text-slate-700">
-            <div className="flex items-center gap-1.5 font-extrabold text-slate-900">
+            <div className="flex items-center gap-1.5 font-bold text-slate-900">
               <HelpCircle className="h-4 w-4 text-sky-600" aria-hidden="true" />
               <span>Cihaza Göre Kurulum Adımları</span>
             </div>
@@ -445,7 +445,7 @@ export function PwaInstallBanner({ compact = false }: PwaInstallBannerProps) {
               <button
                 type="button"
                 onClick={() => void handleInstallClick()}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 text-xs font-extrabold text-white hover:bg-sky-700"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 text-xs font-bold text-white hover:bg-sky-700"
               >
                 <Download className="h-4 w-4" aria-hidden="true" />
                 <span>Şimdi Kur</span>

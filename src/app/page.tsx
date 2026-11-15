@@ -563,10 +563,8 @@ export default function AdisyonCreatePage() {
         disabled={draftEmpty || submitting}
         aria-describedby={draftEmpty ? hintId : undefined}
         onClick={() => void submitAdisyon(withPrint)}
-        className={`w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-extrabold enabled:active:scale-[0.99] disabled:cursor-not-allowed ${focusRing} ${
-          variant === "primary"
-            ? "bg-sky-600 text-white shadow-sm enabled:hover:bg-sky-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:shadow-none"
-            : "border border-sky-600 bg-white text-sky-700 enabled:hover:bg-sky-50 disabled:border-slate-200 disabled:text-slate-400"
+        className={`btn btn-lg btn-block ${
+          variant === "primary" ? "btn-primary" : "btn-outline"
         }`}
       >
         {submitting ? (
@@ -591,7 +589,7 @@ export default function AdisyonCreatePage() {
         {/* Masa & opsiyonel misafir bilgisi */}
         <div className="space-y-3 border-b border-slate-200 pb-4">
           <div className="flex items-center justify-between gap-2">
-            <h2 className="fluid-section-title font-extrabold text-slate-900">
+            <h2 className="fluid-section-title font-bold text-slate-900">
               Adisyon Bilgileri
             </h2>
             {!draftEmpty && (
@@ -612,7 +610,7 @@ export default function AdisyonCreatePage() {
               <div className="text-[11px] font-bold uppercase tracking-wide text-sky-700">
                 Masa
               </div>
-              <div className="text-base font-extrabold text-sky-950 truncate">
+              <div className="text-base font-bold text-sky-950 truncate">
                 {selectedTableLabel || "Masa seçilmedi"}
               </div>
               {selectedTableOpenCount > 0 && (
@@ -624,7 +622,7 @@ export default function AdisyonCreatePage() {
             <button
               type="button"
               onClick={goToTableStep}
-              className={`shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-sky-300 bg-white px-3 py-2 text-xs font-extrabold text-sky-800 hover:bg-sky-100 ${focusRing}`}
+              className="btn btn-sm btn-outline shrink-0"
             >
               <ArrowLeftRight className="h-3.5 w-3.5" aria-hidden="true" />
               <span>{selectedTable ? "Masayı Değiştir" : "Masa Seç"}</span>
@@ -715,7 +713,7 @@ export default function AdisyonCreatePage() {
               <button
                 type="button"
                 onClick={undoClearDraft}
-                className={`inline-flex items-center gap-1 rounded-lg bg-white px-3 py-1.5 text-xs font-extrabold text-slate-900 hover:bg-slate-100 ${focusRing}`}
+                className={`inline-flex items-center gap-1 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-900 hover:bg-slate-100 ${focusRing}`}
               >
                 <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Geri Al</span>
@@ -743,7 +741,7 @@ export default function AdisyonCreatePage() {
                 className="rounded-xl border border-slate-200 bg-slate-50/70 p-3 flex items-start justify-between gap-2.5"
               >
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-extrabold text-slate-900">
+                  <div className="text-sm font-bold text-slate-900">
                     #{item.productNo} {item.productName}
                   </div>
                   {item.variations.length > 0 ? (
@@ -778,7 +776,7 @@ export default function AdisyonCreatePage() {
                         ? `${item.productName} ürününü kaldır`
                         : `${item.productName} adetini azalt`
                     }
-                    className={`inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 ${focusRing}`}
+                    className="btn btn-icon"
                   >
                     {item.quantity === 1 ? (
                       <Trash2
@@ -790,7 +788,7 @@ export default function AdisyonCreatePage() {
                     )}
                   </button>
                   <span
-                    className="min-w-[1.75rem] text-center text-base font-extrabold tabular-nums text-slate-900"
+                    className="min-w-[1.75rem] text-center text-base font-bold tabular-nums text-slate-900"
                   >
                     {item.quantity}
                   </span>
@@ -798,7 +796,7 @@ export default function AdisyonCreatePage() {
                     type="button"
                     onClick={() => updateDraftQty(item.draftId, 1)}
                     aria-label={`${item.productName} adetini artır`}
-                    className={`inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 ${focusRing}`}
+                    className="btn btn-icon"
                   >
                     <Plus className="h-4 w-4" aria-hidden="true" />
                   </button>
@@ -821,7 +819,7 @@ export default function AdisyonCreatePage() {
 
           <div className="flex items-center justify-between text-xs font-bold text-slate-600 px-1">
             <span>Toplam Ürün Adedi</span>
-            <span className="text-sm font-extrabold text-slate-900">
+            <span className="text-sm font-bold text-slate-900">
               {totalDraftCount} Adet
             </span>
           </div>
@@ -834,7 +832,7 @@ export default function AdisyonCreatePage() {
                   aria-hidden="true"
                 />
                 <div className="min-w-0">
-                  <div className="text-xs font-extrabold text-sky-950 truncate">
+                  <div className="text-xs font-bold text-sky-950 truncate">
                     Otomatik Yazdır
                   </div>
                   <div className="text-[11px] font-medium text-sky-700 truncate">
@@ -894,13 +892,13 @@ export default function AdisyonCreatePage() {
     orderTab !== "MENU" ? undefined : showMenuStep ? (
       <div className="flex items-center justify-between gap-2 rounded-xl border border-sky-200 bg-sky-50 px-3 py-1.5">
         <div className="min-w-0">
-          <div className="text-xs font-extrabold text-sky-950 truncate">
+          <div className="text-xs font-bold text-sky-950 truncate">
             {selectedTableLabel}
           </div>
           {addFeedback ? (
             <div
               key={addFeedback.id}
-              className="step-enter inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-700 truncate"
+              className="step-enter inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 truncate"
             >
               <Check className="h-3 w-3 shrink-0" aria-hidden="true" />
               <span className="truncate">{addFeedback.text}</span>
@@ -916,7 +914,7 @@ export default function AdisyonCreatePage() {
         <button
           type="button"
           onClick={() => setMobileCartOpen(true)}
-          className={`shrink-0 inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-xs font-extrabold shadow-sm ${focusRing} ${
+          className={`shrink-0 inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-xs font-bold shadow-sm ${focusRing} ${
             draftEmpty
               ? "bg-white text-sky-800 border border-sky-300 hover:bg-sky-100"
               : "bg-sky-600 text-white hover:bg-sky-700"
@@ -925,7 +923,7 @@ export default function AdisyonCreatePage() {
           <span>{draftEmpty ? "Adisyon" : "Adisyonu Aç"}</span>
           <span
             key={addFeedback?.id ?? "count"}
-            className={`count-bump inline-flex min-w-[1.5rem] items-center justify-center rounded-full px-1.5 py-0.5 text-[11px] font-black tabular-nums ${
+            className={`count-bump inline-flex min-w-[1.5rem] items-center justify-center rounded-full px-1.5 py-0.5 text-[11px] font-extrabold tabular-nums ${
               draftEmpty ? "bg-sky-100 text-sky-800" : "bg-white text-sky-700"
             }`}
           >
@@ -935,7 +933,7 @@ export default function AdisyonCreatePage() {
       </div>
     ) : !draftEmpty ? (
       <div className="flex items-center justify-between gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2">
-        <div className="text-xs font-extrabold text-amber-950">
+        <div className="text-xs font-bold text-amber-950">
           Masa seçin
         </div>
         <div className="text-[11px] font-semibold text-amber-800">
@@ -981,7 +979,7 @@ export default function AdisyonCreatePage() {
                 aria-hidden="true"
               />
               <div className="text-sm font-bold">
-                <span className="font-black">
+                <span className="font-extrabold">
                   SIRA #{lastSavedAdisyon.queueNumber}
                 </span>{" "}
                 kuyruğa eklendi
@@ -1021,17 +1019,13 @@ export default function AdisyonCreatePage() {
         )}
 
         {/* Sipariş Ekranı Alt Sekmeleri: Yeni Adisyon / Bekleyenler / Teslim Edilenler */}
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm">
-          <div className="flex flex-wrap gap-1.5">
+        <div className="mb-4">
+          <div role="group" aria-label="Sipariş görünümü" className="seg flex-wrap">
             <button
               type="button"
               aria-pressed={orderTab === "MENU"}
               onClick={() => setOrderTab("MENU")}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-extrabold transition ${focusRing} ${
-                orderTab === "MENU"
-                  ? "bg-sky-600 text-white shadow-sm"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
+              className="seg-btn"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               <span>Yeni Adisyon Al</span>
@@ -1041,11 +1035,7 @@ export default function AdisyonCreatePage() {
               type="button"
               aria-pressed={orderTab === "BEKLEYEN"}
               onClick={() => setOrderTab("BEKLEYEN")}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-extrabold transition ${focusRing} ${
-                orderTab === "BEKLEYEN"
-                  ? "bg-amber-600 text-white shadow-sm"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
+              className="seg-btn"
             >
               <ClipboardList className="h-4 w-4" aria-hidden="true" />
               <span>Bekleyenler ({activeAdisyons.length})</span>
@@ -1055,26 +1045,19 @@ export default function AdisyonCreatePage() {
               type="button"
               aria-pressed={orderTab === "TESLIM_EDILEN"}
               onClick={() => setOrderTab("TESLIM_EDILEN")}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-extrabold transition ${focusRing} ${
-                orderTab === "TESLIM_EDILEN"
-                  ? "bg-emerald-600 text-white shadow-sm"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
+              className="seg-btn"
             >
               <CheckCheck className="h-4 w-4" aria-hidden="true" />
               <span>Teslim Edilenler ({deliveredAdisyons.length})</span>
             </button>
           </div>
 
-          <span className="hidden sm:inline text-xs font-semibold text-slate-500 px-2">
-            Saat &amp; canlı süre takibi tüm adisyonlarda aktiftir
-          </span>
         </div>
 
         {orderTab === "BEKLEYEN" ? (
           <section className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="fluid-section-title font-extrabold text-slate-900">
+              <h2 className="fluid-section-title font-bold text-slate-900">
                 Bekleyen Adisyonlar ({activeAdisyons.length})
               </h2>
             </div>
@@ -1105,7 +1088,7 @@ export default function AdisyonCreatePage() {
         ) : orderTab === "TESLIM_EDILEN" ? (
           <section className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="fluid-section-title font-extrabold text-slate-900">
+              <h2 className="fluid-section-title font-bold text-slate-900">
                 Teslim Edilen Adisyonlar ({deliveredAdisyons.length})
               </h2>
             </div>
@@ -1160,7 +1143,7 @@ export default function AdisyonCreatePage() {
                       <button
                         type="button"
                         onClick={() => setOrderStep("URUN")}
-                        className={`inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-3.5 py-2 text-xs font-extrabold text-amber-900 hover:bg-amber-100 ${focusRing}`}
+                        className={`inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-3.5 py-2 text-xs font-bold text-amber-900 hover:bg-amber-100 ${focusRing}`}
                       >
                         <span>
                           {selectedTableLabel} ile devam et
@@ -1196,7 +1179,7 @@ export default function AdisyonCreatePage() {
                     role="status"
                     className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-violet-300 bg-violet-50 px-4 py-3"
                   >
-                    <p className="text-sm font-extrabold text-violet-950">
+                    <p className="text-sm font-bold text-violet-950">
                       {pendingMove
                         ? `Masa ${pendingMove.to} dolu (${occupiedCounts[pendingMove.to] ?? 0} açık adisyon). Masa ${pendingMove.from} adisyonları bu masayla birleştirilsin mi?`
                         : `Masa ${moveSource} taşınıyor — hedef masaya dokunun.`}
@@ -1209,7 +1192,7 @@ export default function AdisyonCreatePage() {
                           onClick={() =>
                             void executeMove(pendingMove.from, pendingMove.to)
                           }
-                          className={`rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-violet-700 disabled:opacity-60 ${focusRing}`}
+                          className="btn btn-move"
                         >
                           {moveBusy ? "Taşınıyor…" : "Birleştir ve Taşı"}
                         </button>
@@ -1218,7 +1201,7 @@ export default function AdisyonCreatePage() {
                         type="button"
                         disabled={moveBusy}
                         onClick={cancelMove}
-                        className={`rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-extrabold text-violet-900 hover:bg-violet-100 disabled:opacity-60 ${focusRing}`}
+                        className="btn"
                       >
                         Vazgeç
                       </button>
@@ -1247,7 +1230,7 @@ export default function AdisyonCreatePage() {
                   <div className="flex items-center gap-3 min-w-0">
                     <span
                       aria-hidden="true"
-                      className="inline-flex h-12 min-w-12 items-center justify-center rounded-xl bg-sky-600 px-2 text-lg font-black tabular-nums text-white"
+                      className="inline-flex h-12 min-w-12 items-center justify-center rounded-xl bg-sky-600 px-2 text-lg font-extrabold tabular-nums text-white"
                     >
                       {selectedTable}
                     </span>
@@ -1255,7 +1238,7 @@ export default function AdisyonCreatePage() {
                       <div className="text-[11px] font-bold uppercase tracking-wide text-sky-700">
                         Seçili Masa
                       </div>
-                      <div className="text-lg font-extrabold leading-tight text-sky-950">
+                      <div className="text-lg font-bold leading-tight text-sky-950">
                         {selectedTableLabel}
                       </div>
                       {selectedTableOpenCount > 0 && (
@@ -1271,13 +1254,13 @@ export default function AdisyonCreatePage() {
                     <button
                       type="button"
                       onClick={() => setMobileCartOpen(true)}
-                      className={`hidden md:inline-flex lg:hidden items-center gap-2 rounded-xl bg-sky-600 px-3.5 py-2.5 text-sm font-extrabold text-white shadow-sm hover:bg-sky-700 ${focusRing}`}
+                      className="btn btn-primary hidden md:inline-flex lg:hidden"
                     >
                       <ShoppingBag className="h-4 w-4" aria-hidden="true" />
                       <span>Adisyonu Aç</span>
                       <span
                         key={addFeedback?.id ?? "count"}
-                        className="count-bump inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-white px-1.5 py-0.5 text-xs font-black tabular-nums text-sky-700"
+                        className="count-bump inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tabular-nums text-sky-700"
                       >
                         {totalDraftCount}
                       </span>
@@ -1285,7 +1268,7 @@ export default function AdisyonCreatePage() {
                     <button
                       type="button"
                       onClick={goToTableStep}
-                      className={`inline-flex items-center gap-1.5 rounded-xl border border-sky-300 bg-white px-3.5 py-2.5 text-sm font-extrabold text-sky-800 hover:bg-sky-100 ${focusRing}`}
+                      className="btn btn-outline"
                     >
                       <ArrowLeftRight className="h-4 w-4" aria-hidden="true" />
                       <span>Masayı Değiştir</span>
@@ -1298,10 +1281,10 @@ export default function AdisyonCreatePage() {
                   {/* Left: Search, Categories, Menu Products */}
                   <div className="lg:col-span-8 space-y-4">
                     {/* Search & Categories */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-sm space-y-3">
+                    <div className="surface p-3.5 sm:p-4 space-y-3">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <div>
-                          <h2 className="fluid-section-title font-extrabold text-slate-900">
+                          <h2 className="fluid-section-title font-bold text-slate-900">
                             Show Büfe Ürün Menüsü
                           </h2>
                           <p className="text-xs font-medium text-slate-500">
@@ -1398,7 +1381,7 @@ export default function AdisyonCreatePage() {
                             <button
                               type="button"
                               onClick={clearMenuFilters}
-                              className={`inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-slate-800 ${focusRing}`}
+                              className="btn btn-dark"
                             >
                               <RotateCcw
                                 className="h-4 w-4"
@@ -1431,12 +1414,12 @@ export default function AdisyonCreatePage() {
                                   className="text-left w-full flex-1 flex flex-col justify-between gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-4"
                                 >
                                   <div className="flex items-start justify-between gap-2 w-full">
-                                    <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-extrabold text-slate-600">
+                                    <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">
                                       #{item.productNo}
                                     </span>
 
                                     {inDraftQty > 0 ? (
-                                      <span className="inline-flex items-center rounded-full bg-sky-600 px-2 py-0.5 text-[11px] font-extrabold text-white">
+                                      <span className="inline-flex items-center rounded-full bg-sky-600 px-2 py-0.5 text-[11px] font-bold text-white">
                                         {inDraftQty} seçili
                                       </span>
                                     ) : (
@@ -1446,7 +1429,7 @@ export default function AdisyonCreatePage() {
                                     )}
                                   </div>
 
-                                  <h3 className="text-sm sm:text-[15px] font-extrabold text-slate-900 leading-snug group-hover:text-sky-700">
+                                  <h3 className="text-sm sm:text-[15px] font-bold text-slate-900 leading-snug group-hover:text-sky-700">
                                     {item.name}
                                   </h3>
 
@@ -1472,7 +1455,7 @@ export default function AdisyonCreatePage() {
                                   <button
                                     type="button"
                                     onClick={() => setActiveMenuItem(item)}
-                                    className={`flex-1 inline-flex items-center justify-center gap-1 rounded-xl bg-slate-100 px-2.5 py-2 text-xs font-bold text-slate-700 hover:bg-sky-50 hover:text-sky-800 ${focusRing}`}
+                                    className="btn btn-sm flex-1"
                                   >
                                     {hasVariations ? (
                                       <>
@@ -1499,7 +1482,7 @@ export default function AdisyonCreatePage() {
                                         })
                                       }
                                       aria-label={`${item.name} hızlı ekle`}
-                                      className={`inline-flex items-center justify-center gap-1 rounded-xl bg-sky-600 px-3 py-2 text-xs font-extrabold text-white hover:bg-sky-700 active:scale-95 motion-reduce:active:scale-100 ${focusRing}`}
+                                      className="btn btn-sm btn-primary"
                                     >
                                       <Plus
                                         className="h-3.5 w-3.5"
@@ -1518,7 +1501,7 @@ export default function AdisyonCreatePage() {
                   </div>
 
                   {/* Right: Desktop Sticky Adisyon Builder */}
-                  <aside className="hidden lg:block lg:col-span-4 lg:sticky lg:top-20 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                  <aside className="surface hidden lg:block lg:col-span-4 lg:sticky lg:top-20 p-4">
                     {renderAdisyonPanel(false)}
                   </aside>
                 </div>
@@ -1545,7 +1528,7 @@ export default function AdisyonCreatePage() {
         <div className="flex items-center justify-between gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3">
           <h2
             id={mobileCartTitleId}
-            className="min-w-0 text-base font-extrabold text-slate-900"
+            className="min-w-0 text-base font-bold text-slate-900"
           >
             {selectedTableLabel ? `${selectedTableLabel} — ` : ""}Adisyon (
             {totalDraftCount} Ürün)
@@ -1615,7 +1598,7 @@ function StepIndicator({ currentIndex }: { currentIndex: number }) {
               className="flex flex-1 items-center gap-1.5 sm:gap-2 min-w-0"
             >
               <span
-                className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${
+                className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-extrabold ${
                   done
                     ? "bg-emerald-600 text-white"
                     : current
@@ -1630,7 +1613,7 @@ function StepIndicator({ currentIndex }: { currentIndex: number }) {
                 )}
               </span>
               <span
-                className={`truncate text-xs sm:text-sm font-extrabold ${
+                className={`truncate text-xs sm:text-sm font-bold ${
                   current
                     ? "text-slate-900"
                     : done

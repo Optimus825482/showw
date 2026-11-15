@@ -3,7 +3,7 @@
 :root {
   color-scheme: light;
   --target-size: 24px;
-  --bg-canvas: #f8fafc;
+  --bg-canvas: #eef2f6;
   --bg-surface: #ffffff;
   --text-primary: #0f172a;
   --text-secondary: #475569;
@@ -90,6 +90,273 @@ dialog::backdrop {
   overscroll-behavior: contain;
   background-color: rgba(15, 23, 42, 0.45);
   backdrop-filter: blur(2px);
+}
+
+/* ------------------------------------------------------------------
+   Ortak arayüz sistemi: düğmeler, segment çubuğu, yüzeyler, masa tuşu.
+   Tek kaynak burası; ekranlar renk/boy tekrar etmez, sınıf adı kullanır.
+   Tailwind yardımcı sınıfları (ör. hidden, flex-1) bunların üstüne yazabilir.
+   ------------------------------------------------------------------ */
+@layer components {
+  /* Düğme: dokununca alt kenarı ezilen, fiziksel tuş hissi veren yapı */
+  .btn {
+    --btn-bg: #ffffff;
+    --btn-fg: #1e293b;
+    --btn-border: #cbd5e1;
+    --btn-edge: #cbd5e1;
+    --btn-hover: #f1f5f9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-block-size: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--btn-border);
+    border-radius: 0.75rem;
+    background-color: var(--btn-bg);
+    color: var(--btn-fg);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      0 2px 0 var(--btn-edge),
+      0 6px 12px -8px rgb(15 23 42 / 0.35);
+    transition:
+      background-color 0.12s ease,
+      box-shadow 0.06s ease,
+      transform 0.06s ease;
+  }
+
+  .btn:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 2px rgb(15 23 42 / 0.18);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+  }
+
+  .btn:disabled {
+    --btn-bg: #e9eef4;
+    --btn-fg: #94a3b8;
+    --btn-border: #e2e8f0;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* Hiyerarşi */
+  .btn-primary {
+    --btn-bg: #0369a1;
+    --btn-fg: #ffffff;
+    --btn-border: #075985;
+    --btn-edge: #0c4a6e;
+    --btn-hover: #075985;
+  }
+
+  .btn-outline {
+    --btn-fg: #075985;
+    --btn-border: #7dd3fc;
+    --btn-edge: #bae6fd;
+    --btn-hover: #f0f9ff;
+  }
+
+  .btn-success {
+    --btn-bg: #059669;
+    --btn-fg: #ffffff;
+    --btn-border: #047857;
+    --btn-edge: #065f46;
+    --btn-hover: #047857;
+  }
+
+  .btn-dark {
+    --btn-bg: #1e293b;
+    --btn-fg: #ffffff;
+    --btn-border: #0f172a;
+    --btn-edge: #020617;
+    --btn-hover: #0f172a;
+  }
+
+  .btn-move {
+    --btn-bg: #7c3aed;
+    --btn-fg: #ffffff;
+    --btn-border: #6d28d9;
+    --btn-edge: #5b21b6;
+    --btn-hover: #6d28d9;
+  }
+
+  .btn-danger {
+    --btn-fg: #be123c;
+    --btn-border: #fecdd3;
+    --btn-edge: #fecdd3;
+    --btn-hover: #fff1f2;
+  }
+
+  /* Ürün durumu tuşları (Bekliyor / Ocakta / Hazır / Teslim) */
+  .btn[data-tone="waiting"] {
+    --btn-bg: #fbbf24;
+    --btn-fg: #451a03;
+    --btn-border: #f59e0b;
+    --btn-edge: #d97706;
+    --btn-hover: #f59e0b;
+  }
+
+  .btn[data-tone="cooking"] {
+    --btn-bg: #0369a1;
+    --btn-fg: #ffffff;
+    --btn-border: #075985;
+    --btn-edge: #0c4a6e;
+    --btn-hover: #075985;
+  }
+
+  .btn[data-tone="ready"] {
+    --btn-bg: #059669;
+    --btn-fg: #ffffff;
+    --btn-border: #047857;
+    --btn-edge: #065f46;
+    --btn-hover: #047857;
+  }
+
+  .btn[data-tone="served"] {
+    --btn-bg: #334155;
+    --btn-fg: #ffffff;
+    --btn-border: #1e293b;
+    --btn-edge: #0f172a;
+    --btn-hover: #1e293b;
+  }
+
+  /* Boyutlar */
+  .btn-sm {
+    min-block-size: 2.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.625rem;
+    font-size: 0.8125rem;
+    gap: 0.375rem;
+  }
+
+  .btn-lg {
+    min-block-size: 3.25rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.875rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn-icon {
+    inline-size: 2.75rem;
+    padding: 0;
+  }
+
+  .btn-block {
+    inline-size: 100%;
+  }
+
+  /* Segment çubuğu: aynı yerin farklı görünümleri arasında geçiş */
+  .seg {
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 0.875rem;
+    background-color: #e3e9f0;
+    box-shadow: inset 0 1px 2px rgb(15 23 42 / 0.1);
+  }
+
+  .seg-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-block-size: 2.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.625rem;
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color 0.12s ease,
+      color 0.12s ease;
+  }
+
+  .seg-btn:hover {
+    color: #0f172a;
+    background-color: rgb(255 255 255 / 0.55);
+  }
+
+  .seg-btn:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+  }
+
+  .seg-btn[aria-pressed="true"] {
+    background-color: #ffffff;
+    color: #075985;
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 0.14),
+      0 0 0 1px rgb(15 23 42 / 0.05);
+  }
+
+  /* Kart / panel yüzeyi */
+  .surface {
+    background-color: #ffffff;
+    border: 1px solid #dfe5ec;
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 0.05),
+      0 12px 24px -20px rgb(15 23 42 / 0.3);
+  }
+
+  /* Masa tuşu */
+  .table-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.625rem 0.5rem;
+    border-width: 2px;
+    border-radius: 1rem;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow:
+      0 2px 0 rgb(15 23 42 / 0.12),
+      0 8px 14px -12px rgb(15 23 42 / 0.4);
+    transition:
+      background-color 0.12s ease,
+      border-color 0.12s ease,
+      box-shadow 0.06s ease,
+      transform 0.06s ease;
+  }
+
+  .table-tile:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 2px rgb(15 23 42 / 0.15);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .table-tile {
+      transition: none;
+    }
+
+    .btn:active:not(:disabled),
+    .table-tile:active {
+      transform: none;
+    }
+  }
 }
 
 /* Container-driven product grid */
