@@ -27,9 +27,18 @@ interface SessionPayload extends AuthUser {
   exp: number;
 }
 
+export function normalizeRole(raw: unknown): UserRole {
+  const upper = String(raw ?? "").trim().toUpperCase();
+  if (upper === "ADMIN" || upper === "MUTFAK" || upper === "SIPARIS") {
+    return upper;
+  }
+  return "SIPARIS";
+}
+
 export function createSessionToken(user: AuthUser): string {
   const payload: SessionPayload = {
     ...user,
+    role: normalizeRole(user.role),
     exp: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 gün
   };
   const encoded = Buffer.from(JSON.stringify(payload), "utf-8").toString(
@@ -75,7 +84,7 @@ export function parseSessionToken(token: string | undefined): AuthUser | null {
     return {
       username: parsed.username,
       displayName: parsed.displayName,
-      role: parsed.role,
+      role: normalizeRole(parsed.role),
     };
   } catch {
     return null;
@@ -89,7 +98,8 @@ export async function getSessionUser(): Promise<AuthUser | null> {
 }
 
 export function getDefaultRouteForRole(role: UserRole): string {
-  if (role === "ADMIN") return "/admin";
-  if (role === "MUTFAK") return "/mutfak";
+  const normalized = normalizeRole(role);
+  if (normalized === "ADMIN") return "/admin";
+  if (normalized === "MUTFAK") return "/mutfak";
   return "/";
 }

@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { Pool, type PoolConfig } from "pg";
-import { hashPassword, verifyPassword } from "@/lib/auth";
+import { hashPassword, normalizeRole, verifyPassword } from "@/lib/auth";
 import { MENU_ITEMS } from "@/lib/menu-data";
 import { detectSystemPrinters } from "@/lib/printer-detector";
 import type {
@@ -250,7 +250,7 @@ async function ensureSchemaAndSeed(pool: Pool): Promise<void> {
       `
       INSERT INTO users (username, password_hash, display_name, role)
       VALUES ${userPlaceholders.join(", ")}
-      ON CONFLICT (username) DO NOTHING
+      ON CONFLICT (username) DO UPDATE SET role = EXCLUDED.role
       `,
       userValues
     );
@@ -914,7 +914,7 @@ export async function verifyUserCredentials(
       user: {
         username: matched.username,
         displayName: matched.displayName,
-        role: matched.role,
+        role: normalizeRole(matched.role),
       },
       dbMode: "fallback",
     };
@@ -942,7 +942,7 @@ export async function verifyUserCredentials(
     user: {
       username: row.username,
       displayName: row.display_name,
-      role: row.role as UserRole,
+      role: normalizeRole(row.role),
     },
     dbMode: "postgres",
   };

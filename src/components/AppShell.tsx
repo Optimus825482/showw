@@ -150,8 +150,16 @@ export function AppShell({
     router.refresh();
   };
 
+  const normalizedRoleKey = String(user?.role ?? "")
+    .trim()
+    .toUpperCase();
+  const normalizedRole: UserRole =
+    normalizedRoleKey in ROLE_LABELS
+      ? (normalizedRoleKey as UserRole)
+      : "SIPARIS";
+
   const visibleNavItems = ALL_NAV_ITEMS.filter((item) =>
-    user ? item.roles.includes(user.role) : item.roles.includes("SIPARIS")
+    user ? item.roles.includes(normalizedRole) : item.roles.includes("SIPARIS")
   );
 
   if (authLoading || !user) {
@@ -164,7 +172,7 @@ export function AppShell({
     );
   }
 
-  const roleMeta = ROLE_LABELS[user.role];
+  const roleMeta = ROLE_LABELS[normalizedRole] ?? ROLE_LABELS.SIPARIS;
 
   return (
     <div className="no-print min-h-dvh flex flex-col bg-slate-50 text-slate-900">

@@ -9,9 +9,9 @@ const MAX_RETRIES = 30;
 const RETRY_DELAY_MS = 2000;
 
 const DEFAULT_USERS = [
-  { username: "admin", displayName: "Sistem Yöneticisi (Admin)", role: "admin" },
-  { username: "siparis", displayName: "Sipariş Ekranı", role: "siparis" },
-  { username: "mutfak", displayName: "Mutfak Ekibi (KDS)", role: "mutfak" },
+  { username: "admin", displayName: "Sistem Yöneticisi (Admin)", role: "ADMIN" },
+  { username: "siparis", displayName: "Sipariş Ekranı", role: "SIPARIS" },
+  { username: "mutfak", displayName: "Mutfak Ekibi (KDS)", role: "MUTFAK" },
 ];
 
 function loadLocalEnvIfNeeded() {
@@ -180,9 +180,14 @@ async function main() {
       `
       INSERT INTO users (username, password_hash, display_name, role)
       VALUES ${placeholders.join(", ")}
-      ON CONFLICT (username) DO NOTHING
+      ON CONFLICT (username) DO UPDATE SET
+        role = EXCLUDED.role,
+        display_name = EXCLUDED.display_name
       `,
       values
+    );
+    await client.query(
+      "UPDATE users SET role = UPPER(role) WHERE role <> UPPER(role)"
     );
     console.log("[init-db] Varsayılan kullanıcılar (admin, siparis, mutfak) doğrulandı.");
   } finally {
