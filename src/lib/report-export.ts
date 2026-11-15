@@ -6,6 +6,7 @@ import {
   formatLiveDuration,
 } from "@/lib/formatters";
 import { formatVariationKey } from "@/lib/grouping";
+import { formatTableLabel } from "@/lib/tables";
 import type { Adisyon, AdisyonStatus, ItemStatus } from "@/types/adisyon";
 
 export type ReportTimePreset =
@@ -95,6 +96,8 @@ export interface ProductReportRow {
 export interface AdisyonReportRow {
   id: number;
   queueNumber: number;
+  tableNumber: string;
+  tableLabel: string;
   roomNumber: string;
   guestName: string;
   guestHeader: string;
@@ -372,6 +375,7 @@ export function buildSmartReportData(
       (exactQueueQuery
         ? String(adisyon.queueNumber) === exactQueueQuery
         : String(adisyon.queueNumber).includes(q) ||
+          (adisyon.tableNumber ?? "").includes(q) ||
           adisyon.roomNumber.toLocaleLowerCase("tr").includes(q) ||
           adisyon.guestName.toLocaleLowerCase("tr").includes(q) ||
           adisyon.note.toLocaleLowerCase("tr").includes(q));
@@ -439,6 +443,8 @@ export function buildSmartReportData(
     adisyonRows.push({
       id: adisyon.id,
       queueNumber: adisyon.queueNumber,
+      tableNumber: adisyon.tableNumber ?? "",
+      tableLabel: formatTableLabel(adisyon.tableNumber ?? ""),
       roomNumber: adisyon.roomNumber,
       guestName: adisyon.guestName,
       guestHeader,
@@ -1025,6 +1031,7 @@ export function downloadSmartReportXlsx(
       subtitle,
       headers: [
         "Sıra No",
+        "Masa",
         "Oda No",
         "Misafir Adı",
         "Durum",
@@ -1037,6 +1044,7 @@ export function downloadSmartReportXlsx(
       ],
       rows: report.adisyonRows.map((a) => [
         `#${a.queueNumber}`,
+        a.tableLabel || "-",
         a.roomNumber || "-",
         a.guestName || "-",
         a.statusLabel,

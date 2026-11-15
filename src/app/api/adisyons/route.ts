@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdisyon, getPrinterStatus, listAdisyons } from "@/lib/db";
 import { buildGroupedBatches } from "@/lib/grouping";
+import { isValidTableNumber } from "@/lib/tables";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as {
       roomNumber?: string;
+      tableNumber?: string;
       guestName?: string;
       note?: string;
       markPrinted?: boolean;
@@ -47,14 +49,12 @@ export async function POST(req: NextRequest) {
     };
 
     const roomNumber = (body.roomNumber ?? "").trim();
+    const tableNumber = (body.tableNumber ?? "").trim();
     const guestName = (body.guestName ?? "").trim();
 
-    if (!roomNumber && !guestName) {
+    if (!isValidTableNumber(tableNumber)) {
       return NextResponse.json(
-        {
-          error:
-            "Adisyon başlatmak için Oda Numarası veya Misafir Adı alanlarından en az birini giriniz.",
-        },
+        { error: "Lütfen geçerli bir masa seçiniz (101–133)." },
         { status: 400 }
       );
     }
@@ -87,6 +87,7 @@ export async function POST(req: NextRequest) {
 
     const result = await createAdisyon({
       roomNumber,
+      tableNumber,
       guestName,
       note: body.note ?? "",
       markPrinted: Boolean(body.markPrinted),

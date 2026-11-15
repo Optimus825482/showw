@@ -208,10 +208,16 @@ export function KitchenGroupedBoard({
                           }`}
                         >
                           <span>#{ord.queueNumber}</span>
-                          {ord.roomNumber && (
-                            <span className="text-slate-500">
-                              (Oda {ord.roomNumber})
+                          {ord.tableNumber ? (
+                            <span className="font-extrabold text-slate-900">
+                              Masa {ord.tableNumber}
                             </span>
+                          ) : (
+                            ord.roomNumber && (
+                              <span className="text-slate-500">
+                                (Oda {ord.roomNumber})
+                              </span>
+                            )
                           )}
                           {ord.quantity > 1 && <span>×{ord.quantity}</span>}
                           {ord.itemNote && (

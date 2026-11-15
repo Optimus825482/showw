@@ -1,5 +1,6 @@
 "use client";
 
+import { formatTableLabel } from "@/lib/tables";
 import {
   Check,
   CheckCheck,
@@ -102,13 +103,30 @@ export function AdisyonCard({
               )}
             </div>
 
-            <div className="mt-2 flex items-center gap-1.5 text-base font-extrabold text-slate-900">
-              <User
-                className="h-4 w-4 shrink-0 text-sky-600"
-                aria-hidden="true"
-              />
-              <span className="truncate">{formatGuestHeader(adisyon)}</span>
-            </div>
+            {adisyon.tableNumber && (
+              <div className="mt-2 text-2xl font-black leading-tight text-sky-800">
+                {formatTableLabel(adisyon.tableNumber)}
+              </div>
+            )}
+            {(adisyon.roomNumber || adisyon.guestName || !adisyon.tableNumber) && (
+              <div
+                className={`flex items-center gap-1.5 font-extrabold text-slate-900 ${
+                  adisyon.tableNumber ? "mt-1 text-sm" : "mt-2 text-base"
+                }`}
+              >
+                <User
+                  className="h-4 w-4 shrink-0 text-sky-600"
+                  aria-hidden="true"
+                />
+                <span className="truncate">
+                  {formatGuestHeader({
+                    tableNumber: "",
+                    roomNumber: adisyon.roomNumber,
+                    guestName: adisyon.guestName,
+                  })}
+                </span>
+              </div>
+            )}
           </div>
 
           <span className="shrink-0 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700">

@@ -1,4 +1,5 @@
 import type { Adisyon, AdisyonStatus, ItemStatus } from "@/types/adisyon";
+import { formatTableLabel } from "@/lib/tables";
 
 export const ADISYON_STATUS_META: Record<
   AdisyonStatus,
@@ -142,9 +143,11 @@ export function formatElapsedMinutes(isoString: string, nowMs: number): string {
 }
 
 export function formatGuestHeader(
-  adisyon: Pick<Adisyon, "roomNumber" | "guestName">
+  adisyon: Pick<Adisyon, "tableNumber" | "roomNumber" | "guestName">
 ): string {
   const parts: string[] = [];
+  const tableLabel = formatTableLabel(adisyon.tableNumber ?? "");
+  if (tableLabel) parts.push(tableLabel);
   if (adisyon.roomNumber) parts.push(`Oda ${adisyon.roomNumber}`);
   if (adisyon.guestName) parts.push(adisyon.guestName);
   return parts.join(" • ") || "Misafir";

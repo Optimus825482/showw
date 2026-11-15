@@ -153,6 +153,26 @@ export function useAdisyonStream(pollIntervalMs = 2500) {
     [refresh]
   );
 
+  const moveTable = useCallback(
+    async (fromTable: string, toTable: string): Promise<number> => {
+      const res = await fetch("/api/adisyons/move-table", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fromTable, toTable }),
+      });
+      const body = (await res.json().catch(() => ({}))) as {
+        movedCount?: number;
+        error?: string;
+      };
+      if (!res.ok) {
+        throw new Error(body.error || "Masa taşınamadı.");
+      }
+      await refresh();
+      return body.movedCount ?? 0;
+    },
+    [refresh]
+  );
+
   const markPrinted = useCallback(
     async (adisyonId: number) => {
       await fetch(`/api/adisyons/${adisyonId}`, {
@@ -200,6 +220,7 @@ export function useAdisyonStream(pollIntervalMs = 2500) {
     updateAdisyonStatus,
     updateItemStatus,
     batchUpdateItems,
+    moveTable,
     markPrinted,
     updatePrinterConfig,
   };

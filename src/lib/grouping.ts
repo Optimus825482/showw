@@ -96,6 +96,7 @@ export function buildGroupedBatches(
         adisyonId: adisyon.id,
         queueNumber: adisyon.queueNumber,
         roomNumber: adisyon.roomNumber,
+        tableNumber: adisyon.tableNumber,
         guestName: adisyon.guestName,
         itemId: item.id,
         quantity: item.quantity,

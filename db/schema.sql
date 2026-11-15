@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS adisyons (
   id SERIAL PRIMARY KEY,
   queue_number INTEGER NOT NULL,
   room_number TEXT NOT NULL DEFAULT '',
+  table_number TEXT NOT NULL DEFAULT '',
   guest_name TEXT NOT NULL DEFAULT '',
   note TEXT NOT NULL DEFAULT '',
   status TEXT NOT NULL DEFAULT 'BEKLIYOR',
@@ -22,6 +23,8 @@ CREATE TABLE IF NOT EXISTS adisyons (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   completed_at TIMESTAMPTZ
 );
+
+ALTER TABLE adisyons ADD COLUMN IF NOT EXISTS table_number TEXT NOT NULL DEFAULT '';
 
 CREATE INDEX IF NOT EXISTS idx_adisyons_status_queue
   ON adisyons (status, queue_number ASC);

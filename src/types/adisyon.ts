@@ -56,6 +56,8 @@ export interface AdisyonItem {
 export interface Adisyon {
   id: number;
   queueNumber: number;
+  /** Masa numarası ("101"–"133"); masa özelliğinden önceki eski kayıtlarda "" */
+  tableNumber: string;
   roomNumber: string;
   guestName: string;
   note: string;
@@ -78,6 +80,7 @@ export interface GroupedVariationBreakdown {
   orders: Array<{
     adisyonId: number;
     queueNumber: number;
+    tableNumber: string;
     roomNumber: string;
     guestName: string;
     itemId: number;

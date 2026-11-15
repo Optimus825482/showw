@@ -19,6 +19,7 @@ import type {
 
 export interface CreateAdisyonInput {
   roomNumber: string;
+  tableNumber: string;
   guestName: string;
   note?: string;
   markPrinted?: boolean;
@@ -85,9 +86,16 @@ function buildDefaultStoredUsers(): StoredUser[] {
 
 const LOCAL_DB_PATH = path.join(process.cwd(), "data", "local-db.json");
 
+/**
+ * Şema her değiştiğinde artırın. globalThis üzerindeki hazır bayrağı HMR'da
+ * hayatta kaldığı için, sürüm değişince ensureSchemaAndSeed yeniden çalışır.
+ */
+const SCHEMA_VERSION = 2;
+
 const globalForDb = globalThis as unknown as {
   __pgPool?: Pool;
   __pgReady?: boolean;
+  __pgSchemaVersion?: number;
   __pgLastError?: string;
   __pgRetryAfter?: number;
 };
@@ -176,6 +184,7 @@ async function ensureSchemaAndSeed(pool: Pool): Promise<void> {
       id SERIAL PRIMARY KEY,
       queue_number INTEGER NOT NULL,
       room_number TEXT NOT NULL DEFAULT '',
+      table_number TEXT NOT NULL DEFAULT '',
       guest_name TEXT NOT NULL DEFAULT '',
       note TEXT NOT NULL DEFAULT '',
       status TEXT NOT NULL DEFAULT 'BEKLIYOR',
@@ -184,6 +193,8 @@ async function ensureSchemaAndSeed(pool: Pool): Promise<void> {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       completed_at TIMESTAMPTZ
     );
+
+    ALTER TABLE adisyons ADD COLUMN IF NOT EXISTS table_number TEXT NOT NULL DEFAULT '';
 
     CREATE INDEX IF NOT EXISTS idx_adisyons_status_queue
       ON adisyons (status, queue_number ASC);
@@ -306,7 +317,11 @@ export async function ensureDbInitialized(): Promise<{
 }
 
 async function getPgPool(): Promise<{ pool: Pool | null; notice?: string }> {
-  if (globalForDb.__pgReady && globalForDb.__pgPool) {
+  if (
+    globalForDb.__pgReady &&
+    globalForDb.__pgPool &&
+    globalForDb.__pgSchemaVersion === SCHEMA_VERSION
+  ) {
     return { pool: globalForDb.__pgPool };
   }
 
@@ -335,6 +350,7 @@ async function getPgPool(): Promise<{ pool: Pool | null; notice?: string }> {
 
     await ensureSchemaAndSeed(globalForDb.__pgPool);
     globalForDb.__pgReady = true;
+    globalForDb.__pgSchemaVersion = SCHEMA_VERSION;
     globalForDb.__pgLastError = undefined;
     globalForDb.__pgRetryAfter = undefined;
     return { pool: globalForDb.__pgPool };
@@ -356,6 +372,10 @@ async function readLocalDb(): Promise<LocalDbStore> {
   try {
     const raw = await fs.readFile(LOCAL_DB_PATH, "utf-8");
     const parsed = JSON.parse(raw) as LocalDbStore;
+    parsed.adisyons = (parsed.adisyons ?? []).map((a) => ({
+      ...a,
+      tableNumber: a.tableNumber ?? "",
+    }));
     if (!parsed.users || parsed.users.length === 0) {
       parsed.users = buildDefaultStoredUsers();
       await writeLocalDb(parsed);
@@ -427,6 +447,7 @@ function mapPgRowsToAdisyons(
       id,
       queueNumber: Number(row.queue_number),
       roomNumber: String(row.room_number ?? ""),
+      tableNumber: String(row.table_number ?? ""),
       guestName: String(row.guest_name ?? ""),
       note: String(row.note ?? ""),
       status: String(row.status) as AdisyonStatus,
@@ -528,7 +549,8 @@ export async function createAdisyon(input: CreateAdisyonInput): Promise<{
   dbNotice?: string;
 }> {
   const { pool, notice } = await getPgPool();
-  const roomNumber = input.roomNumber.trim();
+  const roomNumber = (input.roomNumber ?? "").trim();
+  const tableNumber = (input.tableNumber ?? "").trim();
   const guestName = input.guestName.trim();
   const note = (input.note ?? "").trim();
 
@@ -565,6 +587,7 @@ export async function createAdisyon(input: CreateAdisyonInput): Promise<{
       id: adisyonId,
       queueNumber: todayMaxQueue + 1,
       roomNumber,
+      tableNumber,
       guestName,
       note,
       status: "BEKLIYOR",
@@ -593,12 +616,13 @@ export async function createAdisyon(input: CreateAdisyonInput): Promise<{
     const queueNumber = Number(queueRes.rows[0]?.next_queue ?? 1);
 
     const adisyonRes = await client.query(
-      `INSERT INTO adisyons (queue_number, room_number, guest_name, note, status, printed_at)
-       VALUES ($1, $2, $3, $4, 'BEKLIYOR', $5)
+      `INSERT INTO adisyons (queue_number, room_number, table_number, guest_name, note, status, printed_at)
+       VALUES ($1, $2, $3, $4, $5, 'BEKLIYOR', $6)
        RETURNING *`,
       [
         queueNumber,
         roomNumber,
+        tableNumber,
         guestName,
         note,
         input.markPrinted ? new Date().toISOString() : null,
@@ -893,6 +917,44 @@ export async function batchUpdateItemStatuses(
   } finally {
     client.release();
   }
+}
+
+/**
+ * Bir masadaki tüm açık (teslim edilmemiş / iptal olmayan) adisyonları
+ * başka bir masaya taşır. Hedef masa doluysa adisyonlar o masada birleşir.
+ */
+export async function moveTableAdisyons(
+  fromTable: string,
+  toTable: string
+): Promise<{ movedCount: number; dbMode: DbMode; dbNotice?: string }> {
+  const { pool, notice } = await getPgPool();
+
+  if (!pool) {
+    const store = await readLocalDb();
+    const now = new Date().toISOString();
+    let movedCount = 0;
+    for (const adisyon of store.adisyons) {
+      if (
+        adisyon.tableNumber === fromTable &&
+        adisyon.status !== "TESLIM_EDILDI" &&
+        adisyon.status !== "IPTAL"
+      ) {
+        adisyon.tableNumber = toTable;
+        adisyon.updatedAt = now;
+        movedCount += 1;
+      }
+    }
+    if (movedCount > 0) await writeLocalDb(store);
+    return { movedCount, dbMode: "fallback", dbNotice: notice };
+  }
+
+  const res = await pool.query(
+    `UPDATE adisyons
+     SET table_number = $2, updated_at = NOW()
+     WHERE table_number = $1 AND status NOT IN ('TESLIM_EDILDI', 'IPTAL')`,
+    [fromTable, toTable]
+  );
+  return { movedCount: res.rowCount ?? 0, dbMode: "postgres" };
 }
 
 export async function verifyUserCredentials(

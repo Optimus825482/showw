@@ -64,6 +64,7 @@ export default function BekleyenlerPage() {
       if (!q) return true;
       const inHeader =
         String(a.queueNumber).includes(q) ||
+        (a.tableNumber ?? "").includes(q) ||
         a.roomNumber.toLocaleLowerCase("tr").includes(q) ||
         a.guestName.toLocaleLowerCase("tr").includes(q);
       const inItems = a.items.some((i) =>

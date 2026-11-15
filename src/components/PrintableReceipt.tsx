@@ -1,6 +1,7 @@
 "use client";
 
 import { formatDateTime } from "@/lib/formatters";
+import { formatTableLabel } from "@/lib/tables";
 import type { Adisyon } from "@/types/adisyon";
 
 interface PrintableReceiptProps {
@@ -50,6 +51,11 @@ export function PrintableReceipt({ adisyon }: PrintableReceiptProps) {
           marginBottom: "8px",
         }}
       >
+        {adisyon.tableNumber && (
+          <div style={{ fontSize: "18px", fontWeight: 900, marginBottom: "4px" }}>
+            {formatTableLabel(adisyon.tableNumber).toLocaleUpperCase("tr")}
+          </div>
+        )}
         {adisyon.roomNumber && (
           <div>
             <strong>ODA NO:</strong> {adisyon.roomNumber}

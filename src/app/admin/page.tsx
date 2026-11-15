@@ -1063,6 +1063,7 @@ export default function AdminPage() {
       if (!q) return true;
       return (
         String(a.queueNumber).includes(q) ||
+        (a.tableNumber ?? "").includes(q) ||
         a.roomNumber.toLocaleLowerCase("tr").includes(q) ||
         a.guestName.toLocaleLowerCase("tr").includes(q) ||
         a.items.some((it) => it.productName.toLocaleLowerCase("tr").includes(q))
@@ -1078,7 +1079,8 @@ export default function AdminPage() {
         if (!q) return true;
         return (
           String(a.queueNumber).includes(q) ||
-          a.roomNumber.toLocaleLowerCase("tr").includes(q) ||
+          (a.tableNumber ?? "").includes(q) ||
+        a.roomNumber.toLocaleLowerCase("tr").includes(q) ||
           a.guestName.toLocaleLowerCase("tr").includes(q)
         );
       })
