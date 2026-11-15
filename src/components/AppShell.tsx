@@ -14,11 +14,14 @@ import {
   PlusCircle,
   Printer,
   RefreshCw,
+  TriangleAlert,
   UserCheck,
+  X,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { PrinterSettingsDialog } from "@/components/PrinterSettingsDialog";
 import { PwaInstallBanner } from "@/components/PwaInstallBanner";
+import { ACTION_ERROR_EVENT } from "@/hooks/useAdisyonStream";
 import type {
   AuthUser,
   DbMode,
@@ -107,6 +110,23 @@ export function AppShell({
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [printerDialogOpen, setPrinterDialogOpen] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  // Başarısız durum değişikliklerini her ekranda aynı yerde göster
+  useEffect(() => {
+    const onActionError = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      setActionError(detail || "İşlem tamamlanamadı.");
+    };
+    window.addEventListener(ACTION_ERROR_EVENT, onActionError);
+    return () => window.removeEventListener(ACTION_ERROR_EVENT, onActionError);
+  }, []);
+
+  useEffect(() => {
+    if (!actionError) return;
+    const t = window.setTimeout(() => setActionError(null), 8000);
+    return () => window.clearTimeout(t);
+  }, [actionError]);
 
   useEffect(() => {
     let cancelled = false;
@@ -336,6 +356,29 @@ export function AppShell({
       <main className="flex-1 mx-auto w-full max-w-[1440px] px-3 sm:px-6 py-4 pb-28 md:pb-8">
         {children}
       </main>
+
+      {actionError && (
+        <div
+          role="alert"
+          className="fixed inset-x-3 bottom-24 md:bottom-6 z-40 mx-auto flex max-w-xl items-center justify-between gap-3 rounded-2xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-900 shadow-lg"
+        >
+          <span className="inline-flex items-center gap-2 min-w-0">
+            <TriangleAlert
+              className="h-5 w-5 shrink-0 text-rose-600"
+              aria-hidden="true"
+            />
+            <span>{actionError}</span>
+          </span>
+          <button
+            type="button"
+            onClick={() => setActionError(null)}
+            aria-label="Hata bildirimini kapat"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl hover:bg-rose-100"
+          >
+            <X className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
+      )}
 
       {/* Mobile Bottom Navigation */}
       <div className="md:hidden fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(15,23,42,0.06)] safe-bottom-bar pt-1.5">

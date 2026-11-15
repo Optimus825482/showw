@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { deriveAdisyonStatusFromItems } from "@/lib/status";
 import type {
   Adisyon,
   AdisyonStatus,
@@ -10,6 +11,9 @@ import type {
   ItemStatus,
   PrinterConfig,
 } from "@/types/adisyon";
+
+/** Başarısız bir durum değişikliğinde yayınlanan pencere olayı */
+export const ACTION_ERROR_EVENT = "adisyon-action-error";
 
 const DEFAULT_PRINTER_CONFIG: PrinterConfig = {
   enabled: false,
@@ -31,17 +35,31 @@ export function useAdisyonStream(pollIntervalMs = 2500) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [nowMs, setNowMs] = useState<number>(0);
+  const [actionError, setActionError] = useState<string | null>(null);
   const inFlightRef = useRef(false);
+  const queuedRef = useRef(false);
+  // Her durum değişikliğinde artar; değişiklik sırasında yola çıkmış eski bir
+  // sorgunun cevabı, ekrandaki anlık (iyimser) durumu ezmesin diye kullanılır.
+  const mutationSeqRef = useRef(0);
 
-  const refresh = useCallback(async () => {
-    if (inFlightRef.current) return;
+  const refresh = useCallback(async function run(): Promise<void> {
+    if (inFlightRef.current) {
+      queuedRef.current = true;
+      return;
+    }
     inFlightRef.current = true;
+    const seqAtStart = mutationSeqRef.current;
     try {
       const res = await fetch("/api/adisyons", { cache: "no-store" });
       if (!res.ok) {
         throw new Error("Adisyon verisi alınamadı.");
       }
       const data = (await res.json()) as AdisyonsApiResponse;
+      if (seqAtStart !== mutationSeqRef.current) {
+        // Bu cevap bir değişiklikten önce istenmişti; bayat, yeniden sor.
+        queuedRef.current = true;
+        return;
+      }
       setAdisyons(data.adisyons);
       setGroupedBatches(data.groupedBatches);
       if (data.printerConfig) {
@@ -57,8 +75,89 @@ export function useAdisyonStream(pollIntervalMs = 2500) {
     } finally {
       inFlightRef.current = false;
       setLoading(false);
+      if (queuedRef.current) {
+        queuedRef.current = false;
+        void run();
+      }
     }
   }, []);
+
+  /** Kalem durumlarını beklemeden ekrana yansıtır (sunucu cevabı sonra doğrular). */
+  const applyItemStatusLocally = useCallback(
+    (itemIds: number[], status: ItemStatus, allowDelivered: boolean) => {
+      const idSet = new Set(itemIds);
+      const now = new Date().toISOString();
+      setAdisyons((prev) =>
+        prev.map((adisyon) => {
+          if (adisyon.status === "IPTAL") return adisyon;
+          let touched = false;
+          const items = adisyon.items.map((item) => {
+            if (
+              !idSet.has(item.id) ||
+              item.status === status ||
+              (!allowDelivered && item.status === "TESLIM_EDILDI")
+            ) {
+              return item;
+            }
+            touched = true;
+            return { ...item, status, updatedAt: now };
+          });
+          if (!touched) return adisyon;
+          const nextStatus = deriveAdisyonStatusFromItems(items);
+          return {
+            ...adisyon,
+            items,
+            status: nextStatus,
+            updatedAt: now,
+            completedAt: nextStatus === "TESLIM_EDILDI" ? now : null,
+          };
+        })
+      );
+    },
+    []
+  );
+
+  /**
+   * Bir durum değişikliğini çalıştırır: hata olursa fırlatmaz, `actionError`
+   * olarak ekrana bildirir ve gerçek durumu sunucudan geri yükler.
+   */
+  const runMutation = useCallback(
+    async (
+      request: () => Promise<Response>,
+      fallbackMessage: string
+    ): Promise<boolean> => {
+      mutationSeqRef.current += 1;
+      let ok = false;
+      try {
+        const res = await request();
+        if (!res.ok) {
+          const body = (await res.json().catch(() => ({}))) as {
+            error?: string;
+          };
+          throw new Error(body.error || fallbackMessage);
+        }
+        ok = true;
+        setActionError(null);
+      } catch (err) {
+        const message =
+          err instanceof TypeError
+            ? "Bağlantı kurulamadı. İşlem kaydedilmedi, tekrar deneyin."
+            : err instanceof Error
+              ? err.message
+              : fallbackMessage;
+        setActionError(message);
+        // AppShell bu olayı dinleyip her ekranda aynı hata bandını gösterir
+        window.dispatchEvent(
+          new CustomEvent(ACTION_ERROR_EVENT, { detail: message })
+        );
+      } finally {
+        mutationSeqRef.current += 1;
+      }
+      await refresh();
+      return ok;
+    },
+    [refresh]
+  );
 
   useEffect(() => {
     setNowMs(Date.now());
@@ -100,57 +199,54 @@ export function useAdisyonStream(pollIntervalMs = 2500) {
   }, [pollIntervalMs, refresh]);
 
   const updateAdisyonStatus = useCallback(
-    async (adisyonId: number, status: AdisyonStatus) => {
-      const res = await fetch(`/api/adisyons/${adisyonId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
-      if (!res.ok) {
-        const body = (await res.json().catch(() => ({}))) as {
-          error?: string;
-        };
-        throw new Error(body.error || "Adisyon güncellenemedi.");
-      }
-      await refresh();
-    },
-    [refresh]
+    (adisyonId: number, status: AdisyonStatus) =>
+      runMutation(
+        () =>
+          fetch(`/api/adisyons/${adisyonId}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status }),
+          }),
+        "Adisyon güncellenemedi."
+      ),
+    [runMutation]
   );
 
   const updateItemStatus = useCallback(
-    async (adisyonId: number, itemId: number, itemStatus: ItemStatus) => {
-      const res = await fetch(`/api/adisyons/${adisyonId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ itemId, itemStatus }),
-      });
-      if (!res.ok) {
-        const body = (await res.json().catch(() => ({}))) as {
-          error?: string;
-        };
-        throw new Error(body.error || "Kalem güncellenemedi.");
-      }
-      await refresh();
+    (adisyonId: number, itemId: number, itemStatus: ItemStatus) => {
+      applyItemStatusLocally([itemId], itemStatus, true);
+      return runMutation(
+        () =>
+          fetch(`/api/adisyons/${adisyonId}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ itemId, itemStatus }),
+          }),
+        "Kalem güncellenemedi."
+      );
     },
-    [refresh]
+    [applyItemStatusLocally, runMutation]
   );
 
   const batchUpdateItems = useCallback(
-    async (itemIds: number[], status: ItemStatus) => {
-      const res = await fetch("/api/adisyons/batch-item-status", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ itemIds, status }),
-      });
-      if (!res.ok) {
-        const body = (await res.json().catch(() => ({}))) as {
-          error?: string;
-        };
-        throw new Error(body.error || "Toplu güncelleme başarısız.");
-      }
-      await refresh();
+    (
+      itemIds: number[],
+      status: ItemStatus,
+      options?: { allowDelivered?: boolean }
+    ) => {
+      const allowDelivered = options?.allowDelivered === true;
+      applyItemStatusLocally(itemIds, status, allowDelivered);
+      return runMutation(
+        () =>
+          fetch("/api/adisyons/batch-item-status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ itemIds, status, allowDelivered }),
+          }),
+        "Toplu güncelleme başarısız."
+      );
     },
-    [refresh]
+    [applyItemStatusLocally, runMutation]
   );
 
   const moveTable = useCallback(
@@ -215,6 +311,8 @@ export function useAdisyonStream(pollIntervalMs = 2500) {
     dbNotice,
     loading,
     error,
+    actionError,
+    clearActionError: () => setActionError(null),
     nowMs,
     refresh,
     updateAdisyonStatus,

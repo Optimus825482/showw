@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRightLeft, Check, Circle, Users } from "lucide-react";
+import {
+  ArrowRightLeft,
+  BellRing,
+  Check,
+  Circle,
+  Clock,
+  Flame,
+} from "lucide-react";
+import type { TableSummary, TableTone } from "@/lib/status";
 import {
   ALL_TABLES,
   SALON_TABLES,
@@ -17,6 +25,10 @@ interface TableSelectorProps {
   selectedTable: string | null;
   /** Masa numarası → açık (aktif) adisyon sayısı */
   occupiedCounts: Record<string, number>;
+  /** Masa numarası → durum özeti (renk ve bekleme süresi için) */
+  tableSummaries?: Record<string, TableSummary>;
+  /** Bekleme süresini hesaplamak için şimdiki zaman (ms) */
+  nowMs?: number;
   onSelect: (tableNumber: string) => void;
   /** Taşıma modunda kaynak masa (hedef seçimi bekleniyor); yoksa null */
   moveSource?: string | null;
@@ -37,12 +49,41 @@ const FILTERS: { value: TableAreaFilter; label: string; count: number }[] = [
   { value: "TERAS", label: TABLE_AREA_LABELS.TERAS, count: TERAS_TABLES.length },
 ];
 
+/** Dolu masanın durumuna göre görünümü */
+const TONE_META: Record<
+  TableTone,
+  { label: string; tile: string; chip: string; icon: typeof Clock }
+> = {
+  WAITING: {
+    label: "Bekliyor",
+    tile: "border-amber-400 bg-amber-50 text-amber-950 hover:bg-amber-100",
+    chip: "bg-amber-200/80 text-amber-900",
+    icon: Clock,
+  },
+  PREPARING: {
+    label: "Ocakta",
+    tile: "border-sky-400 bg-sky-50 text-sky-950 hover:bg-sky-100",
+    chip: "bg-sky-200/80 text-sky-900",
+    icon: Flame,
+  },
+  READY: {
+    label: "Hazır",
+    tile: "border-emerald-500 bg-emerald-100 text-emerald-950 hover:bg-emerald-200",
+    chip: "bg-emerald-600 text-white",
+    icon: BellRing,
+  },
+};
+
+const LEGEND_TONES: TableTone[] = ["WAITING", "PREPARING", "READY"];
+
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2";
 
 export function TableSelector({
   selectedTable,
   occupiedCounts,
+  tableSummaries = {},
+  nowMs = 0,
   onSelect,
   moveSource = null,
   onDragMove,
@@ -75,7 +116,7 @@ export function TableSelector({
           <p className="text-xs font-medium text-slate-500">
             {moving
               ? `Masa ${moveSource} üzerindeki açık adisyonların taşınacağı masaya dokunun.`
-              : "Adisyon açmak için boş masaya dokunun. Dolu masaya dokununca siparişleri görür, masayı taşıyabilirsiniz (sürükle-bırak da olur)."}
+              : "Boş masaya dokunun: yeni adisyon. Dolu masaya dokunun: ürün durumlarını değiştirin, ek sipariş alın veya masayı taşıyın."}
           </p>
         </div>
 
@@ -117,12 +158,21 @@ export function TableSelector({
             </span>
             Boş
           </li>
-          <li className="inline-flex items-center gap-1.5">
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-amber-400 bg-amber-100">
-              <Users className="h-3 w-3 text-amber-700" aria-hidden="true" />
-            </span>
-            Dolu (açık adisyon var)
-          </li>
+          {LEGEND_TONES.map((tone) => {
+            const ToneIcon = TONE_META[tone].icon;
+            return (
+              <li key={tone} className="inline-flex items-center gap-1.5">
+                <span
+                  className={`inline-flex h-5 w-5 items-center justify-center rounded-md ${TONE_META[tone].chip}`}
+                >
+                  <ToneIcon className="h-3 w-3" aria-hidden="true" />
+                </span>
+                {tone === "READY"
+                  ? "Hazır (servise götür)"
+                  : TONE_META[tone].label}
+              </li>
+            );
+          })}
         </ul>
         <p className="text-xs font-bold text-slate-600">
           {AREAS.map((area, i) => (
@@ -169,8 +219,26 @@ export function TableSelector({
                   dragSource !== table.number;
                 const canDrag = Boolean(onDragMove) && occupied && !moving;
                 const areaLabel = TABLE_AREA_LABELS[table.area];
+                const summary = occupied
+                  ? tableSummaries[table.number]
+                  : undefined;
+                const toneMeta = TONE_META[summary?.tone ?? "WAITING"];
+                const ToneIcon = toneMeta.icon;
+                const waitMins =
+                  summary && nowMs > 0
+                    ? Math.max(
+                        0,
+                        Math.floor(
+                          (nowMs -
+                            new Date(summary.oldestCreatedAt).getTime()) /
+                            60000
+                        )
+                      )
+                    : null;
                 const baseLabel = occupied
-                  ? `Masa ${table.number}, ${areaLabel}, dolu, ${openCount} açık adisyon`
+                  ? `Masa ${table.number}, ${areaLabel}, ${toneMeta.label}, ${openCount} açık adisyon${
+                      waitMins !== null ? `, ${waitMins} dakikadır açık` : ""
+                    }`
                   : `Masa ${table.number}, ${areaLabel}, boş`;
                 const ariaLabel = !moving
                   ? baseLabel
@@ -224,7 +292,7 @@ export function TableSelector({
                             : selected
                           ? "border-sky-600 bg-sky-600 text-white shadow-md"
                           : occupied
-                            ? "border-amber-400 bg-amber-50 text-amber-950 hover:bg-amber-100"
+                            ? toneMeta.tile
                             : "border-slate-200 bg-white text-slate-900 hover:border-sky-400 hover:bg-sky-50"
                       }`}
                     >
@@ -244,16 +312,28 @@ export function TableSelector({
                         {table.number}
                       </span>
                       {occupied ? (
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-extrabold ${
-                            selected
-                              ? "bg-white/20 text-white"
-                              : "bg-amber-200/80 text-amber-900"
-                          }`}
-                        >
-                          <Users className="h-3 w-3" aria-hidden="true" />
-                          Dolu · {openCount}
-                        </span>
+                        <>
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-extrabold ${
+                              selected
+                                ? "bg-white/20 text-white"
+                                : toneMeta.chip
+                            }`}
+                          >
+                            <ToneIcon className="h-3 w-3" aria-hidden="true" />
+                            {toneMeta.label}
+                          </span>
+                          {waitMins !== null && (
+                            <span
+                              className={`text-[11px] font-bold tabular-nums ${
+                                selected ? "text-sky-100" : "opacity-70"
+                              }`}
+                            >
+                              {waitMins} dk
+                              {openCount > 1 ? ` · ${openCount} adisyon` : ""}
+                            </span>
+                          )}
+                        </>
                       ) : (
                         <span
                           className={`text-[11px] font-bold ${

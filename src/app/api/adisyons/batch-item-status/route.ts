@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as {
       itemIds?: number[];
       status?: ItemStatus;
+      allowDelivered?: boolean;
     };
 
     if (!Array.isArray(body.itemIds) || body.itemIds.length === 0) {
@@ -36,7 +37,11 @@ export async function POST(req: NextRequest) {
       .map((id) => Number(id))
       .filter((id) => Number.isInteger(id) && id > 0);
 
-    const result = await batchUpdateItemStatuses(numericIds, body.status);
+    const result = await batchUpdateItemStatuses(
+      numericIds,
+      body.status,
+      body.allowDelivered === true
+    );
     return NextResponse.json(result);
   } catch (error) {
     console.error("POST /api/adisyons/batch-item-status error:", error);

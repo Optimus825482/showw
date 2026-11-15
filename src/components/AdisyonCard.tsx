@@ -4,6 +4,7 @@ import { formatTableLabel } from "@/lib/tables";
 import {
   Check,
   CheckCheck,
+  ChevronRight,
   Clock,
   Flame,
   Printer,
@@ -27,20 +28,28 @@ interface AdisyonCardProps {
   allowItemToggle?: boolean;
   showPrintButton?: boolean;
   compact?: boolean;
-  onUpdateStatus: (adisyonId: number, status: AdisyonStatus) => Promise<void>;
+  onUpdateStatus: (
+    adisyonId: number,
+    status: AdisyonStatus
+  ) => Promise<unknown>;
   onUpdateItemStatus?: (
     adisyonId: number,
     itemId: number,
     status: ItemStatus
-  ) => Promise<void>;
+  ) => Promise<unknown>;
   onPrint?: (adisyon: Adisyon) => void;
 }
 
-function getNextItemStatus(current: ItemStatus): ItemStatus {
+/**
+ * Kalem hep ileri gider: Bekliyor → Ocakta → Hazır → Teslim.
+ * (Eskiden "Hazır"a dokunmak kalemi başa, Bekliyor'a döndürüyordu; yanlış
+ * dokunuşta emek kayboluyordu. Geri dönüş artık yalnızca "geri al" düğmesiyle.)
+ */
+function getNextItemStatus(current: ItemStatus): ItemStatus | null {
   if (current === "BEKLIYOR") return "HAZIRLANIYOR";
   if (current === "HAZIRLANIYOR") return "HAZIR";
-  if (current === "HAZIR") return "BEKLIYOR";
-  return "TESLIM_EDILDI";
+  if (current === "HAZIR") return "TESLIM_EDILDI";
+  return null;
 }
 
 function getPrevItemStatus(current: ItemStatus): ItemStatus | null {
@@ -171,6 +180,7 @@ export function AdisyonCard({
           const itemMeta = ITEM_STATUS_META[item.status];
           const isReady = item.status === "HAZIR";
           const isDelivered = item.status === "TESLIM_EDILDI";
+          const nextStatus = getNextItemStatus(item.status);
 
           return (
             <div
@@ -236,25 +246,34 @@ export function AdisyonCard({
                       }}
                       title="Önceki duruma geri al"
                       aria-label={`${item.productName} durumunu geri al`}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-100 active:scale-95"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-100 active:scale-95"
                     >
-                      <Undo2 className="h-3.5 w-3.5" aria-hidden="true" />
+                      <Undo2 className="h-4 w-4" aria-hidden="true" />
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      void onUpdateItemStatus(
-                        adisyon.id,
-                        item.id,
-                        getNextItemStatus(item.status)
-                      )
-                    }
-                    title="Kalem durumunu ilerlet (Bekliyor → Ocakta → Hazır)"
-                    className={`shrink-0 rounded-lg border px-2.5 py-1.5 text-xs font-bold transition active:scale-95 ${itemMeta.badgeClass}`}
-                  >
-                    {itemMeta.label}
-                  </button>
+                  {nextStatus ? (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void onUpdateItemStatus(adisyon.id, item.id, nextStatus)
+                      }
+                      title={`Şu an: ${itemMeta.label}. Dokununca: ${ITEM_STATUS_META[nextStatus].label}`}
+                      aria-label={`${item.productName}: ${itemMeta.label}. ${ITEM_STATUS_META[nextStatus].label} yap`}
+                      className={`shrink-0 inline-flex min-h-10 items-center gap-0.5 rounded-lg border pl-2.5 pr-1.5 text-xs font-bold transition active:scale-95 ${itemMeta.badgeClass}`}
+                    >
+                      <span>{itemMeta.label}</span>
+                      <ChevronRight
+                        className="h-4 w-4 opacity-60"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  ) : (
+                    <span
+                      className={`shrink-0 inline-flex min-h-10 items-center rounded-lg border px-2.5 text-xs font-bold ${itemMeta.badgeClass}`}
+                    >
+                      {itemMeta.label}
+                    </span>
+                  )}
                 </div>
               ) : (
                 <span

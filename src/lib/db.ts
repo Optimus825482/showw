@@ -4,6 +4,7 @@ import { Pool, type PoolConfig } from "pg";
 import { hashPassword, normalizeRole, verifyPassword } from "@/lib/auth";
 import { MENU_ITEMS } from "@/lib/menu-data";
 import { detectSystemPrinters } from "@/lib/printer-detector";
+import { deriveAdisyonStatusFromItems } from "@/lib/status";
 import type {
   Adisyon,
   AdisyonItem,
@@ -396,21 +397,6 @@ async function readLocalDb(): Promise<LocalDbStore> {
 async function writeLocalDb(store: LocalDbStore): Promise<void> {
   await fs.mkdir(path.dirname(LOCAL_DB_PATH), { recursive: true });
   await fs.writeFile(LOCAL_DB_PATH, JSON.stringify(store, null, 2), "utf-8");
-}
-
-function deriveAdisyonStatusFromItems(items: AdisyonItem[]): AdisyonStatus {
-  if (items.length === 0) return "BEKLIYOR";
-  const allDelivered = items.every((i) => i.status === "TESLIM_EDILDI");
-  if (allDelivered) return "TESLIM_EDILDI";
-  const allReadyOrDelivered = items.every(
-    (i) => i.status === "HAZIR" || i.status === "TESLIM_EDILDI"
-  );
-  if (allReadyOrDelivered) return "HAZIR";
-  const anyStarted = items.some(
-    (i) => i.status === "HAZIRLANIYOR" || i.status === "HAZIR"
-  );
-  if (anyStarted) return "HAZIRLANIYOR";
-  return "BEKLIYOR";
 }
 
 function mapPgRowsToAdisyons(
@@ -819,7 +805,9 @@ export async function updateAdisyonOrItem(
 
 export async function batchUpdateItemStatuses(
   itemIds: number[],
-  nextItemStatus: ItemStatus
+  nextItemStatus: ItemStatus,
+  /** true ise teslim edilmiş kalemler de değiştirilebilir (geri alma için) */
+  allowDelivered = false
 ): Promise<{
   updatedCount: number;
   dbMode: DbMode;
@@ -841,7 +829,10 @@ export async function batchUpdateItemStatuses(
       if (adisyon.status === "IPTAL") continue;
       let touched = false;
       for (const item of adisyon.items) {
-        if (idSet.has(item.id) && item.status !== "TESLIM_EDILDI") {
+        if (
+          idSet.has(item.id) &&
+          (allowDelivered || item.status !== "TESLIM_EDILDI")
+        ) {
           item.status = nextItemStatus;
           item.updatedAt = now;
           updatedCount += 1;
@@ -867,9 +858,9 @@ export async function batchUpdateItemStatuses(
     const updatedRes = await client.query<{ adisyon_id: number }>(
       `UPDATE adisyon_items
        SET status = $1, updated_at = NOW()
-       WHERE id = ANY($2::int[]) AND status <> 'TESLIM_EDILDI'
+       WHERE id = ANY($2::int[]) AND ($3::boolean OR status <> 'TESLIM_EDILDI')
        RETURNING adisyon_id`,
-      [nextItemStatus, itemIds]
+      [nextItemStatus, itemIds, allowDelivered]
     );
 
     const affectedAdisyonIds = Array.from(

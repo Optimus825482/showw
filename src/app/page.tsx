@@ -31,6 +31,7 @@ import { TableSelector } from "@/components/TableSelector";
 import { VariationDialog } from "@/components/VariationDialog";
 import { useAdisyonStream } from "@/hooks/useAdisyonStream";
 import { MENU_CATEGORIES, MENU_ITEMS } from "@/lib/menu-data";
+import { summarizeTable, type TableSummary } from "@/lib/status";
 import { formatTableLabel } from "@/lib/tables";
 import type {
   Adisyon,
@@ -64,6 +65,7 @@ export default function AdisyonCreatePage() {
     refresh,
     updateAdisyonStatus,
     updateItemStatus,
+    batchUpdateItems,
     moveTable,
     markPrinted,
     updatePrinterConfig,
@@ -260,6 +262,24 @@ export default function AdisyonCreatePage() {
       if (table) counts[table] = (counts[table] ?? 0) + 1;
     }
     return counts;
+  }, [activeAdisyons]);
+
+  // Masa → durum özeti (renk, hazır porsiyon, en eski adisyon saati)
+  const tableSummaries = useMemo(() => {
+    const byTable = new Map<string, Adisyon[]>();
+    for (const a of activeAdisyons) {
+      const table = a.tableNumber?.trim();
+      if (!table) continue;
+      const list = byTable.get(table);
+      if (list) list.push(a);
+      else byTable.set(table, [a]);
+    }
+    const summaries: Record<string, TableSummary> = {};
+    for (const [table, list] of byTable) {
+      const summary = summarizeTable(list);
+      if (summary) summaries[table] = summary;
+    }
+    return summaries;
   }, [activeAdisyons]);
 
   const activeQueueCount = activeAdisyons.length;
@@ -1209,6 +1229,8 @@ export default function AdisyonCreatePage() {
                 <TableSelector
                   selectedTable={selectedTable}
                   occupiedCounts={occupiedCounts}
+                  tableSummaries={tableSummaries}
+                  nowMs={nowMs}
                   onSelect={handleTableTap}
                   moveSource={moveSource}
                   onDragMove={requestMove}
@@ -1547,6 +1569,9 @@ export default function AdisyonCreatePage() {
         tableNumber={detailTable}
         adisyons={detailAdisyons}
         onClose={() => setDetailTable(null)}
+        onChangeItemStatus={(itemIds, status) =>
+          batchUpdateItems(itemIds, status, { allowDelivered: true })
+        }
         onStartMove={(table) => {
           setDetailTable(null);
           setPendingMove(null);

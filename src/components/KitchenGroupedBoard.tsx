@@ -5,7 +5,10 @@ import type { GroupedProductBatch, ItemStatus } from "@/types/adisyon";
 
 interface KitchenGroupedBoardProps {
   batches: GroupedProductBatch[];
-  onBatchStatusChange: (itemIds: number[], status: ItemStatus) => Promise<void>;
+  onBatchStatusChange: (
+    itemIds: number[],
+    status: ItemStatus
+  ) => Promise<unknown>;
   compact?: boolean;
 }
 
