@@ -1,0 +1,86 @@
+{
+  "id": "/?source=pwa",
+  "name": "Show Büfe — Adisyon, Sipariş Kuyruğu ve Mutfak KDS",
+  "short_name": "Show Büfe",
+  "description": "Otel ve açık büfe show kitchen için çoklu ekranlı adisyon alma, bekleyen kuyruğu ve mutfak ürün gruplama uygulaması.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#0284c7",
+  "categories": ["food", "productivity", "business"],
+  "dir": "ltr",
+  "lang": "tr-TR",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/badge-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "monochrome"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Adisyon Al",
+      "short_name": "Adisyon",
+      "description": "Yeni misafir adisyonu başlatın",
+      "url": "/?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Bekleyenler Kuyruğu",
+      "short_name": "Bekleyenler",
+      "description": "Bekleyen ve teslim edilecek adisyonları yönetin",
+      "url": "/bekleyenler?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Mutfak Ekranı (KDS)",
+      "short_name": "Mutfak",
+      "description": "Ürün gruplamalı canlı mutfak ekranı",
+      "url": "/mutfak?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Çoklu Ekran",
+      "short_name": "Çoklu Ekran",
+      "description": "Tüm istasyonları tek ekranda izleyin",
+      "url": "/coklu-ekran?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Admin Paneli",
+      "short_name": "Admin",
+      "description": "Anlık akış ve akıllı raporlama merkezi",
+      "url": "/admin?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

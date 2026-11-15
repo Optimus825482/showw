@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="48" y1="32" x2="464" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="55%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="flameGrad" x1="256" y1="78" x2="256" y2="162" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  <rect x="24" y="24" width="464" height="464" rx="92" stroke="#ffffff" stroke-opacity="0.16" stroke-width="6"/>
+  <!-- Steam / Show Kitchen Flame Accent -->
+  <path d="M256 80c18 22 26 40 20 56-4 12-12 18-20 22-8-4-16-10-20-22-6-16 2-34 20-56z" fill="url(#flameGrad)"/>
+  <path d="M196 106c10 14 14 26 10 38-3 8-8 12-13 15-5-3-10-7-12-14-4-12 2-25 15-39z" fill="#fbbf24" fill-opacity="0.9"/>
+  <path d="M316 106c10 14 14 26 10 38-3 8-8 12-13 15-5-3-10-7-12-14-4-12 2-25 15-39z" fill="#fbbf24" fill-opacity="0.9"/>
+  <!-- Cloche Knob -->
+  <circle cx="256" cy="190" r="20" fill="#ffffff"/>
+  <!-- Cloche Dome -->
+  <path d="M116 332c0-78 62.68-140 140-140s140 62 140 140H116z" fill="#ffffff"/>
+  <!-- Subtle Dome Highlight -->
+  <path d="M158 308c8-46 42-80 86-88" stroke="#bae6fd" stroke-width="14" stroke-linecap="round"/>
+  <!-- Serving Tray Base -->
+  <rect x="86" y="348" width="340" height="30" rx="15" fill="#ffffff"/>
+  <!-- Brand Tag -->
+  <rect x="176" y="398" width="160" height="36" rx="18" fill="#0f172a" fill-opacity="0.35"/>
+  <text x="256" y="422" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="21" font-weight="800" letter-spacing="2">SHOW BÜFE</text>
+</svg>

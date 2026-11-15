@@ -1,0 +1,27 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# local env
+.env
+.env*.local
+
+# local fallback storage
+/data/
+
+# typescript incremental build info
+tsconfig.tsbuildinfo
+*.tsbuildinfo
