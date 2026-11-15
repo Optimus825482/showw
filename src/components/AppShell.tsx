@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3,
+  BookOpen,
   ChefHat,
   ClipboardList,
   Database,
@@ -282,6 +283,17 @@ export function AppShell({
                 <span className="hidden lg:inline">Yenile</span>
               </button>
             )}
+
+            <a
+              href="/tanitim.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Uygulama Tanıtım Sunumu (HTML)"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-sky-50 hover:border-sky-200 hover:text-sky-800 transition"
+            >
+              <BookOpen className="h-3.5 w-3.5 shrink-0 text-sky-600" aria-hidden="true" />
+              <span className="hidden lg:inline">Tanıtım</span>
+            </a>
 
             <button
               type="button"

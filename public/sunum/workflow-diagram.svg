@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="Show Büfe 4 Adımlı Uçtan Uca Sipariş ve Mutfak İş Akışı">
+  <defs>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="122%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.10" />
+    </filter>
+    <filter id="softShadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.07" />
+    </filter>
+    <linearGradient id="skyBrand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="meshBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="55%" stop-color="#f0f9ff" />
+      <stop offset="100%" stop-color="#fffbeb" />
+    </linearGradient>
+    <pattern id="dotGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#cbd5e1" opacity="0.55" />
+    </pattern>
+    
+  </defs>
+  
+    <rect width="1200" height="420" rx="24" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="600" y="42" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="17" font-weight="800" fill="#0f172a">Uçtan Uca Operasyon Akışı: Tek Ekrandan Mutfak &amp; Teslimata Kesintisiz Senkronizasyon</text>
+    
+        <g filter="url(#softShadow)">
+          <rect x="36" y="76" width="258" height="296" rx="22" fill="#ffffff" stroke="#bae6fd" stroke-width="1.8" />
+          <rect x="52" y="94" width="226" height="92" rx="16" fill="#f0f9ff" />
+          <rect x="66" y="108" width="40" height="40" rx="12" fill="#0284c7" />
+          <text x="86" y="134" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="16" font-weight="800" fill="#ffffff">01</text>
+          <text x="120" y="126" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15.5" font-weight="800" fill="#0f172a">Adisyon Başlat</text>
+          <text x="120" y="146" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="600" fill="#64748b">Oda No / Misafir Adı</text>
+          <text x="58" y="224" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Oda no veya isimle açılış</text><text x="58" y="256" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• 6 kategoride 40 ürün</text><text x="58" y="288" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Tekli / çoklu varyasyonlar</text><text x="58" y="320" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Özel not ve porsiyon adedi</text>
+        </g>
+        
+        <g transform="translate(302, 212)">
+          <circle cx="8" cy="8" r="16" fill="#ffffff" stroke="#cbd5e1" />
+          <path d="M 4 2 L 12 8 L 4 14" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      
+        <g filter="url(#softShadow)">
+          <rect x="326" y="76" width="258" height="296" rx="22" fill="#ffffff" stroke="#fde68a" stroke-width="1.8" />
+          <rect x="342" y="94" width="226" height="92" rx="16" fill="#fffbeb" />
+          <rect x="356" y="108" width="40" height="40" rx="12" fill="#d97706" />
+          <text x="376" y="134" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="16" font-weight="800" fill="#ffffff">02</text>
+          <text x="410" y="126" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15.5" font-weight="800" fill="#0f172a">Kaydet &amp; Yazdır</text>
+          <text x="410" y="146" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="600" fill="#64748b">Akıllı Yazıcı Algılama</text>
+          <text x="348" y="224" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Otomatik sıra numarası (#)</text><text x="348" y="256" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Yazıcı yoksa buton gizlenir</text><text x="348" y="288" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Yazıcı varsa otomatik fiş</text><text x="348" y="320" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• 80mm profesyonel şablon</text>
+        </g>
+        
+        <g transform="translate(592, 212)">
+          <circle cx="8" cy="8" r="16" fill="#ffffff" stroke="#cbd5e1" />
+          <path d="M 4 2 L 12 8 L 4 14" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      
+        <g filter="url(#softShadow)">
+          <rect x="616" y="76" width="258" height="296" rx="22" fill="#ffffff" stroke="#ddd6fe" stroke-width="1.8" />
+          <rect x="632" y="94" width="226" height="92" rx="16" fill="#f5f3ff" />
+          <rect x="646" y="108" width="40" height="40" rx="12" fill="#7c3aed" />
+          <text x="666" y="134" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="16" font-weight="800" fill="#ffffff">03</text>
+          <text x="700" y="126" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15.5" font-weight="800" fill="#0f172a">Mutfak KDS Grubu</text>
+          <text x="700" y="146" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="600" fill="#64748b">Benzer Ürün Birleştirme</text>
+          <text x="638" y="224" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Aynı ürün &amp; varyasyon grubu</text><text x="638" y="256" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Örn: KAŞARLI OMLET ORTA ×4</text><text x="638" y="288" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Tek tıkla toplu Ocağa Al</text><text x="638" y="320" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Sıraya göre adisyon içeriği</text>
+        </g>
+        
+        <g transform="translate(882, 212)">
+          <circle cx="8" cy="8" r="16" fill="#ffffff" stroke="#cbd5e1" />
+          <path d="M 4 2 L 12 8 L 4 14" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      
+        <g filter="url(#softShadow)">
+          <rect x="906" y="76" width="258" height="296" rx="22" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.8" />
+          <rect x="922" y="94" width="226" height="92" rx="16" fill="#ecfdf5" />
+          <rect x="936" y="108" width="40" height="40" rx="12" fill="#059669" />
+          <text x="956" y="134" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="16" font-weight="800" fill="#ffffff">04</text>
+          <text x="990" y="126" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15.5" font-weight="800" fill="#0f172a">Takip &amp; Rapor</text>
+          <text x="990" y="146" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="600" fill="#64748b">Süre, Geri Al &amp; Analiz</text>
+          <text x="928" y="224" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Saat ve canlı geçen süre</text><text x="928" y="256" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Hatalı geçişe 1 adım Geri Al</text><text x="928" y="288" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Teslim edilenler arşivi</text><text x="928" y="320" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="600" fill="#334155">• Excel &amp; PDF Akıllı Raporlar</text>
+        </g>
+        
+      
+    
+</svg>

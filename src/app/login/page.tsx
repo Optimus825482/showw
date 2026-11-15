@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  BookOpen,
   ChefHat,
   ClipboardList,
   Lock,
@@ -221,6 +222,18 @@ export default function LoginPage() {
             <span>{loading ? "Giriş Yapılıyor..." : "Sisteme Giriş Yap"}</span>
           </button>
         </form>
+
+        <div className="pt-2 border-t border-slate-100 text-center">
+          <a
+            href="/tanitim.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-sky-50 hover:border-sky-200 hover:text-sky-800 transition"
+          >
+            <BookOpen className="h-3.5 w-3.5 text-sky-600" aria-hidden="true" />
+            <span>Uygulama Tanıtım Sunumunu İncele (HTML)</span>
+          </a>
+        </div>
       </div>
     </div>
   );

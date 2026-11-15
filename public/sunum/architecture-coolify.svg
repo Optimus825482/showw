@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 500" width="1100" height="500" role="img" aria-label="Coolify Tek Proje Docker Compose ve Otomatik PostgreSQL Başlatma Mimarisi">
+  <defs>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="122%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.10" />
+    </filter>
+    <filter id="softShadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.07" />
+    </filter>
+    <linearGradient id="skyBrand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="meshBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="55%" stop-color="#f0f9ff" />
+      <stop offset="100%" stop-color="#fffbeb" />
+    </linearGradient>
+    <pattern id="dotGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#cbd5e1" opacity="0.55" />
+    </pattern>
+    
+  </defs>
+  
+    <rect width="1100" height="500" rx="26" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="550" y="42" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="17" font-weight="800" fill="#0f172a">Coolify Tek-Proje Mimarisi (Next.js Standalone + PostgreSQL 16 + Otomatik Kurulum)</text>
+
+    <!-- Left Tier: Clients -->
+    <g filter="url(#softShadow)">
+      <rect x="34" y="84" width="220" height="360" rx="20" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="144" y="116" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13.5" font-weight="800" fill="#0f172a">Çoklu Ekran İstemcileri</text>
+      
+    <rect x="54" y="138" width="180" height="44" rx="22" fill="#f0f9ff" stroke="#bae6fd" />
+    <text x="144" y="164" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#0369a1">📱 Sipariş Tableti (/)</text>
+  
+      
+    <rect x="54" y="198" width="180" height="44" rx="22" fill="#fffbeb" stroke="#fde68a" />
+    <text x="144" y="224" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#b45309">🍳 Mutfak KDS (/mutfak)</text>
+  
+      
+    <rect x="54" y="258" width="180" height="44" rx="22" fill="#ecfdf5" stroke="#a7f3d0" />
+    <text x="144" y="284" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#047857">⏱ Bekleyenler (/bekleyenler)</text>
+  
+      
+    <rect x="54" y="318" width="180" height="44" rx="22" fill="#f5f3ff" stroke="#ddd6fe" />
+    <text x="144" y="344" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#6b21a8">📊 Admin Rapor (/admin)</text>
+  
+      
+    <rect x="54" y="378" width="180" height="40" rx="20" fill="#0f172a" stroke="none" />
+    <text x="144" y="402" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#ffffff">Chrome PWA • Offline SW</text>
+  
+    </g>
+
+    <!-- Arrow Clients -> Coolify Proxy -->
+    <path d="M 262 264 L 318 264" fill="none" stroke="#0284c7" stroke-width="3" />
+    <polygon points="318,258 330,264 318,270" fill="#0284c7" />
+    <text x="294" y="250" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10" font-weight="800" fill="#0284c7">HTTPS</text>
+
+    <!-- Coolify Docker Compose Container Box -->
+    <rect x="336" y="72" width="730" height="390" rx="24" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" stroke-dasharray="7 5" />
+    
+    <rect x="358" y="86" width="304" height="28" rx="14" fill="#0284c7" stroke="none" />
+    <text x="510" y="104" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#ffffff">docker-compose.yml • Tek Coolify Projesi</text>
+  
+
+    <!-- App Service -->
+    <g filter="url(#cardShadow)">
+      <rect x="364" y="132" width="320" height="298" rx="18" fill="#ffffff" stroke="#bae6fd" stroke-width="1.5" />
+      <text x="386" y="164" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="800" fill="#0f172a">app (Next.js 16 Standalone)</text>
+      <text x="386" y="184" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" font-weight="700" fill="#0284c7">node:22-alpine • Port 3000</text>
+
+      <rect x="386" y="202" width="276" height="66" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+      <text x="400" y="224" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0f172a">1. scripts/init-db.mjs (Açılışta)</text>
+      <text x="400" y="244" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10.5" fill="#475569">PG bekler, DB yoksa oluşturur, 40 ürün &amp;</text>
+      <text x="400" y="259" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10.5" fill="#475569">admin / siparis / mutfak rollerini tohumlar</text>
+
+      <rect x="386" y="280" width="276" height="64" rx="12" fill="#ecfdf5" stroke="#a7f3d0" />
+      <text x="400" y="302" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#065f46">2. API &amp; Performans Katmanı</text>
+      <text x="400" y="322" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10.5" fill="#047857">• Connection Pool (max 10) + /api/health</text>
+      <text x="400" y="336" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10.5" fill="#047857">• 5 dk yazıcı cache + visibility polling</text>
+
+      
+    <rect x="386" y="360" width="276" height="44" rx="22" fill="#0f172a" stroke="none" />
+    <text x="524" y="386" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#e0f2fe">HTTP 200 • GET /api/health Doğrulandı</text>
+  
+    </g>
+
+    <!-- Arrow App <-> DB -->
+    <path d="M 692 278 L 748 278" fill="none" stroke="#0f172a" stroke-width="3" />
+    <polygon points="748,272 760,278 748,284" fill="#0f172a" />
+    <text x="724" y="264" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" font-weight="700" fill="#334155">5432</text>
+
+    <!-- DB Service -->
+    <g filter="url(#cardShadow)">
+      <rect x="766" y="132" width="276" height="298" rx="18" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.5" />
+      <text x="788" y="164" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="800" fill="#0f172a">db (PostgreSQL 16 Alpine)</text>
+      <text x="788" y="184" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" font-weight="700" fill="#059669">Veritabanı: show_bufe</text>
+
+      <rect x="788" y="202" width="232" height="102" rx="12" fill="#f0fdf4" stroke="#a7f3d0" />
+      <text x="802" y="224" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#065f46">5 İlişkisel Tablo</text>
+      <text x="802" y="244" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#047857">• menu_items (40 Ürün)</text>
+      <text x="802" y="260" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#047857">• adisyons &amp; adisyon_items</text>
+      <text x="802" y="276" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#047857">• users (3 Rol)</text>
+      <text x="802" y="292" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#047857">• printer_settings</text>
+
+      <rect x="788" y="318" width="232" height="54" rx="12" fill="#fffbeb" stroke="#fde68a" />
+      <text x="802" y="340" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="800" fill="#92400e">Kalıcı Disk (postgres_data)</text>
+      <text x="802" y="357" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10" fill="#b45309">Deploy sonrası veri kaybı olmaz</text>
+
+      
+    <rect x="788" y="384" width="232" height="28" rx="14" fill="#dcfce7" stroke="none" />
+    <text x="904" y="402" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#047857">pg_isready Healthcheck ✓</text>
+  
+    </g>
+    
+</svg>

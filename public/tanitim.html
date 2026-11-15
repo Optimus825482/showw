@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0284c7" />
+  <title>Show Büfe — Adisyon, Sıra Takip, Mutfak KDS ve Akıllı Raporlama Tanıtım Sunumu</title>
+  <meta name="description" content="Royal Ana Restaurant Show Büfe için geliştirilen mobil uyumlu PWA Adisyon, Benzer Ürün Gruplamalı Mutfak KDS, Termal Fiş ve Coolify Tek-Proje sistemi tanıtım sunumu." />
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --ink: #0f172a;
+      --ink-muted: #475569;
+      --ink-subtle: #64748b;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+      --accent-soft: #e0f2fe;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --emerald: #059669;
+      --emerald-soft: #dcfce7;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 12px 28px rgba(15, 23, 42, 0.08);
+      --header-h: 64px;
+      --fade-size: 2.25rem;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 18px);
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.55;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: clip;
+    }
+
+    img {
+      max-inline-size: 100%;
+      block-size: auto;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Scroll Progress Indicator */
+    #progress {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #0284c7, #0ea5e9, #f59e0b);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @supports ((animation-timeline: scroll())) {
+        @keyframes grow-progress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+
+        #progress {
+          animation: grow-progress auto linear;
+          animation-timeline: scroll();
+        }
+      }
+    }
+
+    /* Skip Link */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 8px;
+      z-index: 300;
+      background: var(--ink);
+      color: #ffffff;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      left: 12px;
+    }
+
+    /* Sticky Top Navbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 120;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-block-end: 1px solid var(--border);
+      min-block-size: var(--header-h);
+    }
+
+    .topbar-inner {
+      max-inline-size: 1260px;
+      margin-inline: auto;
+      padding: 0.65rem clamp(0.85rem, 2.5vw, 1.5rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      min-inline-size: 0;
+    }
+
+    .brand img {
+      inline-size: 38px;
+      block-size: 38px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--ink-subtle);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      overflow-x: auto;
+      max-inline-size: 100%;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-link {
+      flex: none;
+      padding: 0.42rem 0.72rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 150ms ease, color 150ms ease;
+    }
+    .nav-link:hover {
+      background: var(--surface-soft);
+      color: var(--ink);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      min-block-size: 40px;
+      padding: 0.5rem 0.9rem;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 140ms ease, background-color 150ms ease, border-color 150ms ease;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-soft);
+    }
+    .btn-dark {
+      background: var(--ink);
+      color: #ffffff;
+    }
+    .btn-dark:hover {
+      background: #1e293b;
+    }
+
+    /* Main Container */
+    .container {
+      max-inline-size: 1260px;
+      margin-inline: auto;
+      padding: clamp(1rem, 3vw, 2.25rem) clamp(0.85rem, 2.5vw, 1.5rem) 4rem;
+      display: grid;
+      gap: clamp(2.25rem, 4.5vw, 4rem);
+    }
+
+    /* Slides / Sections */
+    .slide-section {
+      min-inline-size: 0;
+      scroll-margin-top: calc(var(--header-h) + 20px);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-block-end: 1.25rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.28rem 0.72rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      margin-block-end: 0.55rem;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.85rem);
+      line-height: 1.14;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 2.6vw, 2rem);
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    h3 {
+      font-size: clamp(1.02rem, 1.8vw, 1.2rem);
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0.75rem 0 0;
+      color: var(--ink-muted);
+      font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+      max-inline-size: 68ch;
+    }
+
+    /* Hero */
+    .hero-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 60%, #fffbeb 100%);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: clamp(1.25rem, 3.5vw, 2.5rem);
+      box-shadow: var(--shadow-md);
+      display: grid;
+      gap: 1.75rem;
+    }
+
+    .hero-top {
+      display: grid;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hero-top > *,
+    .panel-card > * {
+      min-inline-size: 0;
+    }
+
+    @media (min-width: 960px) {
+      .hero-top {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      }
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-block-start: 1.1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-block-start: 1.35rem;
+    }
+
+    .visual-frame {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: clamp(0.5rem, 1.4vw, 0.85rem);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .visual-frame img {
+      inline-size: 100%;
+      border-radius: 12px;
+    }
+
+    .visual-caption {
+      margin: 0.55rem 0 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-subtle);
+      text-align: center;
+    }
+
+    /* Responsive Grids */
+    .cards-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    }
+
+    .cards-grid-wide {
+      display: grid;
+      gap: 1.15rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    }
+
+    .card {
+      min-inline-size: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+    }
+
+    .card-icon {
+      inline-size: 42px;
+      block-size: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .card-icon.amber {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .card-icon.emerald {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .card-icon.dark {
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      gap: 0.85rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    }
+
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.1rem;
+      min-inline-size: 0;
+    }
+
+    .kpi-value {
+      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      color: var(--accent-dark);
+      line-height: 1.15;
+    }
+
+    .kpi-label {
+      margin-block-start: 0.25rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    /* Tabbed Screen Tour following modern-web-guidance 'tabs' */
+    @property --fade-start {
+      syntax: "<length>";
+      inherits: false;
+      initial-value: 0px;
+    }
+
+    @property --fade-end {
+      syntax: "<length>";
+      inherits: false;
+      initial-value: 0px;
+    }
+
+    .tabs-shell {
+      display: grid;
+      gap: 1rem;
+      min-inline-size: 0;
+    }
+
+    .tablist.scroller {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.35rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: inline proximity;
+      scroll-padding-inline: var(--fade-size);
+      border-block-end: 1px solid var(--border);
+      padding-block-end: 2px;
+      --fade-size: 2.25rem;
+      --fade-dir: right;
+      --fade-start-pos: 0;
+      --fade-end-pos: 100%;
+    }
+    .tablist.scroller::-webkit-scrollbar {
+      display: none;
+    }
+
+    @supports ((animation-timeline: scroll())) {
+      .tablist.scroller {
+        mask:
+          linear-gradient(black, black) no-clip subtract,
+          linear-gradient(to var(--fade-dir), black, transparent) var(--fade-start-pos) 0 / var(--fade-start) 100% no-repeat no-clip,
+          linear-gradient(to var(--fade-dir), transparent, black) var(--fade-end-pos) 0 / var(--fade-end) 100% no-repeat no-clip;
+        animation: reveal-fade-start linear both, hide-fade-end linear both;
+        animation-timeline: scroll(self inline);
+        animation-range: 0 var(--fade-size), calc(100% - var(--fade-size)) 100%;
+      }
+      @keyframes reveal-fade-start {
+        to { --fade-start: var(--fade-size); }
+      }
+      @keyframes hide-fade-end {
+        from { --fade-end: var(--fade-size); }
+      }
+    }
+
+    /* IntersectionObserver fallback affordance */
+    .tablist.scroller.more-start {
+      box-shadow: inset 18px 0 16px -14px rgba(15, 23, 42, 0.22);
+    }
+    .tablist.scroller.more-end {
+      box-shadow: inset -18px 0 16px -14px rgba(15, 23, 42, 0.22);
+    }
+    .tablist.scroller.more-start.more-end {
+      box-shadow:
+        inset 18px 0 16px -14px rgba(15, 23, 42, 0.22),
+        inset -18px 0 16px -14px rgba(15, 23, 42, 0.22);
+    }
+
+    [role="tab"] {
+      position: relative;
+      flex: none;
+      scroll-snap-align: start;
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0.72rem 1rem;
+      min-block-size: 44px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      transition: color 140ms ease;
+    }
+
+    [role="tab"]:hover {
+      color: var(--ink);
+    }
+
+    [role="tab"][aria-selected="true"] {
+      color: var(--accent-dark);
+    }
+
+    /* Non-color underline indicator safe in forced-colors mode, no dimension shift */
+    [role="tab"][aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      border-block-end: 3px solid var(--accent);
+    }
+
+    .panels-stack {
+      display: grid;
+      min-inline-size: 0;
+    }
+
+    /* Keep padding/border/background off the tabpanel element itself for hidden="until-found" safety */
+    [role="tabpanel"] {
+      grid-area: 1 / 1;
+      min-inline-size: 0;
+    }
+
+    .panel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: clamp(0.9rem, 2.2vw, 1.4rem);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      gap: 1.15rem;
+    }
+
+    @media (min-width: 900px) {
+      .panel-card {
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
+        align-items: center;
+      }
+    }
+
+    .panel-details ul {
+      margin: 0.75rem 0 0;
+      padding-inline-start: 1.15rem;
+      display: grid;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+    }
+
+    .route-pill {
+      display: inline-block;
+      margin-block-end: 0.5rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border-strong);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    /* Interactive 40-Item Menu Showcase */
+    .menu-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .filter-btn {
+      padding: 0.42rem 0.78rem;
+      min-block-size: 38px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink-muted);
+      font-size: 0.79rem;
+      font-weight: 700;
+    }
+
+    .filter-btn[aria-pressed="true"] {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+
+    .search-input {
+      min-block-size: 40px;
+      min-inline-size: min(100%, 240px);
+      flex: 1 1 220px;
+      max-inline-size: 320px;
+      padding: 0.45rem 0.85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.85rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+      margin-block-start: 1rem;
+    }
+
+    .menu-card {
+      min-inline-size: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .menu-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .menu-no {
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.18rem 0.5rem;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .menu-card__title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    .menu-cat {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--ink-subtle);
+    }
+
+    .var-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-block-start: auto;
+      padding-block-start: 0.25rem;
+    }
+
+    .var-chip {
+      font-size: 0.69rem;
+      font-weight: 700;
+      padding: 0.18rem 0.46rem;
+      border-radius: 6px;
+      background: var(--surface-soft);
+      color: var(--ink-muted);
+      border: 1px solid var(--border);
+    }
+
+    .var-chip.multi {
+      background: var(--amber-soft);
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    /* Role Table Wrapper (responsive local horizontal scroll) */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      inline-size: 100%;
+      border-collapse: collapse;
+      min-inline-size: 600px;
+      font-size: 0.87rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: start;
+      border-block-end: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-soft);
+      font-weight: 800;
+      color: var(--ink);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    tr:last-child td {
+      border-block-end: 0;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.83em;
+      background: var(--surface-soft);
+      padding: 0.12rem 0.38rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+
+    /* Slide Mode Bar */
+    .slide-bar {
+      display: none;
+    }
+
+    body.slide-mode {
+      padding-block-end: 78px;
+    }
+
+    body.slide-mode .slide-section:not(.is-active-slide) {
+      display: none;
+    }
+
+    body.slide-mode .slide-bar {
+      position: fixed;
+      inset-block-end: 12px;
+      inset-inline: 12px;
+      max-inline-size: 620px;
+      margin-inline: auto;
+      z-index: 160;
+      background: rgba(15, 23, 42, 0.95);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 0.55rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.35);
+    }
+
+    .slide-bar-btn {
+      min-block-size: 38px;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .slide-bar-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--ink-subtle);
+      font-size: 0.84rem;
+      padding-block: 1.5rem 2.5rem;
+      border-block-start: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+      .topbar-actions .btn {
+        padding: 0.42rem 0.68rem;
+        font-size: 0.76rem;
+        min-block-size: 36px;
+      }
+    }
+
+    @media print {
+      #progress, .topbar, .slide-bar, .menu-toolbar, .hero-cta {
+        display: none !important;
+      }
+      body.slide-mode .slide-section {
+        display: block !important;
+      }
+      body {
+        background: #ffffff;
+        padding: 0 !important;
+      }
+      .card, .hero-card, .panel-card, .visual-frame {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">İçeriğe atla</a>
+  <div id="progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#slayt-1" class="brand">
+        <img src="icons/logo.svg" alt="Show Büfe logosu" width="38" height="38" />
+        <div>
+          <div class="brand-title">Royal Show Büfe</div>
+          <div class="brand-sub">Adisyon • Mutfak KDS • Akıllı Rapor</div>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Sunum bölümleri">
+        <a href="#slayt-1" class="nav-link">Özet</a>
+        <a href="#slayt-2" class="nav-link">İş Akışı</a>
+        <a href="#slayt-3" class="nav-link">Ekran Turu</a>
+        <a href="#slayt-4" class="nav-link">40 Ürün Menü</a>
+        <a href="#slayt-5" class="nav-link">Roller</a>
+        <a href="#slayt-6" class="nav-link">PWA &amp; Fiş</a>
+        <a href="#slayt-7" class="nav-link">Mimari</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <button type="button" id="toggle-slide-mode" class="btn btn-secondary" aria-pressed="false">
+          Slayt Modu
+        </button>
+        <button type="button" onclick="window.print()" class="btn btn-secondary">
+          PDF / Yazdır
+        </button>
+        <a href="/" class="btn btn-primary">
+          Uygulamayı Aç
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <!-- SLAYT 1: HERO -->
+    <section id="slayt-1" class="slide-section" data-slide-title="Genel Bakış">
+      <div class="hero-card">
+        <div class="hero-top">
+          <div>
+            <span class="eyebrow">Royal Ana Restaurant • Show Büfe</span>
+            <h1>Çoklu Ekran Adisyon, Sıra Takibi ve Mutfak KDS Platformu</h1>
+            <p class="lead">
+              Misafirden oda numarası veya isimle saniyeler içinde varyasyonlu sipariş alın;
+              80mm termal fiş basın, mutfakta benzer ürünleri gruplayarak hızla hazırlayın
+              ve Admin panelinden Excel &amp; PDF raporlar üretin.
+            </p>
+            <div class="hero-badges">
+              <span class="badge">Next.js 16 + PostgreSQL</span>
+              <span class="badge">40 Ürünlü Varyasyonlu Menü</span>
+              <span class="badge">Mobil • Tablet • TV Uyumlu</span>
+              <span class="badge">Chrome PWA &amp; Offline Desteği</span>
+              <span class="badge">Coolify Tek-Proje Deploy</span>
+            </div>
+            <div class="hero-cta">
+              <a href="/login" class="btn btn-primary">Sisteme Giriş Yap (/login)</a>
+              <a href="#slayt-3" class="btn btn-dark">Ekran Önizlemelerini Gez</a>
+              <button type="button" id="hero-slide-btn" class="btn btn-secondary">Tam Ekran Sunumu Başlat</button>
+            </div>
+          </div>
+
+          <div class="visual-frame">
+            <img
+              src="sunum/hero-ecosystem.svg"
+              alt="Show Büfe tablet sipariş, mutfak KDS benzer ürün gruplama, mobil sıra takibi ve 80mm termal yazıcı ekosistemi"
+              fetchpriority="high"
+              width="1200"
+              height="680"
+            />
+            <p class="visual-caption">
+              Şekil 1 — Tek veritabanı üzerinden anlık senkronize çalışan çoklu cihaz Show Büfe ekosistemi
+            </p>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-value">40 Ürün</div>
+            <div class="kpi-label">6 kategoride tekli, çoklu ve standart varyasyonlar</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">6 Ekran</div>
+            <div class="kpi-label">Sipariş, Bekleyenler, Mutfak, Çoklu Ekran, Admin, Giriş</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">2.5 sn</div>
+            <div class="kpi-label">Sekme görünürlüğüne duyarlı canlı kuyruk senkronizasyonu</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">1 Adım</div>
+            <div class="kpi-label">Yanlışlıkla ileri alınan durumlarda anlık Geri Al koruması</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLAYT 2: UÇTAN UCA İŞ AKIŞI -->
+    <section id="slayt-2" class="slide-section" data-slide-title="4 Adımlı İş Akışı">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Operasyon Döngüsü</span>
+          <h2>Siparişten Teslimata 4 Adımlı Kusursuz Akış</h2>
+          <p class="lead">
+            Yoğun kahvaltı ve büfe servislerinde masa/oda karışıklığını ortadan kaldıran,
+            aşçı ve servis personeli arasındaki iletişimi hızlandıran uçtan uca akış.
+          </p>
+        </div>
+      </div>
+
+      <div class="visual-frame">
+        <img
+          src="sunum/workflow-diagram.svg"
+          alt="Adisyon başlatma, termal yazdırma, mutfak gruplama ve sıra takibi 4 adımlı iş akışı"
+          loading="lazy"
+          width="1200"
+          height="420"
+        />
+        <p class="visual-caption">
+          Şekil 2 — Adisyon oluşturma, akıllı yazdırma, mutfak gruplama ve teslimat adımları
+        </p>
+      </div>
+
+      <div class="cards-grid" style="margin-block-start: 1.15rem;">
+        <article class="card">
+          <div class="card-icon">1</div>
+          <h3>Oda No veya Misafirle Başlat</h3>
+          <p>En az bir kimlik bilgisi (Oda No ya da Misafir Adı) girilir. Her adisyona artan benzersiz sıra numarası (<code>Sıra #1, #2...</code>) atanır.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon amber">2</div>
+          <h3>Varyasyona Göre Hızlı Seçim</h3>
+          <p>Pişirme derecesi (<code>AZ / ORTA / İYİ / ÇOK İYİ</code>), içerik tercihi (<code>SUCUKLU / SOĞANLI</code>) veya dakika (<code>3-8 DK</code>) diyalog penceresinden seçilir.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">3</div>
+          <h3>Mutfakta Benzer Ürün Gruplama</h3>
+          <p>Farklı adisyonlardaki aynı ürün ve varyasyonlar birleştirilir; şef aynı tavada kaç adet <code>Kaşarlı Omlet — Orta</code> pişireceğini net görür.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon emerald">4</div>
+          <h3>Süre Takibi &amp; Geri Alma</h3>
+          <p>Bekleyen kartlarda oluşum saati ve canlı geçen süre sayacı yer alır. Hatalı işaretlemede tek dokunuşla bir önceki duruma dönülür.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SLAYT 3: CANLI EKRAN TURU (TABS) -->
+    <section id="slayt-3" class="slide-section" data-slide-title="Ekran Turu">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Çoklu Ekran (Multi-Screen)</span>
+          <h2>Her Rol İçin Özel Tasarlanmış Ekranları İnceleyin</h2>
+          <p class="lead">
+            Sekmeler arasında dokunarak veya klavye ok tuşlarıyla geçiş yaparak Adisyon, Mutfak KDS,
+            Bekleyenler ve Admin Raporlama arayüzlerini inceleyebilirsiniz.
+          </p>
+        </div>
+      </div>
+
+      <div class="tabs-shell">
+        <div
+          class="tablist scroller"
+          role="tablist"
+          focusgroup="tablist nomemory"
+          aria-label="Uygulama ekranları önizlemesi"
+        >
+          <button type="button" role="tab" id="tab-adisyon" aria-selected="true" focusgroupstart>
+            1. Adisyon Al (/)
+          </button>
+          <button type="button" role="tab" id="tab-mutfak" aria-selected="false">
+            2. Mutfak KDS (/mutfak)
+          </button>
+          <button type="button" role="tab" id="tab-bekleyenler" aria-selected="false">
+            3. Bekleyenler (/bekleyenler)
+          </button>
+          <button type="button" role="tab" id="tab-admin" aria-selected="false">
+            4. Admin &amp; Raporlar (/admin)
+          </button>
+        </div>
+
+        <div class="panels-stack">
+          <div role="tabpanel" aria-labelledby="tab-adisyon" tabindex="0">
+            <div class="panel-card">
+              <div class="visual-frame">
+                <img
+                  src="sunum/screen-adisyon.svg"
+                  alt="Adisyon Al ekranı: Oda numarası, misafir adı, kategori filtreleri ve varyasyon seçim penceresi"
+                  width="1100"
+                  height="660"
+                />
+              </div>
+              <div class="panel-details">
+                <span class="route-pill">Rota: / • Rol: siparis, admin</span>
+                <h3>Hızlı Adisyon &amp; Varyasyon Seçimi</h3>
+                <ul>
+                  <li>Oda no veya misafir adı girilmeden sipariş kilidini açmaz; karışıklığı önler.</li>
+                  <li>6 kategori sekmesi ve anlık ürün arama ile 40 ürüne saniyede ulaşım.</li>
+                  <li>Tekli veya çoklu varyasyon seçenekleri + kalem bazlı mutfak notu.</li>
+                  <li>Sistemde aktif yazıcı tanımlıysa <strong>Kaydet ve Fiş Yazdır</strong>, yoksa yalnızca <strong>Kaydet</strong> seçeneği sunulur.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" aria-labelledby="tab-mutfak" hidden="until-found">
+            <div class="panel-card">
+              <div class="visual-frame">
+                <img
+                  src="sunum/screen-mutfak.svg"
+                  alt="Mutfak KDS ekranı: Benzer ürün gruplama kartları ve geliş sırasına göre adisyon akışı"
+                  fetchpriority="low"
+                  loading="lazy"
+                  width="1100"
+                  height="660"
+                />
+              </div>
+              <div class="panel-details">
+                <span class="route-pill">Rota: /mutfak &amp; /coklu-ekran • Rol: mutfak, admin</span>
+                <h3>Benzer Ürün Gruplamalı Mutfak KDS</h3>
+                <ul>
+                  <li>Tüm açık adisyonlardaki eş ürün ve varyasyonları tek kartta toplar (örn. <code>KAŞARLI OMLET — ORTA ×4, İYİ ×2</code>).</li>
+                  <li><strong>Toplu Ocağa Al</strong> ve <strong>Hazır İşaretle</strong> butonlarıyla tüm ilgili adisyonları aynı anda günceller.</li>
+                  <li>Sağ kolonda her adisyonu geliş sırasına, oda numarasına ve geçen süreye göre ayrı gösterir.</li>
+                  <li><code>/coklu-ekran</code> tezgah modu ile tablet ve geniş TV ekranlarında tüm özet yan yana izlenir.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" aria-labelledby="tab-bekleyenler" hidden="until-found">
+            <div class="panel-card">
+              <div class="visual-frame">
+                <img
+                  src="sunum/screen-bekleyenler.svg"
+                  alt="Bekleyenler ve Teslim Edilenler ekranı: Canlı saat, geçen süre ve önceki duruma geri alma butonları"
+                  fetchpriority="low"
+                  loading="lazy"
+                  width="1100"
+                  height="660"
+                />
+              </div>
+              <div class="panel-details">
+                <span class="route-pill">Rota: /bekleyenler • Rol: siparis, mutfak, admin</span>
+                <h3>Sıra Takibi, Teslim Edilenler &amp; Geri Al Koruması</h3>
+                <ul>
+                  <li>Aktif kuyruk ve <strong>Teslim Edilenler</strong> sekmeleriyle hem bekleyenler hem tamamlananlar görünür.</li>
+                  <li>Her kartta adisyonun açılış saati (<code>09:14</code>) ve saniyelik geçen süre sayacı gösterilir.</li>
+                  <li>Yanlışlıkla <em>Hazır</em> veya <em>Teslim Edildi</em> durumuna alınan kayıtlar <strong>Önceki Duruma Al</strong> ile geri döndürülür.</li>
+                  <li>Kayıtlı yazıcı varsa kart üzerinden tek tıkla 80mm tekrar fiş bastırılabilir.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" aria-labelledby="tab-admin" hidden="until-found">
+            <div class="panel-card">
+              <div class="visual-frame">
+                <img
+                  src="sunum/screen-admin-rapor.svg"
+                  alt="Admin Paneli: Anlık Akış, Mutfak Durumu ve Excel PDF çıktı destekli Akıllı Raporlar"
+                  fetchpriority="low"
+                  loading="lazy"
+                  width="1100"
+                  height="660"
+                />
+              </div>
+              <div class="panel-details">
+                <span class="route-pill">Rota: /admin • Rol: admin</span>
+                <h3>Anlık Akış &amp; Akıllı Excel / PDF Raporlama</h3>
+                <ul>
+                  <li>Üç yönetici modülü: <strong>Anlık Akış</strong>, <strong>Mutfak Durumu</strong> ve <strong>Akıllı Raporlar</strong>.</li>
+                  <li>En genelden özele filtreleme: Günlük, tarih-saat aralığı, kategori, ürün, durum ve oda/misafir bazlı sorgulama.</li>
+                  <li>Ürün bazlı veya adisyon bazlı özet tabloları ekranda görüntüleme, <strong>Excel (.xls/.csv)</strong> indirme veya <strong>PDF / Yazdır</strong> çıktısı alma.</li>
+                  <li>Ortalama hazırlama süresi ve teslimat oranı KPI kartlarıyla canlı performans izleme.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLAYT 4: 40 ÜRÜN MENÜ VE VARYASYON GEZGİNİ -->
+    <section id="slayt-4" class="slide-section" data-slide-title="40 Ürünlük Menü">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Otomatik Tohumlanan Katalog</span>
+          <h2>40 Ürünlük Show Büfe Menüsü ve Varyasyon Sistemi</h2>
+          <p class="lead">
+            Excel menü yapısından aktarılan 40 ürün ilk kurulumda veritabanına otomatik yüklenir.
+            Aşağıdaki filtrelerden tüm ürünleri ve varyasyon tiplerini inceleyebilirsiniz.
+          </p>
+        </div>
+      </div>
+
+      <div class="menu-toolbar">
+        <div class="filter-pills" id="menu-category-filters" role="group" aria-label="Menü kategori filtreleri"></div>
+        <label for="menu-search" class="skip-link">Menüde ürün ara</label>
+        <input
+          id="menu-search"
+          type="search"
+          class="search-input"
+          placeholder="Ürün adı, no (#11) veya varyasyon ara..."
+          aria-label="Menüde ürün ara"
+        />
+      </div>
+
+      <div id="menu-catalog-grid" class="menu-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- SLAYT 5: ROLLER, YETKİLENDİRME VE ÖNE ÇIKAN ÖZELLİKLER -->
+    <section id="slayt-5" class="slide-section" data-slide-title="Roller & Özellikler">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Güvenlik &amp; Yetkilendirme</span>
+          <h2>Rol Tabanlı Giriş ve Operasyonel Korumalar</h2>
+          <p class="lead">
+            İmzalı HMAC-SHA256 çerez oturumu ile her personel yalnızca kendi görev alanındaki ekranlara odaklanır.
+            İlk kurulumda üç rol varsayılan şifre <code>123456</code> ile hazır gelir.
+          </p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Kullanıcı Adı</th>
+              <th>Varsayılan Şifre</th>
+              <th>Rol &amp; Açılış Ekranı</th>
+              <th>Yetkili Modüller ve İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>admin</code></td>
+              <td><code>123456</code></td>
+              <td>Yönetici • <code>/admin</code></td>
+              <td>Tüm ekranlar (<code>/</code>, <code>/bekleyenler</code>, <code>/mutfak</code>, <code>/coklu-ekran</code>, <code>/admin</code>), yazıcı ayarları, Anlık Akış ve Excel/PDF rapor dışa aktarım.</td>
+            </tr>
+            <tr>
+              <td><code>siparis</code></td>
+              <td><code>123456</code></td>
+              <td>Sipariş • <code>/</code></td>
+              <td>Adisyon açma, 40 üründe varyasyon seçme, bekleyen ve teslim edilen adisyonları görme, fiş yazdırma ve hatalı durumu geri alma.</td>
+            </tr>
+            <tr>
+              <td><code>mutfak</code></td>
+              <td><code>123456</code></td>
+              <td>Mutfak KDS • <code>/mutfak</code></td>
+              <td>Benzer ürün gruplama panosu, toplu <em>Ocağa Al / Hazır</em> geçişi, sıraya göre adisyon içeriği, çoklu ekran görünümü ve bekleyen kuyruk takibi.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cards-grid-wide" style="margin-block-start: 1.15rem;">
+        <article class="card">
+          <div class="card-icon amber">↺</div>
+          <h3>Yanlış İşlemlere Karşı Geri Al</h3>
+          <p>Sipariş veya mutfak ekranında yanlışlıkla <em>Ocakta</em>, <em>Hazır</em> ya da <em>Teslim Edildi</em> yapılan kalem ve adisyonlar tek tıkla bir önceki durumuna döndürülür.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">🕒</div>
+          <h3>Saat + Canlı Geçen Süre Sayacı</h3>
+          <p>Bekleyen her adisyon oluşturma saatini ve mutfakta/kuyrukta geçen dakika-saniye süresini gerçek zamanlı olarak gösterir.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon emerald">⚡</div>
+          <h3>Görünürlük Duyarlı Performans</h3>
+          <p><code>visibilitychange</code> ve çakışan istek kilidi sayesinde arka plan sekmeleri ağı yormaz; API yanıtları milisaniye seviyesinde kalır.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SLAYT 6: PWA, CHROME KURULUMU VE AKILLI YAZICI -->
+    <section id="slayt-6" class="slide-section" data-slide-title="PWA & Akıllı Yazıcı">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Donanım &amp; Mobil Deneyim</span>
+          <h2>Chrome PWA Kurulum Bildirimi ve 80mm Akıllı Fiş Sistemi</h2>
+          <p class="lead">
+            Tablet ve telefonlarda tarayıcı çubukları olmadan uygulama gibi çalışır;
+            yazıcı varlığına göre yazdırma seçeneklerini otomatik yönetir.
+          </p>
+        </div>
+      </div>
+
+      <div class="visual-frame">
+        <img
+          src="sunum/pwa-chrome-receipt.svg"
+          alt="Mobil PWA Chrome kurulum bildirimi, deep-link butonları ve 80mm termal fiş şablonu"
+          loading="lazy"
+          width="1100"
+          height="540"
+        />
+        <p class="visual-caption">
+          Şekil 3 — Uygulama PWA olarak kurulu değilse otomatik gösterilen Chrome kurulum bildirimi ve 80mm fiş çıktısı
+        </p>
+      </div>
+
+      <div class="cards-grid" style="margin-block-start: 1.15rem;">
+        <article class="card">
+          <div class="card-icon">📱</div>
+          <h3>Kurulu Değilse Akıllı Bildirim</h3>
+          <p><code>standalone</code> modda çalışmayan cihazlarda <strong>Uygulamayı Kur (PWA)</strong> banner'ı çıkar ve tek tıkla ana ekrana yüklenir.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon amber">🌐</div>
+          <h3>Google Chrome'da Aç Desteği</h3>
+          <p>WhatsApp veya farklı tarayıcılardan açıldığında Android Intent ve iOS <code>googlechromes://</code> bağlantılarıyla Chrome'da başlatır.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon emerald">🖨</div>
+          <h3>Akıllı Yazıcı Kuralı</h3>
+          <p>Sistem yazıcıları 5 dakikalık önbellekle taranır. Kayıtlı/ekli yazıcı yoksa yazdır butonları gizlenir; varsa otomatik yazdır seçeneği devreye girer.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon dark">📶</div>
+          <h3>Çevrimdışı Sayfa Koruması</h3>
+          <p><code>public/sw.js</code> statik ikonları ve kabuğu önbelleğe alır; internet anlık kesilirse <code>/offline.html</code> üzerinden bilgilendirme sunar.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SLAYT 7: COOLIFY TEK PROJE VE OTOMATİK DB KURULUMU -->
+    <section id="slayt-7" class="slide-section" data-slide-title="Coolify & Mimari">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Bulut &amp; Yerel Altyapı</span>
+          <h2>Coolify Tek-Proje Docker Compose &amp; Otomatik PostgreSQL Başlatma</h2>
+          <p class="lead">
+            Next.js Standalone sunucusu ve PostgreSQL 16 veritabanı tek proje içinde yönetilir.
+            İlk ayağa kalkışta manuel SQL çalıştırmadan tüm tablolar, ürünler ve kullanıcılar hazır olur.
+          </p>
+        </div>
+      </div>
+
+      <div class="visual-frame">
+        <img
+          src="sunum/architecture-coolify.svg"
+          alt="Coolify tek proje docker-compose.yml mimarisi: Next.js app, PostgreSQL 16 db ve scripts/init-db.mjs"
+          loading="lazy"
+          width="1100"
+          height="500"
+        />
+        <p class="visual-caption">
+          Şekil 4 — Docker Compose tek stack yapısı: app konteyneri açılışta veritabanını otomatik kurar
+        </p>
+      </div>
+
+      <div class="cards-grid-wide" style="margin-block-start: 1.15rem;">
+        <article class="card">
+          <div class="card-icon">1</div>
+          <h3>Coolify Kaynak Seçimi</h3>
+          <p>Coolify panelinde <strong>New Resource → Docker Compose</strong> seçip <code>https://github.com/Optimus825482/showw.git</code> (<code>main</code>) bağlanır.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon emerald">2</div>
+          <h3>Tek Ortamda App + PostgreSQL</h3>
+          <p><code>docker-compose.yml</code> iç ağda <code>db</code> (<code>postgres:16-alpine</code>) ve kalıcı <code>postgres_data</code> diskiyle birlikte <code>app</code> servisini başlatır.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon amber">3</div>
+          <h3>Otomatik İlk Kurulum</h3>
+          <p>Konteyner açılışında <code>scripts/init-db.mjs</code> çalışır; veritabanı yoksa oluşturur, <code>db/schema.sql</code> ile 5 tabloyu ve 40 ürünü yükler, 3 rolü tanımlar.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SLAYT 8: CANLI ERİŞİM & SONUÇ -->
+    <section id="slayt-8" class="slide-section" data-slide-title="Başlangıç & Erişim">
+      <div class="hero-card" style="background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%); color: #ffffff;">
+        <div>
+          <span class="eyebrow" style="background: rgba(255,255,255,0.16); color: #e0f2fe;">Hemen Başlayın</span>
+          <h2 style="color: #ffffff; font-size: clamp(1.5rem, 3vw, 2.25rem);">Show Büfe Dijital Operasyona Hazır</h2>
+          <p class="lead" style="color: #cbd5e1;">
+            Mobil, tablet ve masaüstü cihazlardan giriş yaparak canlı sipariş, mutfak KDS ve akıllı raporlama deneyimini hemen test edebilirsiniz.
+          </p>
+
+          <div class="kpi-grid" style="margin-block-start: 1.35rem;">
+            <div class="kpi" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18);">
+              <div class="kpi-value" style="color: #ffffff; font-size: 1.15rem;">/login</div>
+              <div class="kpi-label" style="color: #e2e8f0;">Rol Seçimli Giriş (Şifre: 123456)</div>
+            </div>
+            <div class="kpi" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18);">
+              <div class="kpi-value" style="color: #ffffff; font-size: 1.15rem;">/ • /bekleyenler</div>
+              <div class="kpi-label" style="color: #e2e8f0;">Adisyon Alma &amp; Kuyruk Takibi</div>
+            </div>
+            <div class="kpi" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18);">
+              <div class="kpi-value" style="color: #ffffff; font-size: 1.15rem;">/mutfak • /coklu-ekran</div>
+              <div class="kpi-label" style="color: #e2e8f0;">Benzer Ürün Gruplama &amp; KDS</div>
+            </div>
+            <div class="kpi" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18);">
+              <div class="kpi-value" style="color: #ffffff; font-size: 1.15rem;">/admin</div>
+              <div class="kpi-label" style="color: #e2e8f0;">Anlık Akış &amp; Excel / PDF Rapor</div>
+            </div>
+          </div>
+
+          <div class="hero-cta">
+            <a href="/login" class="btn btn-primary" style="background: #ffffff; color: #0f172a;">Uygulamaya Giriş Yap</a>
+            <a href="/" class="btn btn-secondary" style="background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.28);">Adisyon Ekranını Aç</a>
+            <button type="button" onclick="window.print()" class="btn btn-secondary" style="background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.28);">Sunumu PDF / Yazdır</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Royal Ana Restaurant • Show Büfe Adisyon &amp; Mutfak KDS Tanıtım Sunumu — Mobil, Tablet ve Masaüstü Uyumlu
+  </footer>
+
+  <!-- Slide Mode Controller Bar -->
+  <div class="slide-bar" role="region" aria-label="Slayt sunum kontrolleri">
+    <button type="button" id="prev-slide" class="slide-bar-btn">← Önceki</button>
+    <div id="slide-counter" class="slide-counter">Slayt 1 / 8</div>
+    <button type="button" id="next-slide" class="slide-bar-btn">Sonraki →</button>
+    <button type="button" id="exit-slide" class="slide-bar-btn">Tümünü Gör</button>
+  </div>
+
+  <script>
+    (() => {
+      // 1. Scroll Progress Indicator fallback when CSS scroll-timeline is unavailable
+      if (!CSS.supports("animation-timeline", "scroll()")) {
+        const progress = document.getElementById("progress");
+        const updateProgress = () => {
+          const scrollable =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+          if (progress) {
+            progress.style.transform = `scaleX(${pct})`;
+          }
+        };
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress, { passive: true });
+        updateProgress();
+      }
+
+      // 2. Tabs (modern-web-guidance 'tabs': aria-selected, hidden="until-found", beforematch, focusgroupstart)
+      const tablist = document.querySelector('[role="tablist"]');
+      const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+      const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+      function selectTab(targetTab, shouldFocus = false) {
+        for (const tab of tabs) {
+          const isSelected = tab === targetTab;
+          tab.ariaSelected = String(isSelected);
+          tab.toggleAttribute("focusgroupstart", isSelected);
+          if (!Object.hasOwn(HTMLElement.prototype, "focusGroup")) {
+            tab.tabIndex = isSelected ? 0 : -1;
+          }
+        }
+
+        for (const panel of panels) {
+          const belongs = panel.getAttribute("aria-labelledby") === targetTab.id;
+          if (belongs) {
+            panel.removeAttribute("hidden");
+            panel.tabIndex = 0;
+          } else {
+            panel.setAttribute("hidden", "until-found");
+            panel.removeAttribute("tabindex");
+          }
+        }
+
+        try {
+          targetTab.scrollIntoView({
+            block: "nearest",
+            inline: "nearest",
+            container: "nearest",
+          });
+        } catch {
+          targetTab.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+
+        if (shouldFocus) {
+          targetTab.focus({ preventScroll: true });
+        }
+      }
+
+      // Initialize tabIndex fallback when native focusgroup is unsupported
+      if (!Object.hasOwn(HTMLElement.prototype, "focusGroup")) {
+        tabs.forEach((tab, idx) => {
+          tab.tabIndex = idx === 0 ? 0 : -1;
+        });
+      }
+
+      tabs.forEach((tab, idx) => {
+        tab.addEventListener("click", () => selectTab(tab, false));
+        tab.addEventListener("focus", () => selectTab(tab, false));
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex = -1;
+          if (event.key === "ArrowRight") nextIndex = (idx + 1) % tabs.length;
+          else if (event.key === "ArrowLeft") nextIndex = (idx - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") nextIndex = 0;
+          else if (event.key === "End") nextIndex = tabs.length - 1;
+          if (nextIndex >= 0) {
+            event.preventDefault();
+            selectTab(tabs[nextIndex], true);
+          }
+        });
+      });
+
+      // Sync tab if find-in-page matches hidden="until-found" panel content
+      panels.forEach((panel) => {
+        panel.addEventListener("beforematch", () => {
+          const tabId = panel.getAttribute("aria-labelledby");
+          const matchingTab = tabs.find((t) => t.id === tabId);
+          if (matchingTab) {
+            selectTab(matchingTab, false);
+          }
+        });
+      });
+
+      // Horizontal tablist scrollability fallback with IntersectionObserver sentinels
+      if (tablist && !CSS.supports("animation-timeline", "scroll()")) {
+        const startSentinel = document.createElement("span");
+        const endSentinel = document.createElement("span");
+        for (const s of [startSentinel, endSentinel]) {
+          s.setAttribute("aria-hidden", "true");
+          s.style.cssText = "min-inline-size: 1px; min-block-size: 1px; flex: none;";
+        }
+        tablist.prepend(startSentinel);
+        tablist.append(endSentinel);
+
+        const scrollObserver = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.target === startSentinel) {
+                tablist.classList.toggle("more-start", !entry.isIntersecting);
+              } else if (entry.target === endSentinel) {
+                tablist.classList.toggle("more-end", !entry.isIntersecting);
+              }
+            }
+          },
+          { root: tablist, rootMargin: "1px", threshold: 1 }
+        );
+        scrollObserver.observe(startSentinel);
+        scrollObserver.observe(endSentinel);
+      }
+
+      // 3. Interactive 40-Item Menu Catalog (Exact mirror of Show Büfe Menu)
+      const MENU_ITEMS = [
+        [1, "FRANSIZ TOST", "Tost & Ekmek", [], "none"],
+        [2, "KIYMALI KOL BÖREĞİ", "Börek & Pişi", [], "none"],
+        [3, "PATATESLİ KOL BÖREĞİ", "Börek & Pişi", [], "none"],
+        [4, "PEYNİRLİ KOL BÖREĞİ", "Börek & Pişi", [], "none"],
+        [5, "SU BÖREĞİ", "Börek & Pişi", [], "none"],
+        [6, "PANKEK", "Pankek & Krep", ["ORMAN MEYVELİ", "SADE", "MAPLE ŞURUP", "ÇİKOLATALI"], "multi"],
+        [7, "KREP", "Pankek & Krep", ["ORMAN MEYVELİ", "SADE", "ÇİKOLATALI", "MUZ VE ÇİKOLATALI"], "multi"],
+        [8, "KUYMAK", "Sıcak Spesiyal", [], "none"],
+        [9, "DANA KAVURMA", "Sıcak Spesiyal", ["BOL YAĞLI", "AZ YAĞLI", "AZ PİŞMİŞ", "İYİ PİŞMİŞ"], "multi"],
+        [10, "SADE OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [11, "KAŞARLI OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [12, "SUCUKLU OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [13, "KARIŞIK SEBZELİ OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [14, "PASTIRMALI OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [15, "OTLU OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [16, "MANTARLI OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [17, "BEYAZ PEYNİRLİ OMLET", "Omletler", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [18, "MENEMEN", "Sahanda & Yumurta", ["SUCUKLU", "SOĞANLI", "ACILI", "YUMURTASI BOL"], "multi"],
+        [19, "SAHANDA YUMURTA", "Sahanda & Yumurta", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [20, "KAŞARLI SAHANDA YUMURTA", "Sahanda & Yumurta", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [21, "PASTIRMALI SAHANDA YUMURTA", "Sahanda & Yumurta", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [22, "SUCUKLU SAHANDA YUMURTA", "Sahanda & Yumurta", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [23, "KAVURMALI SAHANDA YUMURTA", "Sahanda & Yumurta", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [24, "SEBZELİ SAHANDA YUMURTA", "Sahanda & Yumurta", ["AZ", "ORTA", "İYİ", "ÇOK İYİ"], "single"],
+        [25, "SÜTLÜ YUMURTA", "Sahanda & Yumurta", [], "none"],
+        [26, "SOMONLU PİŞİ", "Börek & Pişi", ["DANA FÜMELİ", "PEYNİRLİ"], "multi"],
+        [27, "HOT DOG", "Sıcak Spesiyal", [], "none"],
+        [28, "HELLİM PANE", "Sıcak Spesiyal", ["1 ADET", "2 ADET", "3 ADET", "4 ADET"], "single"],
+        [29, "EGG BENEDICT", "Sahanda & Yumurta", ["DANA FÜMELİ", "YUMURTASIZ", "AVOKADOSUZ"], "multi"],
+        [30, "PAÇANGA BÖREĞİ", "Börek & Pişi", ["1 ADET", "2 ADET", "3 ADET", "4 ADET"], "single"],
+        [31, "CORN DOG", "Sıcak Spesiyal", ["1 ADET", "2 ADET", "3 ADET", "4 ADET"], "single"],
+        [32, "PATATESLİ KABURGALI POŞE YUMURTA", "Sahanda & Yumurta", ["YUMURTASIZ"], "multi"],
+        [33, "KREP MONSIEUR", "Pankek & Krep", [], "none"],
+        [34, "YUMURTALI SİMİT", "Tost & Ekmek", [], "none"],
+        [35, "KARIŞIK TOST", "Tost & Ekmek", [], "none"],
+        [36, "KAŞARLI TOST", "Tost & Ekmek", [], "none"],
+        [37, "AVOKADOLU TOST", "Tost & Ekmek", [], "none"],
+        [38, "SANAYİ TOST", "Tost & Ekmek", [], "none"],
+        [39, "BEYAZ PEYNİRLİ TOST", "Tost & Ekmek", [], "none"],
+        [40, "HAŞLANMIŞ YUMURTA", "Sahanda & Yumurta", ["3 DK.", "5 DK.", "7 DK.", "8 DK."], "single"],
+      ];
+
+      const filterContainer = document.getElementById("menu-category-filters");
+      const menuGrid = document.getElementById("menu-catalog-grid");
+      const menuSearch = document.getElementById("menu-search");
+      let activeCategory = "Tümü";
+      let searchTerm = "";
+
+      const categories = ["Tümü", ...Array.from(new Set(MENU_ITEMS.map((item) => item[2])))];
+
+      function renderFilters() {
+        if (!filterContainer) return;
+        filterContainer.innerHTML = "";
+        for (const cat of categories) {
+          const count =
+            cat === "Tümü"
+              ? MENU_ITEMS.length
+              : MENU_ITEMS.filter((item) => item[2] === cat).length;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "filter-btn";
+          btn.setAttribute("aria-pressed", String(cat === activeCategory));
+          btn.textContent = `${cat} (${count})`;
+          btn.addEventListener("click", () => {
+            activeCategory = cat;
+            renderFilters();
+            renderMenu();
+          });
+          filterContainer.appendChild(btn);
+        }
+      }
+
+      function renderMenu() {
+        if (!menuGrid) return;
+        const normalized = searchTerm.trim().toLocaleLowerCase("tr-TR");
+        const filtered = MENU_ITEMS.filter(([id, name, cat, vars]) => {
+          if (activeCategory !== "Tümü" && cat !== activeCategory) return false;
+          if (!normalized) return true;
+          const haystack = `#${id} ${name} ${cat} ${vars.join(" ")}`.toLocaleLowerCase("tr-TR");
+          return haystack.includes(normalized);
+        });
+
+        menuGrid.innerHTML = "";
+        if (filtered.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "card";
+          empty.innerHTML = "<h3>Sonuç bulunamadı</h3><p>Arama filtresini değiştirerek tekrar deneyebilirsiniz.</p>";
+          menuGrid.appendChild(empty);
+          return;
+        }
+
+        for (const [id, name, cat, vars, mode] of filtered) {
+          const card = document.createElement("article");
+          card.className = "menu-card";
+
+          const head = document.createElement("div");
+          head.className = "menu-card-head";
+
+          const title = document.createElement("div");
+          title.className = "menu-card__title";
+          title.textContent = name;
+
+          const noBadge = document.createElement("span");
+          noBadge.className = "menu-no";
+          noBadge.textContent = `#${id}`;
+
+          head.appendChild(title);
+          head.appendChild(noBadge);
+
+          const catEl = document.createElement("div");
+          catEl.className = "menu-cat";
+          const modeText =
+            mode === "single"
+              ? "Tekli Varyasyon"
+              : mode === "multi"
+              ? "Çoklu Varyasyon"
+              : "Standart Ürün";
+          catEl.textContent = `${cat} • ${modeText}`;
+
+          const varWrap = document.createElement("div");
+          varWrap.className = "var-list";
+          if (vars.length === 0) {
+            const chip = document.createElement("span");
+            chip.className = "var-chip";
+            chip.textContent = "Doğrudan Seçim";
+            varWrap.appendChild(chip);
+          } else {
+            for (const v of vars) {
+              const chip = document.createElement("span");
+              chip.className = mode === "multi" ? "var-chip multi" : "var-chip";
+              chip.textContent = v;
+              varWrap.appendChild(chip);
+            }
+          }
+
+          card.appendChild(head);
+          card.appendChild(catEl);
+          card.appendChild(varWrap);
+          menuGrid.appendChild(card);
+        }
+      }
+
+      if (menuSearch) {
+        menuSearch.addEventListener("input", (e) => {
+          searchTerm = e.target.value || "";
+          renderMenu();
+        });
+      }
+
+      renderFilters();
+      renderMenu();
+
+      // 4. Slide Presentation Mode (Desktop Keyboard + Mobile Touch Swipe)
+      const slides = Array.from(document.querySelectorAll(".slide-section"));
+      const toggleSlideBtn = document.getElementById("toggle-slide-mode");
+      const heroSlideBtn = document.getElementById("hero-slide-btn");
+      const prevBtn = document.getElementById("prev-slide");
+      const nextBtn = document.getElementById("next-slide");
+      const exitBtn = document.getElementById("exit-slide");
+      const counterEl = document.getElementById("slide-counter");
+      let slideIndex = 0;
+
+      function updateSlideUI() {
+        slides.forEach((sec, idx) => {
+          sec.classList.toggle("is-active-slide", idx === slideIndex);
+        });
+        const label = slides[slideIndex]?.dataset.slideTitle || "";
+        if (counterEl) {
+          counterEl.textContent = `Slayt ${slideIndex + 1} / ${slides.length}${label ? ` • ${label}` : ""}`;
+        }
+        if (prevBtn) prevBtn.disabled = slideIndex === 0;
+        if (nextBtn) nextBtn.disabled = slideIndex === slides.length - 1;
+      }
+
+      function setSlideMode(enabled) {
+        document.body.classList.toggle("slide-mode", enabled);
+        if (toggleSlideBtn) {
+          toggleSlideBtn.setAttribute("aria-pressed", String(enabled));
+          toggleSlideBtn.textContent = enabled ? "Slayt Modu (Açık)" : "Slayt Modu";
+        }
+        if (enabled) {
+          slideIndex = 0;
+          updateSlideUI();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+
+      function goToSlide(idx) {
+        slideIndex = Math.min(slides.length - 1, Math.max(0, idx));
+        updateSlideUI();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      toggleSlideBtn?.addEventListener("click", () => {
+        setSlideMode(!document.body.classList.contains("slide-mode"));
+      });
+      heroSlideBtn?.addEventListener("click", () => setSlideMode(true));
+      exitBtn?.addEventListener("click", () => setSlideMode(false));
+      prevBtn?.addEventListener("click", () => goToSlide(slideIndex - 1));
+      nextBtn?.addEventListener("click", () => goToSlide(slideIndex + 1));
+
+      window.addEventListener("keydown", (event) => {
+        if (!document.body.classList.contains("slide-mode")) return;
+        const tag = document.activeElement?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA") return;
+        if (event.target?.getAttribute?.("role") === "tab") return;
+
+        if (event.key === "ArrowRight" || event.key === "PageDown") {
+          event.preventDefault();
+          goToSlide(slideIndex + 1);
+        } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          goToSlide(slideIndex - 1);
+        } else if (event.key === "Escape") {
+          setSlideMode(false);
+        }
+      });
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      document.addEventListener(
+        "touchstart",
+        (event) => {
+          if (!document.body.classList.contains("slide-mode")) return;
+          if (event.target?.closest?.(".scroller, .table-wrap")) return;
+          touchStartX = event.changedTouches[0].clientX;
+          touchStartY = event.changedTouches[0].clientY;
+        },
+        { passive: true }
+      );
+      document.addEventListener(
+        "touchend",
+        (event) => {
+          if (!document.body.classList.contains("slide-mode")) return;
+          if (!touchStartX) return;
+          const dx = event.changedTouches[0].clientX - touchStartX;
+          const dy = event.changedTouches[0].clientY - touchStartY;
+          touchStartX = 0;
+          if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+            if (dx < 0 && slideIndex < slides.length - 1) goToSlide(slideIndex + 1);
+            else if (dx > 0 && slideIndex > 0) goToSlide(slideIndex - 1);
+          }
+        },
+        { passive: true }
+      );
+    })();
+  </script>
+</body>
+</html>

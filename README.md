@@ -10,6 +10,7 @@
 - **`/mutfak` — Mutfak Ekranı (KDS)**: Benzer ürün + varyasyon gruplaması (`KAŞARLI OMLET — ORTA x3`) ve sıraya göre adisyon içerikleriyle canlı mutfak yönetimi.
 - **`/coklu-ekran` — Çoklu Ekran / Tezgah Modu**: Tablet ve geniş ekranlar için özet çoklu panel görünümü.
 - **`/admin` — Yönetim & Akıllı Raporlama Paneli**: Anlık Akış, Mutfak Durumu ve ürün/adisyon/tarih aralığı bazlı Excel (CSV/XLS) & PDF çıktı destekli akıllı raporlama modülü.
+- **`/tanitim.html` — Mobil Uyumlu Tanıtım Sunumu**: Görsellerle desteklenmiş, Slayt Modu, interaktif ekran sekmeleri ve 40 ürünlük menü gezgini içeren kurumsal HTML tanıtım sunumu (`public/sunum/*.svg`).
 
 ## PWA ve Google Chrome Desteği
 

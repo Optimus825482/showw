@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="1100" height="660" role="img" aria-label="Admin Paneli, Anlık Akış ve Akıllı Excel PDF Raporlama Ekranı">
+  <defs>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="122%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.10" />
+    </filter>
+    <filter id="softShadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.07" />
+    </filter>
+    <linearGradient id="skyBrand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="meshBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="55%" stop-color="#f0f9ff" />
+      <stop offset="100%" stop-color="#fffbeb" />
+    </linearGradient>
+    <pattern id="dotGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#cbd5e1" opacity="0.55" />
+    </pattern>
+    
+  </defs>
+  
+    <rect width="1100" height="660" rx="22" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" />
+    <!-- Top Chrome -->
+    <rect x="0" y="0" width="1100" height="48" rx="22" fill="#0f172a" />
+    <rect x="0" y="26" width="1100" height="22" fill="#0f172a" />
+    <circle cx="26" cy="24" r="6" fill="#ef4444" />
+    <circle cx="46" cy="24" r="6" fill="#f59e0b" />
+    <circle cx="66" cy="24" r="6" fill="#10b981" />
+    <rect x="190" y="10" width="520" height="28" rx="14" fill="#1e293b" />
+    <text x="450" y="28" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#cbd5e1">https://showbufe.royal.local/admin</text>
+    
+    <rect x="940" y="12" width="136" height="24" rx="12" fill="#0284c7" stroke="none" />
+    <text x="1008" y="28" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#ffffff">Admin Paneli</text>
+  
+
+    <!-- App Header -->
+    <rect x="0" y="48" width="1100" height="58" fill="#ffffff" stroke="#e2e8f0" />
+    
+    <g transform="translate(24, 63)">
+      <rect x="0" y="0" width="28" height="28" rx="8" fill="url(#skyBrand)" />
+      <path d="M7 18 C7 12.5 21 12.5 21 18 Z" fill="#ffffff" />
+      <circle cx="14" cy="9.5" r="2.2" fill="#fbbf24" />
+      <rect x="6" y="19.5" width="16" height="2.4" rx="1.2" fill="#e0f2fe" />
+    </g>
+  
+    <text x="60" y="77" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" font-weight="800" fill="#0f172a">Royal Show Büfe</text>
+    <text x="60" y="93" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10.5" font-weight="600" fill="#64748b">Adisyon &amp; Mutfak KDS</text>
+    
+      
+    <rect x="280" y="65" width="118" height="26" rx="13" fill="#0284c7" stroke="none" />
+    <text x="339" y="82" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#ffffff">Anlık Akış</text>
+  
+      
+    <rect x="406" y="65" width="134" height="26" rx="13" fill="#e0f2fe" stroke="none" />
+    <text x="473" y="82" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#0369a1">Mutfak Durumu</text>
+  
+      
+    <rect x="548" y="65" width="166" height="26" rx="13" fill="#0f172a" stroke="none" />
+    <text x="631" y="82" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#ffffff">Akıllı Raporlar ✓</text>
+  
+      
+    <rect x="920" y="65" width="156" height="26" rx="13" fill="#f3e8ff" stroke="none" />
+    <text x="998" y="82" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Rol: Admin Yönetici</text>
+  
+
+      <!-- Filter Bar -->
+      <g filter="url(#softShadow)">
+        <rect x="24" y="122" width="1052" height="82" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+        <rect x="42" y="138" width="196" height="48" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="54" y="156" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b">TARİH / SAAT ARALIĞI</text>
+        <text x="54" y="176" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0f172a">Bugün • 07:00 – 11:30</text>
+
+        <rect x="250" y="138" width="184" height="48" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="262" y="156" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b">RAPOR TİPİ</text>
+        <text x="262" y="176" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0f172a">Ürün &amp; Adisyon Bazlı</text>
+
+        <rect x="446" y="138" width="176" height="48" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="458" y="156" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b">KATEGORİ / ÜRÜN</text>
+        <text x="458" y="176" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0f172a">Tüm Kategoriler (6)</text>
+
+        <rect x="652" y="140" width="198" height="44" rx="12" fill="#10b981" />
+        <text x="751" y="167" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12.5" font-weight="800" fill="#ffffff">📊 Excel İndir (.xls/.csv)</text>
+
+        <rect x="862" y="140" width="194" height="44" rx="12" fill="#4f46e5" />
+        <text x="959" y="167" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12.5" font-weight="800" fill="#ffffff">📄 PDF Rapor / Yazdır</text>
+      </g>
+
+      <!-- KPI Cards -->
+      <rect x="24" y="220" width="250" height="106" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="44" y="248" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="700" fill="#64748b">TOPLAM ADİSYON</text>
+      <text x="44" y="292" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="30" font-weight="800" fill="#0f172a">128</text>
+      
+    <rect x="144" y="270" width="110" height="24" rx="12" fill="#e0f2fe" stroke="none" />
+    <text x="199" y="286" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#0369a1">6 Aktif / 122 Bitti</text>
+  
+
+      <rect x="292" y="220" width="250" height="106" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="312" y="248" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="700" fill="#64748b">TOPLAM PORSİYON</text>
+      <text x="312" y="292" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="30" font-weight="800" fill="#0284c7">342</text>
+      
+    <rect x="414" y="270" width="108" height="24" rx="12" fill="#fef3c7" stroke="none" />
+    <text x="468" y="286" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#92400e">Ort. 2.67 ürün</text>
+  
+
+      <rect x="560" y="220" width="250" height="106" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="580" y="248" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="700" fill="#64748b">ORT. HAZIRLAMA SÜRESİ</text>
+      <text x="580" y="292" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="28" font-weight="800" fill="#d97706">03 dk 45 sn</text>
+
+      <rect x="828" y="220" width="248" height="106" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+      <text x="848" y="248" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="700" fill="#64748b">TESLİMAT ORANI</text>
+      <text x="848" y="292" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="30" font-weight="800" fill="#059669">%96.8</text>
+
+      <!-- Left Chart -->
+      <g filter="url(#softShadow)">
+        <rect x="24" y="344" width="584" height="292" rx="20" fill="#ffffff" stroke="#e2e8f0" />
+        <text x="48" y="376" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="800" fill="#0f172a">Ürün Bazlı Porsiyon Dağılımı</text>
+        
+        <text x="48" y="416" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#334155">Kaşarlı Omlet</text>
+        <rect x="190" y="400" width="350" height="22" rx="11" fill="#f1f5f9" />
+        <rect x="190" y="400" width="330" height="22" rx="11" fill="#0284c7" />
+        <text x="528" y="415" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="800" fill="#0f172a">68 Adet</text>
+      
+        <text x="48" y="458" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#334155">Menemen</text>
+        <rect x="190" y="442" width="350" height="22" rx="11" fill="#f1f5f9" />
+        <rect x="190" y="442" width="262" height="22" rx="11" fill="#0ea5e9" />
+        <text x="460" y="457" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="800" fill="#0f172a">54 Adet</text>
+      
+        <text x="48" y="500" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#334155">Pankek</text>
+        <rect x="190" y="484" width="350" height="22" rx="11" fill="#f1f5f9" />
+        <rect x="190" y="484" width="224" height="22" rx="11" fill="#f59e0b" />
+        <text x="422" y="499" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="800" fill="#0f172a">46 Adet</text>
+      
+        <text x="48" y="542" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#334155">Sahanda Yumurta</text>
+        <rect x="190" y="526" width="350" height="22" rx="11" fill="#f1f5f9" />
+        <rect x="190" y="526" width="185" height="22" rx="11" fill="#10b981" />
+        <text x="383" y="541" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="800" fill="#0f172a">38 Adet</text>
+      
+        <text x="48" y="584" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#334155">Su Böreği</text>
+        <rect x="190" y="568" width="350" height="22" rx="11" fill="#f1f5f9" />
+        <rect x="190" y="568" width="152" height="22" rx="11" fill="#6366f1" />
+        <text x="350" y="583" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" font-weight="800" fill="#0f172a">31 Adet</text>
+      
+      </g>
+
+      <!-- Right Detail Table -->
+      <g filter="url(#softShadow)">
+        <rect x="624" y="344" width="452" height="292" rx="20" fill="#ffffff" stroke="#e2e8f0" />
+        <text x="646" y="376" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="800" fill="#0f172a">Varyasyon &amp; Adisyon Detayları</text>
+
+        <rect x="646" y="394" width="408" height="34" rx="8" fill="#f1f5f9" />
+        <text x="660" y="416" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="800" fill="#475569">ÜRÜN / VARYASYON</text>
+        <text x="900" y="416" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="800" fill="#475569">ADET</text>
+        <text x="980" y="416" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="800" fill="#475569">DURUM</text>
+
+        <text x="660" y="454" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#0f172a">Kaşarlı Omlet (Orta)</text>
+        <text x="905" y="454" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0284c7">42</text>
+        
+    <rect x="968" y="438" width="72" height="22" rx="11" fill="#dcfce7" stroke="none" />
+    <text x="1004" y="453" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#047857">Teslim</text>
+  
+        <line x1="646" y1="472" x2="1054" y2="472" stroke="#f1f5f9" />
+
+        <text x="660" y="498" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#0f172a">Menemen (Sucuklu, Soğanlı)</text>
+        <text x="905" y="498" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0284c7">31</text>
+        
+    <rect x="968" y="482" width="72" height="22" rx="11" fill="#dcfce7" stroke="none" />
+    <text x="1004" y="497" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#047857">Teslim</text>
+  
+        <line x1="646" y1="516" x2="1054" y2="516" stroke="#f1f5f9" />
+
+        <text x="660" y="542" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#0f172a">Pankek (Çikolatalı)</text>
+        <text x="905" y="542" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0284c7">29</text>
+        
+    <rect x="968" y="526" width="72" height="22" rx="11" fill="#fef3c7" stroke="none" />
+    <text x="1004" y="541" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#92400e">Aktif</text>
+  
+        <line x1="646" y1="560" x2="1054" y2="560" stroke="#f1f5f9" />
+
+        <text x="660" y="588" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="700" fill="#0f172a">Haşlanmış Yumurta (5 DK.)</text>
+        <text x="905" y="588" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="12" font-weight="800" fill="#0284c7">24</text>
+        
+    <rect x="968" y="572" width="72" height="22" rx="11" fill="#dcfce7" stroke="none" />
+    <text x="1004" y="587" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="700" fill="#047857">Teslim</text>
+  
+      </g>
+      
+  
+</svg>
